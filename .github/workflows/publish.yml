@@ -1,0 +1,21 @@
+name: Publish to NPM
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          registry-url: https://registry.npmjs.org/
+          cache: yarn
+      - run: yarn
+      - run: yarn config set version-git-tag false
+      - run: yarn version --new-version $GITHUB_REF_NAME
+      - run: yarn build
+      - run: yarn publish --non-interactive
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

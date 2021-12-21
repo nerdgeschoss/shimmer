@@ -23,5 +23,13 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+    - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+    - name: Install Dependencies
+      run: yarn install
+    - name: Lint
+      run: yarn lint
+    - name: Build
+      run: yarn build
