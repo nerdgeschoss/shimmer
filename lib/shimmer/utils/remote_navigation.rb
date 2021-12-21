@@ -6,7 +6,7 @@ module Shimmer
 
     included do
       def ui
-        @ui ||= RemoteNavigator.new turbo_stream: turbo_stream
+        @ui ||= RemoteNavigator.new(self)
       end
 
       def default_render
@@ -17,7 +17,7 @@ module Shimmer
       end
 
       helper_method :modal_path
-      def modal_path(url, id: nil, size: nil, close: false)
+      def modal_path(url, id: nil, size: nil, close: true)
         "javascript:ui.modal.open(#{{url: url, id: id, size: size, close: close}.to_json})"
       end
 
@@ -42,10 +42,10 @@ module Shimmer
   end
 
   class RemoteNavigator
-    attr_reader :turbo_stream
+    delegate :polymorphic_path, to: :@controller
 
-    def initialize(turbo_stream:)
-      @turbo_stream = turbo_stream
+    def initialize(controller)
+      @controller = controller
     end
 
     def queued_updates
@@ -88,6 +88,12 @@ module Shimmer
       close_modal
       path = polymorphic_path(path) unless path.is_a?(String)
       run_javascript "Turbo.visit('#{path}')"
+    end
+
+    private
+
+    def turbo_stream
+      @controller.send(:turbo_stream)
     end
   end
 end

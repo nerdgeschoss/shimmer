@@ -7,6 +7,10 @@ declare global {
 import { ModalPresenter } from "./modal";
 import "./touch";
 
+const root = document.createElement("div");
+root.id = "shimmer";
+document.body.append(root);
+
 export const ui = {
   modal: new ModalPresenter(),
 };
