@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shimmer (0.0.1)
+    shimmer (0.0.4)
 
 GEM
   remote: https://rubygems.org/
