@@ -16,3 +16,5 @@ document.addEventListener("focusin", (event) => {
 document.addEventListener("focusout", () => {
   document.body.classList.remove("keyboard-visible");
 });
+
+export {};
