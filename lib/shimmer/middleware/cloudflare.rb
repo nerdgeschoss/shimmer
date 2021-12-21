@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+# https://github.com/rails/rails/issues/22965
+module Shimmer
+  module Middleware
+    class CloudflareProxy
+      def initialize(app)
+        @app = app
+      end
+
+      def call(env)
+        return @app.call(env) unless env["HTTP_CF_VISITOR"]
+
+        env["HTTP_X_FORWARDED_PROTO"] = JSON.parse(env["HTTP_CF_VISITOR"])["scheme"]
+        @app.call(env)
+      end
+    end
+  end
+end

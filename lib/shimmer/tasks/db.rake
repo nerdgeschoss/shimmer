@@ -1,0 +1,42 @@
+# frozen_string_literal: true
+
+namespace :db do
+  desc "Downloads the app database from heroku to local db"
+  task pull_data: :environment do
+    config = ActiveRecord::Base.connection_db_config.config
+    # binding.pry
+    ENV["DISABLE_DATABASE_ENVIRONMENT_CHECK"] = "1"
+    Rake::Task["db:drop"].invoke
+    ENV["PGUSER"] = config["username"]
+    ENV["PGHOST"] = config["host"]
+    ENV["PGPORT"] = config["port"].to_s
+    sh "heroku pg:pull DATABASE_URL #{config["database"]} --app thefetishtraveller"
+    sh "rails db:environment:set"
+    sh "RAILS_ENV=test rails db:create"
+  end
+
+  task pull_assets: :environment do
+    config = JSON.parse(`heroku config --json`)
+    ENV["AWS_DEFAULT_REGION"] = config.fetch("AWS_REGION")
+    bucket = config.fetch("AWS_BUCKET")
+    ENV["AWS_ACCESS_KEY_ID"] = config.fetch("AWS_ACCESS_KEY_ID")
+    ENV["AWS_SECRET_ACCESS_KEY"] = config.fetch("AWS_SECRET_ACCESS_KEY")
+    storage_folder = Rails.root.join("storage")
+    download_folder = storage_folder.join("downloads")
+    FileUtils.mkdir_p download_folder
+    sh "aws s3 sync s3://#{bucket} #{storage_folder}/downloads"
+    download_folder.each_child do |file|
+      next if file.directory?
+
+      new_path = storage_folder.join file.basename.to_s.then { |e| [e[0..1], e[2..3], e] }.join("/")
+      FileUtils.mkdir_p(new_path.dirname)
+      FileUtils.cp(file, new_path)
+    end
+    # purge variants
+    ActiveStorage::VariantRecord.delete_all
+    ActiveStorage::Blob.update_all(service_name: :local)
+  end
+
+  desc "Download all app data, including assets"
+  task pull: [:pull_data, :pull_assets]
+end
