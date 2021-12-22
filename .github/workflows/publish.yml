@@ -14,7 +14,7 @@ jobs:
           cache: yarn
       - run: yarn
       - run: yarn config set version-git-tag false
-      - run: yarn version --new-version $GITHUB_REF_NAME
+      - run: yarn version --new-version $(echo $GITHUB_REF_NAME | cut -c 2-)
       - run: yarn build
       - run: yarn publish --non-interactive
         env:
