@@ -26,6 +26,11 @@ module Shimmer
         "javascript:ui.modal.close(#{{id: id}.to_json})"
       end
 
+      helper_method :popover_path
+      def popover_path(url, id: nil, selector: nil, placement: nil)
+        "javascript:ui.popover.open(#{{url: url, id: id, selector: selector, placement: placement}.compact.to_json})"
+      end
+
       def shimmer_request?
         request.headers["X-Shimmer"].present?
       end
@@ -76,12 +81,20 @@ module Shimmer
       queued_updates.push turbo_stream.remove(id)
     end
 
-    def open_modal(path)
-      run_javascript "ui.modal.open('#{path}')"
+    def open_modal(path, id: nil, size: nil, close: true)
+      run_javascript "ui.modal.open(#{{url: url, id: id, size: size, close: close}.to_json})"
     end
 
     def close_modal
       run_javascript "ui.modal.close()"
+    end
+
+    def open_popover(path, selector:, placement: nil)
+      run_javascript "ui.popover.open(#{{url: url, selector: selector, placement: placement}.to_json})"
+    end
+
+    def close_popover
+      run_javascript "ui.popover.close()"
     end
 
     def navigate_to(path)

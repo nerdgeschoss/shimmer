@@ -4,7 +4,7 @@ import pkg from "./package.json";
 
 export default {
   input: "./src/index.ts",
-  external: ["@rails/request.js", "@hotwired/stimulus"],
+  external: ["@rails/request.js", "@hotwired/stimulus", "@popperjs/core"],
   plugins: [
     cleaner({
       targets: ["./dist/"],
