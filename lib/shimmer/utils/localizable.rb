@@ -29,31 +29,30 @@ module Shimmer
       def url_locale
         params[:locale]
       end
-    end
-  end
-end
 
-module I18n
-  UNTRANSLATED_SCOPES = ["number", "transliterate", "date", "datetime", "errors", "helpers", "support", "time", "faker"].map { |k| "#{k}." }
+      I18n.class_eval do
+        thread_mattr_accessor :debug
 
-  thread_mattr_accessor :debug
+        class << self
+          alias_method :old_translate, :translate
+          def translate(key, options = {})
+            untranslated_scopes = ["number", "transliterate", "date", "datetime", "errors", "helpers", "support", "time", "faker"].map { |k| "#{k}." }
+            key = key.to_s.downcase
+            untranslated = untranslated_scopes.any? { |e| key.include? e }
+            key_name = [options[:scope], key].flatten.compact.join(".")
+            option_names = options.except(:count, :default, :raise, :scope).map { |k, v| "#{k}=#{v}" }.join(", ")
+            return "#{key_name} #{option_names}" if I18n.debug && !untranslated
 
-  class << self
-    alias_method :old_translate, :translate
-    def translate(key, options = {})
-      key = key.to_s.downcase
-      untranslated = UNTRANSLATED_SCOPES.any? { |e| key.include? e }
-      key_name = [options[:scope], key].flatten.compact.join(".")
-      option_names = options.except(:count, :default, :raise, :scope).map { |k, v| "#{k}=#{v}" }.join(", ")
-      return "#{key_name} #{option_names}" if I18n.debug && !untranslated
+            options.reverse_merge!(default: old_translate(key, **options.merge(locale: :de))) if untranslated
+            old_translate(key, **options)
+          end
+          alias_method :t, :translate
 
-      options.reverse_merge!(default: old_translate(key, **options.merge(locale: :de))) if untranslated
-      old_translate(key, **options)
-    end
-    alias_method :t, :translate
-
-    def debug?
-      debug
+          def debug?
+            debug
+          end
+        end
+      end
     end
   end
 end
