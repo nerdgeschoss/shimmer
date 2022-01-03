@@ -31,6 +31,8 @@ module Shimmer
       end
 
       I18n.class_eval do
+        next if defined? debug
+
         thread_mattr_accessor :debug
 
         class << self
