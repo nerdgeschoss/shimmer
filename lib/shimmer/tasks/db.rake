@@ -3,14 +3,17 @@
 namespace :db do
   desc "Downloads the app database from heroku to local db"
   task pull_data: :environment do
-    config = ActiveRecord::Base.connection_db_config.config
-    # binding.pry
+    config = if Rails.version.to_f >= 7
+      ActiveRecord::Base.connection_db_config.configuration_hash.with_indifferent_access
+    else
+      ActiveRecord::Base.connection_db_config.config
+    end
     ENV["DISABLE_DATABASE_ENVIRONMENT_CHECK"] = "1"
     Rake::Task["db:drop"].invoke
     ENV["PGUSER"] = config["username"]
     ENV["PGHOST"] = config["host"]
     ENV["PGPORT"] = config["port"].to_s
-    sh "heroku pg:pull DATABASE_URL #{config["database"]} --app thefetishtraveller"
+    sh "heroku pg:pull DATABASE_URL #{config["database"]}"
     sh "rails db:environment:set"
     sh "RAILS_ENV=test rails db:create"
   end
