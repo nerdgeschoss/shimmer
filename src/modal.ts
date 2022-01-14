@@ -1,4 +1,4 @@
-import { loaded, createElement, nextFrame, getHTML } from "./util";
+import { createElement, nextFrame, getHTML } from "./util";
 
 export interface ModalOptions {
   id?: string;
@@ -11,7 +11,7 @@ export class ModalPresenter {
   private modals: Record<string, Modal> = {};
 
   constructor() {
-    loaded.then(this.prepareBlind);
+    document.addEventListener("turbo:load", this.prepareBlind);
   }
 
   async open(options: ModalOptions): Promise<void> {
@@ -38,9 +38,9 @@ export class ModalPresenter {
     document.body.classList.toggle("modal-open", open);
   }
 
-  private async prepareBlind(): Promise<void> {
+  private prepareBlind: () => void = () => {
     createElement(document.body, "modal-blind");
-  }
+  };
 }
 
 export class Modal {
