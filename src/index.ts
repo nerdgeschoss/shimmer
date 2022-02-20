@@ -16,14 +16,22 @@ declare global {
   }
 }
 
+function createRemoteDestination(): void {
+  if (document.getElementById("shimmer")) {
+    return;
+  }
+  const root = document.createElement("div");
+  root.id = "shimmer";
+  document.body.append(root);
+}
+
 export async function start({
   application,
 }: {
   application: Application;
 }): Promise<void> {
-  const root = document.createElement("div");
-  root.id = "shimmer";
-  document.body.append(root);
+  window.addEventListener("turbo:load", createRemoteDestination);
+  createRemoteDestination();
   application.register("remote-navigation", RemoteNavigationController);
   window.ui = {
     modal: new ModalPresenter(),
