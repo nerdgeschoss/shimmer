@@ -1,0 +1,9 @@
+inherit_from: config/rubocop_base.yml
+
+# Allow controllers created in this library to inherit directly from ActionController::Base.
+Rails/ApplicationController:
+  Enabled: false
+
+# Allow jobs created in this library to inherit directly from ActiveJob::Base.
+Rails/ApplicationJob:
+  Enabled: false

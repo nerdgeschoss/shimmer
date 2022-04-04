@@ -4,6 +4,44 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
 
 ## Features
 
+### Rubocop Base Configuration
+
+Maintaining multiple *Rubocop* configurations, in multiple projects, is a bit of a nightmare. We want to unify the way we work on projects at *nerdgeschoss* and since every project will pull *Shimmer* as one of its base dependency, it's the perfect place to maintain a shared *Rubocop* configuration.
+
+This configuration inherits itself from *StandardRB*. Why not only use *StandardRB*, since it is so fast and prevent bikeshedding? Well, sadly, it does not solve all of our problems and using *Rubocop* still integrates a lot easier in our toolset. However, the idea is to still prevent bikeshedding our *Rubocop* configuration by making sure that every exception to what's configured in *StandardRB* is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed by the team, and debated before being merged and used everywhere.
+
+#### Use Shared Configuration In Projects
+
+Typically, a `.rubocop.yml` file in projects using *Shimmer* looks like this.
+
+```yml
+AllCops:
+  TargetRubyVersion: 3.1
+
+inherit_gem:
+  shimmer: config/rubocop_base.yml
+```
+
+Then, if there are specific cops you want to use in the specific project you are working on, you still can easily add them. But at least, the base configuration is shared between projects and is itself as close to *StandardRB* as possible.
+
+#### Tips for Visual Studio Code
+
+In a nutshell, here is the preferred way to work with this for linting.
+
+- Disable (or uninstall) the [ruby-rubocop](https://marketplace.visualstudio.com/items?itemName=misogi.ruby-rubocop) extension, if you are already using it.
+- Install the [Ruby Solargraph](https://marketplace.visualstudio.com/items?itemName=castwide.solargraph) extension.
+
+In your `.vscode/settings.json`, those should be configured to make *Solargraph* the default formatter for *Ruby* source files. Auto-Formatting is disabled, since it would transform *RSpec*'s `fit` automatically to `it` and defeats the purpose of focussing on specific tests.
+
+```json
+  "solargraph.useBundler": false,
+  "solargraph.formatting": true,
+  "[ruby]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "castwide.solargraph"
+  }
+```
+
 ### Static File Serving
 
 `ActiveStorage` is great, but serving of files, especially behind a CDN, can be complicated to get right. This can be fixed easily:

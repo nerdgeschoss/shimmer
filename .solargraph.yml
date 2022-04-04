@@ -1,4 +1,4 @@
-plugins:
-  - solargraph-standardrb
 reporters:
-  - standardrb
+  - rubocop
+formatter:
+  - rubocop

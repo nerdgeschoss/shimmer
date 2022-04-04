@@ -1,3 +1,8 @@
 {
-  "solargraph.useBundler": true
+  "solargraph.useBundler": false,
+  "solargraph.formatting": true,
+  "[ruby]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "castwide.solargraph"
+  },
 }

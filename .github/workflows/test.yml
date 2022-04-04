@@ -15,9 +15,11 @@ jobs:
         with:
           node-version: "16.x"
           cache: "yarn"
-      - name: Install Dependencies
+      - name: Install JS/TS Dependencies
         run: yarn install
-      - name: Lint
+      - name: Lint JS/TS
         run: yarn lint
-      - name: Build
+      - name: Build JS/TS
         run: yarn build
+      - name: Lint Ruby
+        run: bundle exec rubocop -c .rubocop.yml

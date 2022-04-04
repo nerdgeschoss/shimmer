@@ -45,7 +45,7 @@ module Shimmer
     end
 
     def resizeable
-      resize.present? && !blob.content_type.include?("svg")
+      resize.present? && blob.content_type.exclude?("svg")
     end
 
     def variant
