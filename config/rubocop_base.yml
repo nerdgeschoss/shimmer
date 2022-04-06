@@ -1,5 +1,5 @@
 AllCops:
-  NewCops: enable
+  NewCops: disable
   Exclude:
     - '**/vendor/bundle/**/*'
     - '**/bin/**/*'
