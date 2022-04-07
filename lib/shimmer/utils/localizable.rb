@@ -45,7 +45,6 @@ module Shimmer
             option_names = options.except(:count, :default, :raise, :scope).map { |k, v| "#{k}=#{v}" }.join(", ")
             return "#{key_name} #{option_names}" if I18n.debug && !untranslated
 
-            options.reverse_merge!(default: old_translate(key, **options.merge(locale: :de))) if untranslated
             old_translate(key, **options)
           end
           alias_method :t, :translate
