@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 namespace :db do
-  desc "Downloads the app database from heroku to local db"
+  desc "Downloads the app database from Heroku and imports it to the local database"
   task pull_data: :environment do
     config = if Rails.version.to_f >= 7
       ActiveRecord::Base.connection_db_config.configuration_hash.with_indifferent_access
@@ -18,6 +18,7 @@ namespace :db do
     sh "RAILS_ENV=test rails db:create"
   end
 
+  desc "Downloads the app assets from Heroku to directory `storage`."
   task pull_assets: :environment do
     config = JSON.parse(`heroku config --json`)
     ENV["AWS_DEFAULT_REGION"] = config.fetch("AWS_REGION")

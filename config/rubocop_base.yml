@@ -1,0 +1,32 @@
+AllCops:
+  NewCops: disable
+  Exclude:
+    - '**/vendor/bundle/**/*'
+    - '**/bin/**/*'
+    - '**/db/schema.rb'
+    - '**/node_modules/**/*'
+
+require:
+  - standard
+  - rubocop-rails
+  - rubocop-rake
+
+inherit_gem:
+  standard: config/base.yml
+
+# String literals should never be mutable.
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+# Constants should never be mutable.
+Style/MutableConstant:
+  Enabled: true
+  EnforcedStyle: strict
+
+# Allow `.update_all`.
+Rails/SkipsModelValidations:
+  Enabled: false
+
+# Allow Rake tasks to not require the full Rails app to be loaded.
+Rails/RakeEnvironment:
+  Enabled: false

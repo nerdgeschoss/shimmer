@@ -4,6 +4,21 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
 
 ## Features
 
+### Rubocop Base Configuration
+
+*Shimmer* offers an opiniated *Rubocop* base configuration. This configuration inherits itself from *StandardRB* and aim at remaining as close to it as possible. Why not only use *StandardRB*, since it is so fast and prevent bikeshedding? Well, sadly, it does not solve all problems and using *Rubocop* still integrates a lot easier in most toolsets. However, the idea is to still prevent bikeshedding our *Rubocop* configuration by making sure that every exception to what's configured in *StandardRB* is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed, debated, and agreed upon before being merged.
+
+#### Use Shared Configuration In Projects
+
+Typically, a `.rubocop.yml` file in projects using *Shimmer* looks like this.
+
+```yml
+inherit_gem:
+  shimmer: config/rubocop_base.yml
+```
+
+Then, if there are specific cops you want to use in the specific project you are working on, you still can easily add them. But at least, the base configuration is shared between projects and is itself as close to *StandardRB* as possible.
+
 ### Static File Serving
 
 `ActiveStorage` is great, but serving of files, especially behind a CDN, can be complicated to get right. This can be fixed easily:
