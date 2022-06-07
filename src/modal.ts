@@ -1,4 +1,4 @@
-import { createElement, nextFrame, getHTML } from "./util";
+import { createElement, nextFrame, getHTML, guid, wait } from "./util";
 
 export interface ModalOptions {
   id?: string;
@@ -15,7 +15,7 @@ export class ModalPresenter {
   }
 
   async open(options: ModalOptions): Promise<void> {
-    const id = (options.id = options.id ?? "default-modal");
+    const id = (options.id = options.id ?? guid());
     (this.modals[id] = new Modal({ presenter: this, id })).open(options);
     this.updateBlindStatus();
   }
@@ -44,30 +44,41 @@ export class ModalPresenter {
 }
 
 export class Modal {
-  private readonly root: HTMLDivElement;
-  private readonly frame: HTMLDivElement;
-  private readonly closeButton: HTMLDivElement;
+  id: string;
+  private presenter: ModalPresenter;
+  private root?: HTMLDivElement;
 
   constructor({ presenter, id }: { presenter: ModalPresenter; id: string }) {
-    this.root = createElement(document.body, "modal");
-    const content = createElement(this.root, "modal__content");
-    this.closeButton = createElement(content, "modal__close");
-    this.closeButton.addEventListener("click", () => {
-      presenter.close({ id });
-    });
-    this.frame = createElement(content, "modal__frame");
+    this.presenter = presenter;
+    this.id = id;
   }
 
   async open({ size, url, close }: ModalOptions): Promise<void> {
+    const root = createElement(document.body, "modal");
+    this.root = root;
+    const content = createElement(root, "modal__content");
+    const closeButton = createElement(content, "modal__close");
+    closeButton.addEventListener("click", () => {
+      this.presenter.close({ id: this.id });
+    });
+    const frame = createElement(content, "modal__frame");
     await nextFrame();
-    this.closeButton.style.display = close ?? true ? "block" : "none";
-    this.root.classList.add("modal--open");
-    this.root.classList.add("modal--loading");
-    this.root.classList.toggle("modal--small", size === "small");
-    this.frame.innerHTML = await getHTML(url);
+    closeButton.style.display = close ?? true ? "block" : "none";
+    root.classList.add("modal--open");
+    root.classList.add("modal--loading");
+    root.classList.toggle("modal--small", size === "small");
+    frame.innerHTML = await getHTML(url);
+    root.classList.remove("modal--loading");
   }
 
   async close(): Promise<void> {
-    this.root.classList.remove("modal--open");
+    const root = this.root;
+    if (!root) {
+      return;
+    }
+    root.classList.remove("modal--open");
+    await wait(1);
+    root.remove();
+    this.root = undefined;
   }
 }

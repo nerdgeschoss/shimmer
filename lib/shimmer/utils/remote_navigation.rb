@@ -81,20 +81,28 @@ module Shimmer
       queued_updates.push turbo_stream.remove(id)
     end
 
-    def open_modal(path, id: nil, size: nil, close: true)
+    def open_modal(url, id: nil, size: nil, close: true)
       run_javascript "ui.modal.open(#{{url: url, id: id, size: size, close: close}.to_json})"
     end
 
-    def close_modal
-      run_javascript "ui.modal.close()"
+    def close_modal(id)
+      if id.present?
+        run_javascript "ui.modal.close('#{id}')"
+      else
+        run_javascript "ui.modal.close()"
+      end
     end
 
-    def open_popover(path, selector:, placement: nil)
+    def open_popover(url, selector:, placement: nil)
       run_javascript "ui.popover.open(#{{url: url, selector: selector, placement: placement}.to_json})"
     end
 
-    def close_popover
-      run_javascript "ui.popover.close()"
+    def close_popover(id)
+      if id.present?
+        run_javascript "ui.popover.close('#{id}')"
+      else
+        run_javascript "ui.popover.close()"
+      end
     end
 
     def navigate_to(path)
