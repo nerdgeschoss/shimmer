@@ -85,7 +85,7 @@ module Shimmer
       run_javascript "ui.modal.open(#{{url: url, id: id, size: size, close: close}.to_json})"
     end
 
-    def close_modal(id)
+    def close_modal(id = nil)
       if id.present?
         run_javascript "ui.modal.close('#{id}')"
       else
@@ -97,12 +97,8 @@ module Shimmer
       run_javascript "ui.popover.open(#{{url: url, selector: selector, placement: placement}.to_json})"
     end
 
-    def close_popover(id)
-      if id.present?
-        run_javascript "ui.popover.close('#{id}')"
-      else
-        run_javascript "ui.popover.close()"
-      end
+    def close_popover
+      run_javascript "ui.popover.close()"
     end
 
     def navigate_to(path)
