@@ -18,10 +18,14 @@ module Shimmer
       coerce value, type
     end
 
+    def respond_to_missing?(method_name)
+      true
+    end
+
     private
 
     def coerce(value, type)
-      return value.in?(["n", "0", "no", "false"]) ? false : true if type == :bool && value.is_a?(String)
+      return !value.in?(["n", "0", "no", "false"]) if type == :bool && value.is_a?(String)
 
       value
     end

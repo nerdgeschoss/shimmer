@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shimmer
   module Auth
     module User
@@ -5,7 +7,6 @@ module Shimmer
 
       included do
         def authenticate!(user_agent: nil, ip: nil)
-
           Provider.new(self.class).create_device(user: self, user_agent: user_agent, ip: ip)
         end
       end
