@@ -6,6 +6,7 @@ Dir["#{File.expand_path("../lib/shimmer/middlewares", __dir__)}/*"].sort.each { 
 Dir["#{File.expand_path("../lib/shimmer/controllers", __dir__)}/*"].sort.each { |e| require e }
 Dir["#{File.expand_path("../lib/shimmer/jobs", __dir__)}/*"].sort.each { |e| require e }
 Dir["#{File.expand_path("../lib/shimmer/utils", __dir__)}/*"].sort.each { |e| require e }
+require_relative "shimmer/auth"
 
 module Shimmer
   class Error < StandardError; end
