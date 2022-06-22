@@ -15,8 +15,8 @@ module Shimmer
         form = {
           grant_type: "authorization_code",
           code: params[:code],
-          client_id: ENV.fetch("APPLE_BUNDLE_ID"),
-          client_secret: ENV.fetch("APPLE_CLIENT_SECRET"),
+          client_id: Config.instance.apple_bundle_id!,
+          client_secret: Config.instance.apple_client_secret,
           scope: "name email"
         }
         response = HTTParty.post("https://appleid.apple.com/auth/token", body: URI.encode_www_form(form), headers: headers)
