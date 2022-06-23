@@ -44,3 +44,22 @@ export function wait(seconds: number): Promise<void> {
     setTimeout(res, seconds * 1000);
   });
 }
+
+export function getCookie(key: string): string | null {
+  if (!document.cookie) return null;
+  return (
+    document.cookie
+      .split(";")
+      .map((v) => v.split("="))
+      .reduce((acc, v) => {
+        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+        return acc;
+      }, {})[key] ?? null
+  );
+}
+
+export function setCookie(key: string, value: string): void {
+  const date = new Date();
+  date.setTime(date.getTime() + 365 * 24 * 60 * 60 * 1000);
+  document.cookie = `${key}=${value}; expires=${date.toUTCString()}`;
+}

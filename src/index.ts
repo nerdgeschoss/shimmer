@@ -1,7 +1,9 @@
 import type { Application } from "@hotwired/stimulus";
 import { ModalPresenter } from "./modal";
 import { PopoverPresenter } from "./popover";
+import { Consent } from "./consent";
 import RemoteNavigationController from "./controllers/remote-navigation";
+import ConsentController from "./controllers/consent";
 import "./touch";
 
 export { registerServiceWorker } from "./serviceworker";
@@ -12,6 +14,7 @@ declare global {
     ui?: {
       modal: ModalPresenter;
       popover: PopoverPresenter;
+      consent: Consent;
     };
   }
 }
@@ -33,8 +36,11 @@ export async function start({
   window.addEventListener("turbo:load", createRemoteDestination);
   createRemoteDestination();
   application.register("remote-navigation", RemoteNavigationController);
+  application.register("consent", ConsentController);
   window.ui = {
     modal: new ModalPresenter(),
     popover: new PopoverPresenter(),
+    consent: new Consent(),
+    application,
   };
 }
