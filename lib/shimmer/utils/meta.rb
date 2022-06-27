@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shimmer
   class Meta
     attr_accessor :title, :description, :image, :canonical

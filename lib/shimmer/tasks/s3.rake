@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 namespace :s3 do
+  desc "Creates a new S3 bucket and outputs or uploads the credentials."
   task :create_bucket do
     puts "Please enter the name for your new bucket"
     name = $stdin.gets.strip
@@ -35,9 +38,9 @@ namespace :s3 do
     puts "Credentials and bucket were generated. Automatically assign them to the associated Heroku project? This will override and delete all current keys on Heroku. (y/n)"
     vars = {AWS_REGION: region, AWS_BUCKET: name, AWS_ACCESS_KEY_ID: id, AWS_SECRET_ACCESS_KEY: secret}
     if $stdin.gets.strip == "y"
-      sh "heroku config:set #{vars.map { |k,v| "#{k}=#{v}"}.join(" ") }"
+      sh "heroku config:set #{vars.map { |k, v| "#{k}=#{v}" }.join(" ")}"
     else
-      vars.each { |k,v| puts "#{k}=#{v}" }
+      vars.each { |k, v| puts "#{k}=#{v}" }
     end
   end
 end
