@@ -2,11 +2,12 @@
 
 module Shimmer
   class Meta
+    class_attribute :app_name
     attr_accessor :title, :description, :image, :canonical
 
     def tags
       tags = []
-      title = self.title.present? ? "#{self.title} | eaze" : "eaze"
+      title = self.title.present? ? "#{self.title} | #{app_name}" : app_name
       tags.push(type: :title, value: title)
       tags.push(property: "og:title", content: title)
       if description.present?
