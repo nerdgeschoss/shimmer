@@ -87,7 +87,7 @@ module Shimmer
 
     def close_modal(id = nil)
       if id.present?
-        run_javascript "ui.modal.close('#{id}')"
+        run_javascript "ui.modal.close(#{{id: id}.to_json})"
       else
         run_javascript "ui.modal.close()"
       end
