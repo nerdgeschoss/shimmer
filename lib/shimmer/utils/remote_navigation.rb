@@ -22,8 +22,12 @@ module Shimmer
       end
 
       helper_method :close_modal_path
-      def close_modal_path(id: nil)
-        "javascript:ui.modal.close(#{{id: id}.to_json})"
+      def close_modal_path(id = nil)
+        if id.present?
+          "javascript:ui.modal.close(#{{id: id}.to_json})"
+        else
+          "javascript:ui.modal.close()"
+        end
       end
 
       helper_method :popover_path
