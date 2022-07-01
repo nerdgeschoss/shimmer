@@ -27,11 +27,11 @@ module Shimmer
     end
 
     def image_file_path(source, width: nil, height: nil)
-      image_file_proxy(source, width: width, height: height).path
+      image_file_proxy(source, width: width, height: height)&.path
     end
 
     def image_file_url(source, width: nil, height: nil)
-      image_file_proxy(source, width: width, height: height).url
+      image_file_proxy(source, width: width, height: height)&.url
     end
 
     def image_file_proxy(source, width: nil, height: nil)
