@@ -20,7 +20,7 @@ module Shimmer
 
     def save
       value = SETTINGS.map { |e| e.to_s if instance_variable_get("@#{e}") }.compact.join(",")
-      @cookies.permanent[:consent] = { value: value, expires: 2.years.from_now }
+      @cookies.permanent[:consent] = {value: value, expires: 2.years.from_now}
     end
 
     def given?
