@@ -7,14 +7,21 @@ export default class extends Controller {
   connect(): void {
     this.checkTargets.forEach((input) => {
       input.checked =
-        window.ui?.consent.permitted.includes(input.name) ?? false;
+        window.ui?.consent.permitted.includes(input.name) ||
+        input.name === "essential";
     });
   }
 
   permitAll(event: Event): void {
     event.preventDefault();
     window.ui?.consent.permitAll();
-    this.element.remove();
+    this.closeAll();
+  }
+
+  denyAll(event: Event): void {
+    event.preventDefault();
+    window.ui?.consent.denyAll();
+    this.closeAll();
   }
 
   save(event: Event): void {
@@ -23,6 +30,22 @@ export default class extends Controller {
     window.ui!.consent.permitted = this.checkTargets
       .filter((e) => e.checked)
       .map((e) => e.name);
-    (this.element as HTMLDivElement).hidden = true;
+    this.closeAll();
+  }
+
+  manage(event: Event): void {
+    event.preventDefault();
+    const div = document.body.querySelector(
+      "#personalization-settings"
+    ) as HTMLDivElement;
+    if (!div) return;
+    (this.element as HTMLElement).hidden = true;
+    div.hidden = false;
+  }
+
+  closeAll(): void {
+    document
+      .querySelectorAll("[data-controller='consent']")
+      .forEach((e: HTMLElement) => (e.hidden = true));
   }
 }

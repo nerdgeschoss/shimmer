@@ -17,6 +17,10 @@ export class Consent {
     this.permitted = ["essential", "targeting", "statistic"];
   }
 
+  denyAll(): void {
+    this.permitted = ["essential"];
+  }
+
   showSettings(): void {
     const element = document.getElementById("personalization-settings");
     if (element) element.hidden = false;
