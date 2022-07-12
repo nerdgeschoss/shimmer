@@ -41,6 +41,5 @@ export async function start({
     modal: new ModalPresenter(),
     popover: new PopoverPresenter(),
     consent: new Consent(),
-    application,
   };
 }
