@@ -43,4 +43,13 @@ namespace :db do
 
   desc "Download all app data, including assets"
   task pull: [:pull_data, :pull_assets]
+
+  desc "Migrates if the database has any tables."
+  task migrate_if_tables: :environment do
+    if ActiveRecord::Base.connection.tables.any?
+      Rake::Task["db:migrate"].invoke
+    else
+      puts "No tables in database yet, skipping migration"
+    end
+  end
 end
