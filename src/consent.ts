@@ -1,12 +1,24 @@
 import { getCookie, setCookie } from "./util";
 
+const consentCategories = ["essential", "targeting", "statistic"] as const;
+export type ConsentCategory = typeof consentCategories[number];
+
 export class Consent {
-  get permitted(): string[] {
-    return (getCookie("consent") ?? "").split(",");
+  #consentListeners: Record<ConsentCategory, Array<() => void>> = {
+    essential: [],
+    targeting: [],
+    statistic: [],
+  };
+
+  get permitted(): ConsentCategory[] {
+    return (getCookie("consent") ?? "").split(",") as ConsentCategory[];
   }
 
-  set permitted(settings: string[]) {
+  set permitted(settings: ConsentCategory[]) {
     setCookie("consent", settings.join(","));
+    settings.forEach((category) => {
+      this.#consentListeners[category].forEach((e) => e());
+    });
   }
 
   get given(): boolean {
@@ -14,7 +26,7 @@ export class Consent {
   }
 
   permitAll(): void {
-    this.permitted = ["essential", "targeting", "statistic"];
+    this.permitted = consentCategories.slice();
   }
 
   denyAll(): void {
@@ -24,5 +36,29 @@ export class Consent {
   showSettings(): void {
     const element = document.getElementById("personalization-settings");
     if (element) element.hidden = false;
+  }
+
+  consentFor(category: ConsentCategory): Promise<void> {
+    return new Promise((res) => {
+      if (this.permitted.includes(category)) {
+        res();
+      } else {
+        this.#consentListeners[category].push(res);
+      }
+    });
+  }
+
+  async enableGoogleAnalytics(
+    id: string,
+    role: ConsentCategory = "statistic"
+  ): Promise<void> {
+    await this.consentFor(role);
+    window.gtag("config", id);
+    const script = document.createElement("script");
+    script.setAttribute(
+      "src",
+      `https://www.googletagmanager.com/gtag/js?id=${id}`
+    );
+    document.head.appendChild(script);
   }
 }

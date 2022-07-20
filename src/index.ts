@@ -4,6 +4,7 @@ import { PopoverPresenter } from "./popover";
 import { Consent } from "./consent";
 import RemoteNavigationController from "./controllers/remote-navigation";
 import ConsentController from "./controllers/consent";
+import AnalyticsController from "./controllers/analytics";
 import "./touch";
 
 export { registerServiceWorker } from "./serviceworker";
@@ -18,6 +19,12 @@ declare global {
     };
   }
 }
+
+window.ui = {
+  modal: new ModalPresenter(),
+  popover: new PopoverPresenter(),
+  consent: new Consent(),
+};
 
 function createRemoteDestination(): void {
   if (document.getElementById("shimmer")) {
@@ -37,9 +44,7 @@ export async function start({
   createRemoteDestination();
   application.register("remote-navigation", RemoteNavigationController);
   application.register("consent", ConsentController);
-  window.ui = {
-    modal: new ModalPresenter(),
-    popover: new PopoverPresenter(),
-    consent: new Consent(),
-  };
+  application.register("analytics", AnalyticsController);
 }
+
+export const ui = window.ui;
