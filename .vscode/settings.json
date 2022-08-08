@@ -5,4 +5,5 @@
     "editor.formatOnSave": false,
     "editor.defaultFormatter": "castwide.solargraph"
   },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

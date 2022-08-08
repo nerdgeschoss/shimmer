@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import { ConsentCategory } from "../consent";
 
 export default class extends Controller {
   static targets = ["check"];
@@ -7,7 +8,7 @@ export default class extends Controller {
   connect(): void {
     this.checkTargets.forEach((input) => {
       input.checked =
-        window.ui?.consent.permitted.includes(input.name) ||
+        window.ui?.consent.permitted.includes(input.name as ConsentCategory) ||
         input.name === "essential";
     });
   }
@@ -29,7 +30,7 @@ export default class extends Controller {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     window.ui!.consent.permitted = this.checkTargets
       .filter((e) => e.checked)
-      .map((e) => e.name);
+      .map((e) => e.name) as ConsentCategory[];
     this.closeAll();
   }
 
