@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shimmer
   module Form
     class Builder < ActionView::Helpers::FormBuilder
