@@ -38,7 +38,7 @@ module Shimmer
       end
 
       def guess_type(method)
-        self.class.input_registry.values.find{|e| e.can_handle?(method)}&.type || :string
+        self.class.input_registry.values.find { |e| e.can_handle?(method) }&.type || :string
       end
 
       def guess_collection(method)
