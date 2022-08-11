@@ -12,12 +12,13 @@ declare global {
 }
 
 const dataLayer = (window.dataLayer = window.dataLayer ?? []);
-
-window.gtag = (...arg) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dataLayer.push(arg as any);
-};
-window.gtag("js", new Date());
+function gtag(): void {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line prefer-rest-params
+  dataLayer.push(arguments);
+}
+window.gtag = gtag;
 
 export default class extends Controller {
   connect(): void {
