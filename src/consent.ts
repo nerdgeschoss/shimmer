@@ -53,12 +53,14 @@ export class Consent {
     role: ConsentCategory = "statistic"
   ): Promise<void> {
     await this.consentFor(role);
+    window.gtag("js", new Date());
     window.gtag("config", id);
     const script = document.createElement("script");
+    script.async = true;
     script.setAttribute(
       "src",
       `https://www.googletagmanager.com/gtag/js?id=${id}`
     );
-    document.head.appendChild(script);
+    document.head.prepend(script);
   }
 }
