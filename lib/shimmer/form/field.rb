@@ -17,6 +17,9 @@ module Shimmer
         {}
       end
 
+      def prepare
+      end
+
       def initialize(builder:, method:, collection:, id_method:, name_method:, options: {})
         @builder = builder
         @method = method
