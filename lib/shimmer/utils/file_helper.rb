@@ -27,19 +27,27 @@ module Shimmer
     end
 
     def image_file_path(source, width: nil, height: nil)
-      image_file_proxy(source, width: width, height: height)&.path
+      image_file_proxy(source, width: width, height: height, return_type: :path)
     end
 
     def image_file_url(source, width: nil, height: nil)
-      image_file_proxy(source, width: width, height: height)&.url
+      image_file_proxy(source, width: width, height: height, return_type: :url)
     end
 
-    def image_file_proxy(source, width: nil, height: nil)
+    def image_file_proxy(source, width: nil, height: nil, return_type: nil)
       return if source.blank?
       return source if source.is_a?(String)
 
       blob = source.try(:blob) || source
-      Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height)
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height)
+      case return_type
+      when nil
+        proxy
+      when :path
+        proxy.path
+      when :url
+        proxy.url
+      end
     end
   end
 end
