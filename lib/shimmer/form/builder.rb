@@ -13,7 +13,7 @@ module Shimmer
         end
       end
 
-      def input(method, as: guess_type(method), **options)
+      def input(method, as: guess_type(method), wrapper_options: {}, description: nil, **options)
         as ||= guess_type(method)
         options[:class] ||= "input__input"
         collection = options.delete :collection
@@ -25,12 +25,12 @@ module Shimmer
         options[:required] ||= true if options[:required].nil? && required_attributes.include?(method)
         options[:data] ||= {}
         options[:data][:controller] = options.delete(:controller) if options[:controller]
-        wrapper_data = {}
         extra = []
         input_class = self.class.input_registry[as]
         raise "Unknown type #{as}" unless input_class
         input = input_class.new(builder: self, method: method, options: options, id_method: id_method, collection: collection, name_method: name_method)
-        wrap method: method, content: input.render, classes: classes + ["input--#{as}"], label: options[:label], data: wrapper_data, extra: extra
+        wrapper_options.reverse_merge! input.wrapper_options
+        wrap method: method, content: input.render, classes: classes + ["input--#{as}"], label: options[:label], extra: extra, description: description, options: wrapper_options
       end
 
       private
@@ -65,13 +65,14 @@ module Shimmer
         object.class.types.keys if object.class.respond_to?(method.to_s.pluralize)
       end
 
-      def wrap(method:, content:, classes:, label:, data: nil, extra: nil)
+      def wrap(method:, content:, classes:, label:, data: nil, extra: nil, description: nil, options: {})
         if object&.errors&.[](method)&.any?
           classes << "input--error"
           errors = safe_join(object.errors[method].map { |e| content_tag :div, e, class: "input__error" })
         end
         label = label == false ? nil : self.label(method, label, class: "input__label")
-        content_tag(:div, safe_join([label, content, errors, extra].compact), class: ["input"] + classes, data: data)
+        description = description.presence ? content_tag(:div, description, class: "input__description") : nil
+        content_tag(:div, safe_join([label, content, description, errors, extra].compact), class: ["input"] + classes, **options)
       end
 
       def helper
