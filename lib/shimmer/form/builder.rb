@@ -13,7 +13,7 @@ module Shimmer
         end
       end
 
-      def input(method, as: guess_type(method), wrapper_options: {}, description: nil, label_method: nil, **options)
+      def input(method, as: guess_type(method), wrapper_options: {}, description: nil, label_method: nil, id_method: :id, name_method: nil, label: nil, **options)
         as ||= guess_type(method)
         options[:class] ||= "input__input"
         collection = options.delete :collection
@@ -32,7 +32,7 @@ module Shimmer
         input.prepare
         wrapper_options.reverse_merge! input.wrapper_options
         label_method ||= wrapper_options.delete(:label_method)
-        wrap method: method, content: input.render, classes: classes + ["input--#{as}"], label: options[:label], extra: extra, description: description, options: wrapper_options, label_method: label_method
+        wrap method: method, content: input.render, classes: classes + ["input--#{as}"], label: label, extra: extra, description: description, options: wrapper_options, label_method: label_method
       end
 
       private
