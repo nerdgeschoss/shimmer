@@ -12,7 +12,8 @@ declare global {
 }
 
 const dataLayer = (window.dataLayer = window.dataLayer ?? []);
-function gtag(): void {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function gtag(..._arg): void {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // eslint-disable-next-line prefer-rest-params
@@ -29,15 +30,15 @@ export default class extends Controller {
     const data = JSON.parse(
       (event.target as HTMLElement).dataset.analytics ?? "{}"
     );
-    dataLayer.push(data);
+    const eventName = data["event"];
+    delete data["event"];
+    gtag("event", eventName, data);
   }
 
   recordPage(): void {
-    const event = {
-      event: "Pageview",
-      path: location.pathname + location.search,
-      host: location.host,
-    };
-    dataLayer.push(event);
+    gtag("event", "page_view", {
+      page_title: document.title,
+      page_location: document.location.toString(),
+    });
   }
 }
