@@ -55,13 +55,15 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sprockets-rails"
   spec.add_development_dependency "sqlite3", "~> 1.4"
   spec.add_development_dependency "puma", "~> 5.0"
-  spec.add_development_dependency "importmap-rails"
   spec.add_development_dependency "turbo-rails"
+  spec.add_development_dependency "jsbundling-rails"
   spec.add_development_dependency "stimulus-rails"
   spec.add_development_dependency "jbuilder"
   spec.add_development_dependency "bootsnap"
   spec.add_development_dependency "web-console"
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "dotenv-rails"
+  spec.add_development_dependency "annotate"
+  spec.add_development_dependency "slim-rails"
   # Dependencies for dummy test app (end)
 end

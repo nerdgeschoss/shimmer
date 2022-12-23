@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "format": "prettier --write \"app/**/*.{tsx,ts,scss,json}\"",
+    "lint": "yarn lint:types && yarn lint:style && yarn lint:format",
+    "lint:types": "tsc --noEmit",
+    "lint:style": "eslint app/javascript/**/*.ts --max-warnings 0",
+    "lint:format": "prettier --list-different \"app/**/*.{ts,scss,json}\"",
+    "build": "esbuild app/javascript/*.* --bundle --minify --sourcemap --outdir=app/assets/builds --define:process.env.RAILS_ENV=\\\"$RAILS_ENV\\\"",
+    "bundle-size": "npx source-map-explorer app/assets/builds/application.js app/assets/builds/application.js.map --no-border-checks",
+    "start": "yarn build --watch",
+    "live": "yarn livereload -e scss app/assets"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.0.1",
+    "@hotwired/turbo-rails": "^7.1.3",
+    "cropperjs": "^1.5.12",
+    "esbuild": "^0.14.47",
+    "exif-rotate-js": "^1.4.0",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "livereload": "^0.9.3",
+    "prettier": "^2.7.1"
+  }
+}

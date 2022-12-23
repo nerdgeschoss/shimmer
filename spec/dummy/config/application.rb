@@ -35,5 +35,7 @@ module Dummy
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    ActiveRecord::Tasks::DatabaseTasks.fixtures_path = Rails.root.join("spec/fixtures")
   end
 end

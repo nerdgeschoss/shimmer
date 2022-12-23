@@ -71,6 +71,9 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     ast (2.4.2)
     backport (1.2.0)
     benchmark (0.2.1)
@@ -110,13 +113,12 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
-    importmap-rails (1.1.5)
-      actionpack (>= 6.0.0)
-      railties (>= 6.0.0)
     jaro_winkler (1.5.4)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsbundling-rails (1.1.1)
+      railties (>= 6.0.0)
     json (2.6.3)
     kramdown (2.4.0)
       rexml
@@ -259,6 +261,13 @@ GEM
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
     shellany (0.0.1)
+    slim (4.1.0)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 2.0.6, < 2.1)
+    slim-rails (3.5.1)
+      actionpack (>= 3.1)
+      railties (>= 3.1)
+      slim (>= 3.0, < 5.0)
     solargraph (0.48.0)
       backport (~> 1.2)
       benchmark
@@ -289,6 +298,7 @@ GEM
       rubocop-performance (= 1.15.1)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
@@ -317,13 +327,14 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  annotate
   bootsnap
   dotenv
   dotenv-rails
   guard
   guard-rspec
-  importmap-rails
   jbuilder
+  jsbundling-rails
   pry
   pry-byebug
   pry-doc
@@ -339,6 +350,7 @@ DEPENDENCIES
   rubocop-rake
   rubocop-rspec
   shimmer!
+  slim-rails
   solargraph
   sprockets-rails
   sqlite3 (~> 1.4)
