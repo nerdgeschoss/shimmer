@@ -10,7 +10,7 @@ module Shimmer
       def request_details(params)
         name = params[:user] ? JSON.parse(params[:user])["name"] : {}
         headers = {
-          'Content-Type': "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded"
         }
         form = {
           grant_type: "authorization_code",
