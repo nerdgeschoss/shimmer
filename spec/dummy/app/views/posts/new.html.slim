@@ -1,0 +1,10 @@
+h1 New Post
+
+= form_with model: @post do |f|
+  p
+    = f.label :title, "Title"
+    = f.text_field :title
+  p
+    = f.label :content, "Content"
+    = f.text_field :content
+  = f.submit "Save"
