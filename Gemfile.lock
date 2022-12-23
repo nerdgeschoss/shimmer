@@ -85,6 +85,8 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
+    cssbundling-rails (1.1.2)
+      railties (>= 6.0.0)
     date (3.3.3)
     diff-lcs (1.5.0)
     dotenv (2.8.1)
@@ -329,6 +331,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   bootsnap
+  cssbundling-rails
   dotenv
   dotenv-rails
   guard
