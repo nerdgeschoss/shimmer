@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   # spec.add_dependency "example-gem", "~> 1.0"
 
   spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "solargraph"
   spec.add_development_dependency "standard"
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop-rails"
@@ -38,6 +39,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-rspec"
   spec.add_development_dependency "rubocop-rake"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry-rails"
+  spec.add_development_dependency "pry-byebug"
+  spec.add_development_dependency "pry-doc"
+  spec.add_development_dependency "guard"
+  spec.add_development_dependency "guard-rspec"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
@@ -54,5 +62,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bootsnap"
   spec.add_development_dependency "web-console"
   spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "dotenv-rails"
   # Dependencies for dummy test app (end)
 end

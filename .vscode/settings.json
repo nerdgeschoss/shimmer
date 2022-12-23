@@ -1,9 +1,13 @@
 {
   "solargraph.useBundler": false,
+  "ruby.useLanguageServer": true,
   "solargraph.formatting": true,
   "[ruby]": {
     "editor.formatOnSave": false,
     "editor.defaultFormatter": "castwide.solargraph"
+  },
+  "ruby.lint": {
+    "rubocop": true
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
