@@ -2,13 +2,12 @@
 
 require "rails_helper"
 require "rack_session_access/capybara"
-require 'rspec/retry'
+require "rspec/retry"
 
 Rails.application.routes.default_url_options[:locale] = :en
 
 RSpec.configure do |config|
   config.before(:each, type: :system) do
-    I18n.debug = true
     driven_by Capybara.javascript_driver
   end
 

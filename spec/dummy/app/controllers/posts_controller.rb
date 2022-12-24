@@ -3,6 +3,7 @@
 class PostsController < ApplicationController
   def index
     @posts = Post.all
+    puts "🔵  index"
   end
 
   def new
@@ -10,6 +11,5 @@ class PostsController < ApplicationController
   end
 
   def create
-
   end
 end
