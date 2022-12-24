@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-rspec"
   spec.add_development_dependency "rubocop-rake"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec-retry"
   spec.add_development_dependency "dotenv"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "pry-rails"
@@ -46,6 +47,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry-doc"
   spec.add_development_dependency "guard"
   spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "capybara"
+  spec.add_development_dependency "rack_session_access"
+  spec.add_development_dependency "cuprite"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
