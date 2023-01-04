@@ -50,6 +50,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "capybara"
   spec.add_development_dependency "rack_session_access"
   spec.add_development_dependency "cuprite"
+  spec.add_development_dependency "awesome_print"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
