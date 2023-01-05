@@ -1,8 +1,22 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-if ! gem list foreman -i --silent; then
+if command -v overmind &> /dev/null
+then
+  if [ -S "./.overmind.sock" ]; then
+    echo "overmind socket detected"
+    if [[ $AUTO_DELETE_OVERMIND_SOCK == 1 ]]; then
+      echo "automatically deleting overmind socket"
+      rm ./.overmind.sock
+    fi
+  fi
+  overmind s -f Procfile.dev -p ${PORT:-3000} -P 10
+  exit
+fi
+
+if ! gem list --silent --installed foreman
+then
   echo "Installing foreman..."
   gem install foreman
 fi
 
-exec foreman start -f Procfile.dev "$@"
+foreman start -f Procfile.dev "$@"
