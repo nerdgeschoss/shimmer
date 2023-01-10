@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 RSpec.describe Shimmer::Config do
   let(:config) { described_class.instance }
 

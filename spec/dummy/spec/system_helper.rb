@@ -18,4 +18,6 @@ RSpec.configure do |config|
   config.retry_callback = proc do
     Capybara.reset!
   end
+
+  Capybara.disable_animation = true
 end

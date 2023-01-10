@@ -2,11 +2,11 @@
 
 require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"
-require File.expand_path("./dummy/config/environment", __dir__)
+require File.expand_path("../config/environment", __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
-require "slim-rails"
-Dir[File.expand_path("./support/**/*.rb")].sort.each { |f| require f }
+# require "slim-rails"
+Dir[File.expand_path("spec/support/**/*.rb")].sort.each { |f| require f }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -19,7 +19,7 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActiveJob::TestHelper
 
-  config.fixture_path = File.expand_path("./spec/fixtures", __dir__)
+  config.fixture_path = Rails.root.join("spec/fixtures")
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!

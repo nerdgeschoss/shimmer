@@ -9,6 +9,7 @@ then
       rm ./.overmind.sock
     fi
   fi
+  echo "Starting with overmind..."
   overmind s -f Procfile.dev -p ${PORT:-3000} -P 10
   exit
 fi
@@ -19,4 +20,5 @@ then
   gem install foreman
 fi
 
+echo "Starting with foreman..."
 foreman start -f Procfile.dev "$@"

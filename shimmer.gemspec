@@ -36,40 +36,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop-rails"
   spec.add_development_dependency "rubocop-performance"
-  spec.add_development_dependency "rubocop-rspec"
   spec.add_development_dependency "rubocop-rake"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rspec-retry"
-  spec.add_development_dependency "dotenv"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "pry-rails"
-  spec.add_development_dependency "pry-byebug"
-  spec.add_development_dependency "pry-doc"
-  spec.add_development_dependency "guard"
-  spec.add_development_dependency "guard-rspec"
-  spec.add_development_dependency "capybara"
-  spec.add_development_dependency "rack_session_access"
-  spec.add_development_dependency "cuprite"
-  spec.add_development_dependency "awesome_print"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
-
-  # Dependencies for dummy test app (start)
-  spec.add_development_dependency "rails"
-  spec.add_development_dependency "sprockets-rails"
-  spec.add_development_dependency "sqlite3", "~> 1.4"
-  spec.add_development_dependency "puma", "~> 5.0"
-  spec.add_development_dependency "jsbundling-rails"
-  spec.add_development_dependency "turbo-rails"
-  spec.add_development_dependency "stimulus-rails"
-  spec.add_development_dependency "cssbundling-rails"
-  spec.add_development_dependency "jbuilder"
-  spec.add_development_dependency "bootsnap"
-  spec.add_development_dependency "web-console"
-  spec.add_development_dependency "rspec-rails"
-  spec.add_development_dependency "dotenv-rails"
-  spec.add_development_dependency "annotate"
-  spec.add_development_dependency "slim-rails"
-  # Dependencies for dummy test app (end)
 end
