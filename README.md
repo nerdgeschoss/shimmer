@@ -203,6 +203,14 @@ import { application } from "controllers/application";
 start({ application });
 ```
 
+## Testing & Demo
+
+Automatic testing of this library is done through a demo _Rails_ application. This application is in the `demo` folder. The tests are in `demo/spec`.
+
+To perform tests, simply perform `bin/rspec` from the project's root.
+
+To start the demo application in development mode, simply perform `bin/dev`. The first time, you may want to `(cd demo && bin/rails db:migrate db:fixtures:load)` in order to have demo data in place.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nerdgeschoss/shimmer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/nerdgeschoss/shimmer/blob/master/CODE_OF_CONDUCT.md).
