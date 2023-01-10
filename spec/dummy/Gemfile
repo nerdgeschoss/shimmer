@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -6,23 +8,22 @@ ruby File.read("../../.ruby-version").strip
 gem "shimmer", path: "../.."
 
 gem "rails", "~> 7.0.4"
-gem "sprockets-rails"
+gem "propshaft" # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "sqlite3", "~> 1.4"
 gem "puma", "~> 5.0"
-gem "jsbundling-rails"
-gem "turbo-rails"
-gem "stimulus-rails"
-gem "cssbundling-rails"
-gem "jbuilder"
-gem "redis", "~> 4.0"
+gem "jsbundling-rails" # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
+gem "turbo-rails" # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+gem "stimulus-rails" # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem "cssbundling-rails" # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
+gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "bootsnap", require: false
-gem "sassc-rails"
 gem "dotenv"
 gem "slim-rails"
 gem "awesome_print"
 gem "dotenv-rails"
 
 group :development, :test do
+  gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "rspec-rails"
   gem "rspec-retry"
   gem "pry"
