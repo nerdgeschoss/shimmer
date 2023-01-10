@@ -13,7 +13,6 @@ RSpec.describe "Modal" do
     expect(page).not_to have_content "Compose Post"
 
     click_on "Write New Post"
-
     expect(page).to have_selector ".modal--open"
     expect(page).to have_content "Compose Post"
     expect(page).to have_link "Cancel"
