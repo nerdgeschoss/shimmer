@@ -69,6 +69,10 @@ module Shimmer
       queued_updates.push turbo_stream.append "shimmer", "<div class='hidden' data-controller='remote-navigation'>#{script}</div>"
     end
 
+    def update(id, with: id, **locals)
+      queued_updates.push turbo_stream.update(id, partial: with, locals: locals)
+    end
+
     def replace(id, with: id, **locals)
       queued_updates.push turbo_stream.replace(id, partial: with, locals: locals)
     end
