@@ -24,7 +24,7 @@ jobs:
       - name: Lint Ruby
         run: bundle exec rubocop -c .rubocop.yml
       - name: Ruby Tests
-        run: bin/rspec --format documentation
+        run: (cd spec/rails_app && bin/rails assets:precompile) && bin/rspec --format documentation
         env:
           RAILS_ENV: test
           RSPEC_RETRY_RETRY_COUNT: 3
