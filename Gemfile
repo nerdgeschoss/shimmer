@@ -22,6 +22,7 @@ gem "dotenv-rails"
 
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
+  gem "rake"
   gem "rspec-rails"
   gem "rspec-retry"
   gem "pry"
@@ -33,6 +34,7 @@ group :development, :test do
   gem "capybara"
   gem "rack_session_access"
   gem "cuprite"
+  gem "standard"
   gem "rubocop"
   gem "rubocop-rails"
   gem "rubocop-performance"
