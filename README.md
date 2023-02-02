@@ -215,6 +215,14 @@ A **system test** suite is included and is performed against a demo _Rails_ appl
 application can be started in development mode for "playing around" with _Shimmer_ during its development and add
 more system tests. The `bin/dev` script starts that demo application.
 
+The first time, you want to initialize the database and seed it some data.
+
+```bash
+bin/init_rails_app
+```
+
+Then you can start the development server.
+
 ```bash
 bin/dev
 ```

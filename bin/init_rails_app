@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+(cd spec/rails_app && bin/rails db:migrate db:fixtures:load)
