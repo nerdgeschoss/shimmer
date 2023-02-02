@@ -3,6 +3,7 @@
 module Shimmer
   class Config
     include Singleton
+
     class MissingConfigError < StandardError; end
 
     def method_missing(method_name)

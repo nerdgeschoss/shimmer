@@ -20,7 +20,7 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Config = Shimmer::Config.instance.freeze
+Config = Shimmer::Config.instance
 
 module Dummy
   class Application < Rails::Application
