@@ -205,11 +205,19 @@ start({ application });
 
 ## Testing & Demo
 
-Automatic testing of this library is done through a demo _Rails_ application. This application is in the `demo` folder. The tests are in `demo/spec`.
+This library is tested using _RSpec_.
 
-To perform tests, run `bin/rspec` from the `demo` project's folder.
+```bash
+bin/rspec
+```
 
-To start the demo application in development mode, run `bin/dev` from the `demo` project's folder. The first time, you may want to `bin/rails db:migrate db:fixtures:load` in order to have demo data in place.
+A **system test** suite is included and is performed against a demo _Rails_ application in `spec/rails_app`. This
+application can be started in development mode for "playing around" with _Shimmer_ during its development and add
+more system tests. The `bin/dev` script starts that demo application.
+
+```bash
+bin/dev
+```
 
 ## Contributing
 

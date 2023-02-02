@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 
 Config = Shimmer::Config.instance
 
-module Dummy
+module ShimmerRailsApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
