@@ -20,7 +20,7 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Config = Shimmer::Config.instance
+Config = Shimmer::Config.instance # rubocop:disable Style/MutableConstant
 
 module ShimmerRailsApp
   class Application < Rails::Application
