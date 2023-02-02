@@ -69,20 +69,32 @@ module Shimmer
       queued_updates.push turbo_stream.append "shimmer", "<div class='hidden' data-controller='remote-navigation'>#{script}</div>"
     end
 
-    def replace(id, with: id, **locals)
-      queued_updates.push turbo_stream.replace(id, partial: with, locals: locals)
+    def append(id, with:, **locals)
+      queued_updates.push turbo_stream.append(id, partial: with, locals: locals)
     end
 
     def prepend(id, with:, **locals)
       queued_updates.push turbo_stream.prepend(id, partial: with, locals: locals)
     end
 
-    def append(id, with:, **locals)
-      queued_updates.push turbo_stream.append(id, partial: with, locals: locals)
+    def replace(id, with: id, **locals)
+      queued_updates.push turbo_stream.replace(id, partial: with, locals: locals)
+    end
+
+    def update(id, with: id, **locals)
+      queued_updates.push turbo_stream.update(id, partial: with, locals: locals)
     end
 
     def remove(id)
       queued_updates.push turbo_stream.remove(id)
+    end
+
+    def insert_before(id, with:, **locals)
+      queued_updates.push turbo_stream.before(id, partial: with, locals: locals)
+    end
+
+    def insert_after(id, with:, **locals)
+      queued_updates.push turbo_stream.after(id, partial: with, locals: locals)
     end
 
     def open_modal(url, id: nil, size: nil, close: true)
