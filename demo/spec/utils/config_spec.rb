@@ -7,47 +7,66 @@ RSpec.describe Shimmer::Config do
 
   describe "reading a boolean with the '?' methods" do
     it "reads '0' as false" do
-      expect(config.shimmer_test_number_zero?).to eq false
+      ENV["TEST"] = "0"
+      expect(config.test?).to eq false
     end
 
     it "reads '1' as true" do
-      expect(config.shimmer_test_number_one?).to eq true
+      ENV["TEST"] = "1"
+      expect(config.test?).to eq true
     end
 
     it "reads '2' as true" do
-      expect(config.shimmer_test_number_two?).to eq true
+      ENV["TEST"] = "2"
+      expect(config.test?).to eq true
     end
 
     it "reads 'TRUE' as true" do
-      expect(config.shimmer_test_string_true?).to eq true
+      ENV["TEST"] = "TRUE"
+      expect(config.test?).to eq true
     end
 
     it "reads 'FALSE' as false" do
-      expect(config.shimmer_test_string_false?).to eq false
+      ENV["TEST"] = "FALSE"
+      expect(config.test?).to eq false
     end
   end
 
   describe "reading numbers (as strings)" do
     it "reads integer" do
-      expect(config.shimmer_test_number).to eq "42"
+      ENV["TEST"] = "42"
+      expect(config.test).to eq "42"
     end
 
-    it "reads decimals" do
-      expect(config.shimmer_test_decimal).to eq "123.456"
+    it "reads decimals (as string)" do
+      ENV["TEST"] = "123.456"
+      expect(config.test).to eq "123.456"
     end
   end
 
   describe "reading strings" do
     it "reads empty string as nil" do
-      expect(config.shimmer_test_string_nothing).to be_nil
-    end
-
-    it "reads empty quoted string as nil" do
-      expect(config.shimmer_test_string_empty).to be_nil
+      ENV["TEST"] = ""
+      expect(config.test).to be_nil
     end
 
     it "reads string as string" do
-      expect(config.shimmer_test_string_content).to eq "Foo bar"
+      ENV["TEST"] = "Foo bar"
+      expect(config.test).to eq "Foo bar"
+    end
+  end
+
+  describe "support default values" do
+    it "for booleans" do
+      expect(config.something_that_does_not_exist?(default: true)).to eq true
+    end
+
+    it "for boolean, providing 'something' as a string" do
+      expect(config.something_that_does_not_exist?(default: "asd")).to eq true
+    end
+
+    it "for strings" do
+      expect(config.something_that_does_not_exist(default: "asd")).to eq "asd"
     end
   end
 end

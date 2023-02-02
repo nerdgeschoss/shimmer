@@ -17,7 +17,7 @@ Capybara.register_driver(:chrome) do |app|
       inspector: true,
       # Allow running Chrome in a headful mode by setting HEADLESS env
       # var to a falsey value
-      headless: Config.headless?
+      headless: Config.headless?(default: true)
     }
   )
 end
