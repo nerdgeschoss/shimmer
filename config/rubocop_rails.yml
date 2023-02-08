@@ -1,0 +1,34 @@
+AllCops:
+  Exclude:
+    - '**/vendor/bundle/**/*'
+    - '**/db/schema.rb'
+
+require:
+  - rubocop-rails
+
+Rails:
+  Enabled: false
+
+# Prefer :bad_request over 400 to define HTTP status code.
+Rails/HttpStatus:
+  Enabled: true
+
+# Prefer index_by over map { ... }.to_h.
+Rails/IndexBy:
+  Enabled: true
+
+# Prefer index_with over each_with_object.
+Rails/IndexWith:
+  Enabled: true
+
+# Specify a :dependent option. (https://rails.rubystyle.guide#has_many-has_one-dependent-option)
+Rails/HasManyOrHasOneDependent:
+  Enabled: true
+
+# Specify an :inverse_of option.
+Rails/InverseOf:
+  Enabled: true
+
+# Specifying the default value for foreign_key is redundant.
+Rails/RedundantForeignKey:
+  Enabled: true
