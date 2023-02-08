@@ -218,7 +218,7 @@ more system tests. The `bin/dev` script starts that demo application.
 The first time, you want to initialize the database and seed it some data.
 
 ```bash
-bin/init_rails_app
+bin/setup
 ```
 
 Then you can start the development server.
