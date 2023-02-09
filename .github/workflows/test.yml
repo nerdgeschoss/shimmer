@@ -7,12 +7,12 @@ jobs:
     strategy:
       matrix:
         ruby-version:
-          - "2.6" # Flink
-          - "2.7" # FV, CC
+          - "2.7" # FV, CC --> This version is nearing its end of life. Consider upgrading those projects and stop supporting it in Shimmer.
           - "3.0" # APP, TF, EZ
           - "3.1" # KS, RS, ANY, pixelpress, screamshot, accounting
           # NOT COVERERED:
-          # 2.4 # office, GT
+          # - "2.4" # office, GT
+          # - "2.6" # Flink --> This version not longer installs with rbenv as of macOS 13 (Ventura).
         rails-version:
           - "6.0" # CC, Flink, office
           - "6.1" # FV
