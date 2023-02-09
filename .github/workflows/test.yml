@@ -31,7 +31,7 @@ jobs:
         uses: ruby/setup-ruby@77fe3b48b7ef9e181c0ecc9f05478ba7818b1b5c
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
+          bundler-cache: false
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
