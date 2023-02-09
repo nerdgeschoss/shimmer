@@ -37,6 +37,7 @@ jobs:
       - name: Build JS/TS
         run: yarn build
       - name: Lint Ruby
+        if: ${{ matrix.ruby-version != '2.7' }}
         run: bundle exec rubocop -c .rubocop.yml
       - name: Ruby Tests
         run: (cd spec/rails_app && bin/rails assets:precompile) && bin/rspec --format documentation
