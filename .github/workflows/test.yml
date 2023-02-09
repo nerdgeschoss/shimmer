@@ -7,20 +7,15 @@ jobs:
     strategy:
       matrix:
         ruby-version:
-          # - "2.7" # FV, CC --> This version is nearing its end of life. Consider upgrading those projects and stop supporting it in Shimmer.
-          # - "3.0" # APP, TF, EZ
+          - "2.7" # FV, CC --> This version is nearing its end of life. Consider upgrading those projects and stop supporting it in Shimmer.
+          - "3.0" # APP, TF, EZ
           - "3.1" # KS, RS, ANY, pixelpress, screamshot, accounting
           # NOT COVERERED:
           # - "2.4" # office, GT
           # - "2.6" # Flink --> This version not longer installs with rbenv as of macOS 13 (Ventura).
-        # rails-version:
-          # - "7.0" # RS, ANY, APP, screamshot, TF, EZ, accounting
-          # NOT COVERED:
-          # - "4.2" # GT
-          # - "6.0" # CC, Flink, office
-          # - "6.1" # FV
         gemfile:
           - "rails-7-0"
+          # Rails < 7.0 cannot be tested, since the demo app is using Propshaft (needs Rails >= 7.0.0).
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/Gemfile-${{ matrix.gemfile }}
