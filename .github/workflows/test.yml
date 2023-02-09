@@ -23,7 +23,7 @@ jobs:
           - "gemfiles/Gemfile-rails-7-0"
     runs-on: ubuntu-latest
     env:
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      BUNDLE_GEMFILE: $CI_PROJECT_DIR/${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby-version }}
