@@ -13,16 +13,18 @@ jobs:
           # NOT COVERERED:
           # - "2.4" # office, GT
           # - "2.6" # Flink --> This version not longer installs with rbenv as of macOS 13 (Ventura).
-        rails-version:
-          - "6.0" # CC, Flink, office
-          # - "6.1" # FV
-          - "7.0" # RS, ANY, APP, screamshot, TF, EZ, accounting
-          # NOT COVERED:
-          # 4.2 # GT
+        # rails-version:
+        #   - "6.0" # CC, Flink, office
+        #   # - "6.1" # FV
+        #   - "7.0" # RS, ANY, APP, screamshot, TF, EZ, accounting
+        #   # NOT COVERED:
+        #   # 4.2 # GT
+        gemfile:
+          - "gemfiles/Gemfile-rails-7-0"
+          - "gemfiles/Gemfile-rails-6-1"
     runs-on: ubuntu-latest
     env:
-      RUBY_VERSION: ${{ matrix.rails-version }}
-      RAILS_VERSION: ${{ matrix.rails-version }}
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby-version }}
