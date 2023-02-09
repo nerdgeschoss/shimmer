@@ -4,12 +4,31 @@ on: [push]
 
 jobs:
   test:
+    strategy:
+      matrix:
+        ruby-version:
+          - 2.6 # Flink
+          - 2.7 # FV, CC
+          - 3.0 # APP, TF, EZ
+          - 3.1 # KS, RS, ANY, pixelpress, screamshot, accounting
+          # NOT COVERERED:
+          # 2.4 # office, GT
+        rails-version:
+          - 6.0 # CC, Flink, office
+          - 6.1 # FV
+          - 7.0 # RS, ANY, APP, screamshot, TF, EZ, accounting
+          # NOT COVERED:
+          # 4.2 # GT
     runs-on: ubuntu-latest
+    env:
+      RUBY_VERSION: ${{ matrix.rails-version }}
+      RAILS_VERSION: ${{ matrix.rails-version }}
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Ruby
+      - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version: ${{ matrix.ruby-matrix }}
           bundler-cache: true
       - uses: actions/setup-node@v3
         with:

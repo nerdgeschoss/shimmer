@@ -5,7 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in shimmer.gemspec
 gemspec
 
-gem "rails"
+gem "rails", "~> #{ENV.fetch("RAILS_VERSION", "7.0")}"
 gem "propshaft"
 gem "sqlite3"
 gem "puma"
