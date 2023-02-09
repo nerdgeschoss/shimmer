@@ -32,6 +32,8 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: false
+      - name: bundle install
+        run: bundle install
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
