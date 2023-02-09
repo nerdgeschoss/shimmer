@@ -32,7 +32,7 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
         env:
-          BUNDLE_GEMFILE: ${{ vars.GITHUB_WORKSPACE }}/gemfiles/Gemfile-${{ matrix.gemfile }}
+          BUNDLE_GEMFILE: $GITHUB_WORKSPACE/gemfiles/Gemfile-${{ matrix.gemfile }}
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
