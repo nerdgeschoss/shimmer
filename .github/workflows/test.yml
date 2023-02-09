@@ -28,7 +28,7 @@ jobs:
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-matrix }}
+          ruby-version: "${{ matrix.ruby-matrix }}"
           bundler-cache: true
       - uses: actions/setup-node@v3
         with:
