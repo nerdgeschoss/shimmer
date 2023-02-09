@@ -23,7 +23,7 @@ jobs:
           - "rails-7-0"
     runs-on: ubuntu-latest
     env:
-      BUNDLE_GEMFILE: "[[[[[ needs to be defined in every steps ]]]]]"
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/Gemfile-${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby-version }}
@@ -31,8 +31,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-        env:
-          BUNDLE_GEMFILE: $GITHUB_WORKSPACE/gemfiles/Gemfile-${{ matrix.gemfile }}
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
