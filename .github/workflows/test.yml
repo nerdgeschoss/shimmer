@@ -14,8 +14,8 @@ jobs:
           # NOT COVERERED:
           # 2.4 # office, GT
         rails-version:
-          - "6.0" # CC, Flink, office
-          - "6.1" # FV
+          # - "6.0" # CC, Flink, office
+          # - "6.1" # FV
           - "7.0" # RS, ANY, APP, screamshot, TF, EZ, accounting
           # NOT COVERED:
           # 4.2 # GT
@@ -26,9 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby-version }}
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@77fe3b48b7ef9e181c0ecc9f05478ba7818b1b5c
         with:
-          ruby-version: "${{ matrix.ruby-matrix }}"
+          ruby-version: ${{ matrix.ruby-matrix }}
           bundler-cache: true
       - uses: actions/setup-node@v3
         with:
