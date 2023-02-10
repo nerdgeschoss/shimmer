@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo ""
+echo "Call rubocop from the root of the project"
+echo ""

@@ -1,0 +1,7 @@
+h1 Compose Post
+
+= form_with model: @post do |f|
+  = f.input :title, placeholder: "Title of the post"
+  = f.input :description, as: :text, placeholder: "Content of the post"
+  = f.submit "Save"
+  = link_to "Cancel", close_modal_path
