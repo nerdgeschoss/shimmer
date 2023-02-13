@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: posts
+#
+#  id         :integer          not null, primary key
+#  title      :string           not null
+#  content    :text             not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+welcome:
+  title: Welcome to Posts!
+  content: |
+    Cillum culpa eiusmod reprehenderit ut laborum labore adipisicing sunt consequat velit. Tempor velit aute eiusmod deserunt laboris voluptate et anim occaecat consectetur. Nostrud nostrud culpa ipsum nulla occaecat. Proident consectetur in ea laborum laborum voluptate non est dolore.
+
+    Elit mollit reprehenderit pariatur ipsum adipisicing ex. Consequat nostrud velit qui minim nisi cillum nulla. Anim aliquip dolor quis minim do exercitation eu ex in labore aliquip ipsum ut amet. Minim magna sit duis occaecat ullamco laborum deserunt pariatur id laborum irure ut eu dolor. Et fugiat consequat laboris nisi mollit mollit culpa velit magna. Nisi magna veniam minim labore mollit labore culpa Lorem ad reprehenderit enim ut irure. Dolor culpa labore elit sit excepteur irure.
+
+    Minim aute laboris ea cupidatat fugiat in proident. Enim irure officia officia voluptate minim ullamco dolor minim in deserunt cupidatat in nostrud. Occaecat cillum dolore deserunt esse incididunt minim consectetur dolore reprehenderit officia exercitation duis in.
+foo:
+  title: Eiusmod officia
+  content: Id ad ad duis nostrud consectetur ut aliqua ea duis est sint excepteur adipisicing. Nostrud eiusmod pariatur ullamco ad pariatur minim non mollit proident quis ipsum nostrud ipsum. Exercitation do magna aliquip qui sint ex duis excepteur. Adipisicing cillum cillum incididunt dolor sint aliqua incididunt. Elit ipsum ullamco magna dolore eiusmod laboris reprehenderit pariatur laborum.

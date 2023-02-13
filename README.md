@@ -203,6 +203,30 @@ import { application } from "controllers/application";
 start({ application });
 ```
 
+## Testing & Demo
+
+This library is tested using _RSpec_.
+
+```bash
+bin/rspec
+```
+
+A **system test** suite is included and is performed against a demo _Rails_ application in `spec/rails_app`. This
+application can be started in development mode for "playing around" with _Shimmer_ during its development and add
+more system tests. The `bin/dev` script starts that demo application.
+
+The first time, you want to initialize the database and seed it some data.
+
+```bash
+bin/setup
+```
+
+Then you can start the development server.
+
+```bash
+bin/dev
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nerdgeschoss/shimmer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/nerdgeschoss/shimmer/blob/master/CODE_OF_CONDUCT.md).

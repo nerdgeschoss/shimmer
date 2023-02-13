@@ -9,3 +9,4 @@
 /dist
 /node_modules
 /yarn-error.log
+/gemfiles/*.lock
