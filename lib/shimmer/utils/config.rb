@@ -18,7 +18,7 @@ module Shimmer
       type = :bool if method_name.end_with?("?")
       value = ENV[key.upcase].presence
       value ||= Rails.application.credentials.public_send(key)
-      value ||= default_value if default_value
+      value = default_value if value.nil?
       raise MissingConfigError, "#{key.upcase} environment value is missing" if required && value.blank?
 
       coerce value, type
