@@ -72,7 +72,7 @@ module Shimmer
           classes << "input--error"
           errors = safe_join(object.errors[method].map { |e| content_tag :div, e, class: "input__error" })
         end
-        label = label == false ? nil : self.label(label_method || method, label, class: "input__label")
+        label = (label == false) ? nil : self.label(label_method || method, label, class: "input__label")
         description = description.presence ? content_tag(:div, description, class: "input__description") : nil
         content_tag(:div, safe_join([label, content, description, errors, extra].compact), class: ["input"] + classes, **options)
       end
