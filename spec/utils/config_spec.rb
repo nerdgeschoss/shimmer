@@ -57,8 +57,12 @@ RSpec.describe Shimmer::Config do
   end
 
   describe "support default values" do
-    it "for booleans" do
+    it "for 'true'" do
       expect(config.something_that_does_not_exist?(default: true)).to eq true
+    end
+
+    it "for 'false'" do
+      expect(config.something_that_does_not_exist?(default: false)).to eq false
     end
 
     it "for boolean, providing 'something' as a string" do
