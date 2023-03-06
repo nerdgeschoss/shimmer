@@ -3,3 +3,175 @@ require:
 
 RSpec:
   Enabled: true
+
+# Check that instances are not being stubbed globally.
+# Prefer instance doubles over stubbing any instance of a class.
+RSpec/AnyInstance:
+  Enabled: true
+
+# Checks that around blocks actually run the test.
+# Would be a shame if the test would be green simply because it is not called.
+RSpec/AroundBlock:
+  Enabled: true
+
+# Be what? Not nil? Present? Truthy?
+RSpec/Be:
+  Enabled: true
+
+# The be matcher compares by identity while the eq matcher compares using ==.
+# Booleans and nil can be compared by identity and therefore the be matcher is
+# preferable as it is a more strict test.
+RSpec/BeEq:
+  Enabled: true
+
+# The be matcher compares by identity while the eq matcher compares using ==.
+# Booleans and nil can be compared by identity and therefore the be matcher is
+# preferable as it is a more strict test.
+RSpec/BeEql:
+  Enabled: true
+
+# Prefer `.to be_nil` to `.to be(nil)`.
+RSpec/BeNil:
+  Enabled: true
+
+# Avoid `before(:all)`, prefer `before(:each)` within a group.
+RSpec/BeforeAfterAll:
+  Enabled: true
+
+# Avoid `.to change(...).by(0)`, prefer `not_to change` and `.to not_change` (for composite).
+RSpec/ChangeByZero:
+  Enabled: true
+
+# Expect expectations in all tests.
+# If it's just expecting it to not raise, wrap it in `expect do ... end.not_to raise`.
+RSpec/EmptyExampleGroup:
+  Enabled: true
+
+# Don't allow empty hooks.
+RSpec/EmptyHook:
+  Enabled: true
+
+# Separate groups.
+RSpec/EmptyLineAfterExampleGroup:
+  Enabled: true
+
+# Separate `let`s from tests.
+RSpec/EmptyLineAfterFinalLet:
+  Enabled: true
+
+# Separate hooks from tests.
+RSpec/EmptyLineAfterHook:
+  Enabled: true
+
+# Don't allow specs without description.
+RSpec/ExampleWithoutDescription:
+  Enabled: true
+
+# Checks for common mistakes in example descriptions.
+RSpec/ExampleWording:
+  Enabled: true
+
+# Trim descriptions.
+RSpec/ExcessiveDocstringSpacing:
+  Enabled: true
+
+# Do stdout expectations right.
+RSpec/ExpectOutput:
+  Enabled: true
+
+# Enforces spec file naming convention.
+RSpec/FilePath:
+  Enabled: true
+
+# Don't forget focussed tests (expecially useful for the CI to fail).
+RSpec/Focus:
+  Enabled: true
+  AutoCorrect: false
+
+# Checks for before/around/after hooks that come after an example.
+RSpec/HooksBeforeExamples:
+  Enabled: true
+
+# Don't expect something to be itself.
+RSpec/IdenticalEqualityAssertion:
+  Enabled: true
+
+# Explicitly declare `it` blocks.
+RSpec/ImplicitBlockExpectation:
+  Enabled: true
+
+# Prevent instance variable usage in specs.
+RSpec/InstanceVariable:
+  Enabled: true
+
+# Check that all matcher is used instead of iterating over an array.
+RSpec/IteratedExpectation:
+  Enabled: true
+
+# Checks that no class, module, or constant is declared.
+# Constants, including classes and modules, when declared in a block scope,
+# are defined in global namespace, and leak between examples.
+# Prevents class re-opening, leading to unpredictable side effects.
+RSpec/LeakyConstantDeclaration:
+  Enabled: true
+
+# Force `let`s to be before tests.
+RSpec/LetBeforeExamples:
+  Enabled: true
+
+# Force groups to have descriptions or symbol.
+RSpec/MissingExampleGroupArgument:
+  Enabled: true
+
+# Files should have only one root `describe` block.
+RSpec/MultipleDescribes:
+  Enabled: true
+
+# Checks if an example group defines subject multiple times.
+RSpec/MultipleSubjects:
+  Enabled: true
+
+# Checks if an example contains any expectation.
+RSpec/NoExpectationExample:
+  Enabled: true
+
+# Prefer `expect(...).not_to` to `expect(...).to_not`.
+RSpec/NotToNot:
+  Enabled: true
+
+# Prevent setting the same `let` block more than once.
+RSpec/OverwritingSetup:
+  Enabled: true
+
+# Prevent useless `around` hooks.
+RSpec/RedundantAround:
+  Enabled: true
+
+# Prevent duplicate description.
+RSpec/RepeatedDescription:
+  Enabled: true
+
+# Prevent duplicate example (test).
+RSpec/RepeatedExample:
+  Enabled: true
+
+# Detects duplicate in example group body.
+RSpec/RepeatedExampleGroupBody:
+  Enabled: true
+
+####
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExpectChange:
+  Enabled: false
