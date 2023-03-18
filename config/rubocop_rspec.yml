@@ -159,6 +159,8 @@ RSpec/RepeatedExample:
 RSpec/RepeatedExampleGroupBody:
   Enabled: true
 
+# NEXT: https://docs.rubocop.org/rubocop-rspec/cops_rspec.html#rspecrepeatedexamplegroupbody
+
 ####
 
 RSpec/ExampleLength:
