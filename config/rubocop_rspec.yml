@@ -2,7 +2,7 @@ require:
   - rubocop-rspec
 
 RSpec:
-  Enabled: true
+  Enabled: false
 
 # Check that instances are not being stubbed globally.
 # Prefer instance doubles over stubbing any instance of a class.
@@ -133,7 +133,7 @@ RSpec/MultipleSubjects:
 
 # Checks if an example contains any expectation.
 RSpec/NoExpectationExample:
-  Enabled: true
+  Enabled: false # considered, but gives false positives when expectations are inside of a re-used function
 
 # Prefer `expect(...).not_to` to `expect(...).to_not`.
 RSpec/NotToNot:
@@ -159,21 +159,50 @@ RSpec/RepeatedExample:
 RSpec/RepeatedExampleGroupBody:
   Enabled: true
 
-# NEXT: https://docs.rubocop.org/rubocop-rspec/cops_rspec.html#rspecrepeatedexamplegroupbody
+# Detects duplicate in example group description.
+RSpec/RepeatedExampleGroupDescription:
+  Enabled: true
 
-####
+# Check for repeated include of shared examples.
+RSpec/RepeatedIncludeExample:
+  Enabled: true
 
-RSpec/ExampleLength:
-  Enabled: false
+# Keep `let` blocks together.
+RSpec/ScatteredLet:
+  Enabled: true
 
-RSpec/MultipleExpectations:
-  Enabled: false
+# Keep `setup` blocks (ex: group `before`) together.
+RSpec/ScatteredSetup:
+  Enabled: true
 
-RSpec/MultipleMemoizedHelpers:
-  Enabled: false
+# Checks for proper shared_context and shared_examples usage.
+RSpec/SharedContext:
+  Enabled: true
 
-RSpec/NestedGroups:
-  Enabled: false
+# Enforces use of string to titleize shared examples.
+RSpec/SharedExamples:
+  Enabled: true
 
-RSpec/ExpectChange:
-  Enabled: false
+# Checks that chains of messages contain more than one element.
+RSpec/SingleArgumentMessageChain:
+  Enabled: true
+
+# Skip either the whole example of not at all.
+RSpec/SkipBlockInsideExample:
+  Enabled: true
+
+# Be specific about what exception/error is expected.
+RSpec/UnspecifiedException:
+  Enabled: true
+
+# Use symbols for `let` and `subject` names.
+RSpec/VariableDefinition:
+  Enabled: true
+
+# Avoid empty expectation.
+RSpec/VoidExpect:
+  Enabled: true
+
+# Use proper `yield` stub syntax.
+RSpec/Yield:
+  Enabled: true
