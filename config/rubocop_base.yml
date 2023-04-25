@@ -30,6 +30,12 @@ Style/WordArray:
   Enabled: true
   EnforcedStyle: brackets
 
+# <% if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.1") %>
+Style/HashSyntax:
+  Enabled: true
+  EnforcedShorthandSyntax: always
+# <% end %>
+
 # Keep at the end of the file (after the individual cops configuration),
 # otherwise, those cops are not configured properly.
 inherit_from:
