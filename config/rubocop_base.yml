@@ -1,8 +1,5 @@
 AllCops:
   NewCops: disable
-  Exclude:
-    - '**/bin/**/*'
-    - '**/node_modules/**/*'
 
 require:
   - standard

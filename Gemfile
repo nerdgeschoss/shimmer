@@ -21,7 +21,7 @@ gem "awesome_print"
 gem "dotenv-rails"
 
 group :development, :test do
-  gem "debug", platforms: %i[mri mingw x64_mingw]
+  gem "debug", platforms: [:mri, :mingw, :x64_mingw]
   gem "rake"
   gem "rspec-rails"
   gem "rspec-retry"

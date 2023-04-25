@@ -5,6 +5,7 @@ AllCops:
     - "bin/**/*"
     - "spec/rails_app/bin/**/*"
     - "spec/rails_app/db/schema.rb"
+    - "vendor/**/*"
 
 # Allow controllers created in this library to inherit directly from ActionController::Base.
 Rails/ApplicationController:
