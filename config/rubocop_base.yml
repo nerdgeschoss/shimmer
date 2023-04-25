@@ -23,6 +23,16 @@ Style/MutableConstant:
 Style/SymbolProc:
   Enabled: true
 
+# Prefer `[:foo, :bar]` to `%i[foo bar]`.
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
+
+# Prefer `["foo", "bar"]` to `%w[foo bar]`.
+Style/WordArray:
+  Enabled: true
+  EnforcedStyle: brackets
+
 # Keep at the end of the file (after the individual cops configuration),
 # otherwise, those cops are not configured properly.
 inherit_from:
