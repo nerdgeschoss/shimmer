@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shimmer
   class Config
     include Singleton
