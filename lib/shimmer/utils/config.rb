@@ -8,7 +8,7 @@ module Shimmer
 
     def method_missing(method_name, **options)
       return nil if ENV["SECRET_KEY_BASE_DUMMY"]
-      
+
       default_provided = options.key?(:default)
       default_value = options.delete(:default) if default_provided
       raise ArgumentError, "unknown option#{"s" if options.length > 1}: #{options.keys.join(", ")}." if options.any?
