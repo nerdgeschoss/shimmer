@@ -1,5 +1,12 @@
 inherit_from: config/rubocop_base.yml
 
+AllCops:
+  Exclude:
+    - "bin/**/*"
+    - "spec/rails_app/bin/**/*"
+    - "spec/rails_app/db/schema.rb"
+    - "vendor/**/*"
+
 # Allow controllers created in this library to inherit directly from ActionController::Base.
 Rails/ApplicationController:
   Enabled: false

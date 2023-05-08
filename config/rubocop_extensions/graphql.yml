@@ -1,0 +1,68 @@
+# Documentation on the rules can be found here:
+# https://github.com/DmitryTsepelev/rubocop-graphql/tree/master/lib/rubocop/cop/graphql
+#
+require:
+  - rubocop-graphql
+
+GraphQL:
+  Enabled: false
+
+# Keep mutation file ordered.
+GraphQL/OrderedFields:
+  Enabled: true
+  Exclude:
+    - "*"
+  Include:
+    - '**/mutation_type.rb'
+
+# Ensures snake case of argument name.
+GraphQL/ArgumentName:
+  Enabled: true
+
+# Detects duplicate argument definitions.
+GraphQL/ArgumentUniqueness:
+  Enabled: true
+
+# Prevents defining unnecessary resolver methods in cases when `:hash_key` option can be used.
+GraphQL/FieldHashKey:
+  Enabled: true
+
+# Prevents defining unnecessary resolver methods in cases when `:method option` can be used.
+GraphQL/FieldMethod:
+  Enabled: true
+
+# Ensures snake case of field name.
+GraphQL/FieldName:
+  Enabled: true
+
+# Detects duplicate field definitions within the same type.
+GraphQL/FieldUniqueness:
+  Enabled: true
+
+# Ensures type definitions are class-based (no longer legacy).
+GraphQL/LegacyDsl:
+  Enabled: true
+
+# Ensures fields with multiple definitions are grouped together
+GraphQL/MultipleFieldDefinitions:
+  Enabled: true
+
+# Forces `Relay::Node` implementations to expose an `authorized?` method.
+GraphQL/NotAuthorizedNodeType:
+  Enabled: true
+
+# Checks for has an unnecessary argument camelize.
+GraphQL/UnnecessaryArgumentCamelize:
+  Enabled: true
+
+# Prevents defining an unnecessary `alias`, `method`, or `resolver_method` arguements to fields.
+GraphQL/UnnecessaryFieldAlias:
+  Enabled: true
+
+# Checks for has an unnecessary field camelize.
+GraphQL/UnnecessaryFieldCamelize:
+  Enabled: true
+
+# Arguments should either be listed explicitly or `**rest` should be in the resolve signature.
+GraphQL/UnusedArgument:
+  Enabled: true

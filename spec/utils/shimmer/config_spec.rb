@@ -8,27 +8,27 @@ RSpec.describe Shimmer::Config do
   describe "reading a boolean with the '?' methods" do
     it "reads '0' as false" do
       ENV["TEST"] = "0"
-      expect(config.test?).to eq false
+      expect(config.test?).to be false
     end
 
     it "reads '1' as true" do
       ENV["TEST"] = "1"
-      expect(config.test?).to eq true
+      expect(config.test?).to be true
     end
 
     it "reads '2' as true" do
       ENV["TEST"] = "2"
-      expect(config.test?).to eq true
+      expect(config.test?).to be true
     end
 
     it "reads 'TRUE' as true" do
       ENV["TEST"] = "TRUE"
-      expect(config.test?).to eq true
+      expect(config.test?).to be true
     end
 
     it "reads 'FALSE' as false" do
       ENV["TEST"] = "FALSE"
-      expect(config.test?).to eq false
+      expect(config.test?).to be false
     end
   end
 
@@ -58,15 +58,15 @@ RSpec.describe Shimmer::Config do
 
   describe "support default values" do
     it "for 'true'" do
-      expect(config.something_that_does_not_exist?(default: true)).to eq true
+      expect(config.something_that_does_not_exist?(default: true)).to be true
     end
 
     it "for 'false'" do
-      expect(config.something_that_does_not_exist?(default: false)).to eq false
+      expect(config.something_that_does_not_exist?(default: false)).to be false
     end
 
     it "for boolean, providing 'something' as a string" do
-      expect(config.something_that_does_not_exist?(default: "asd")).to eq true
+      expect(config.something_that_does_not_exist?(default: "asd")).to be true
     end
 
     it "for strings" do

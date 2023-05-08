@@ -1,15 +1,11 @@
+# Most of those cops are documented here:
+# https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style
+#
 AllCops:
   NewCops: disable
-  Exclude:
-    - '**/vendor/bundle/**/*'
-    - '**/bin/**/*'
-    - '**/db/schema.rb'
-    - '**/node_modules/**/*'
 
 require:
-  - standard
-  - rubocop-rails
-  - rubocop-rake
+  - standard # https://github.com/standardrb/standard
 
 inherit_gem:
   standard: config/base.yml
@@ -23,10 +19,32 @@ Style/MutableConstant:
   Enabled: true
   EnforcedStyle: strict
 
-# Allow `.update_all`.
-Rails/SkipsModelValidations:
-  Enabled: false
+# Pass &:method_name as an argument to index_by instead of a block.
+Style/SymbolProc:
+  Enabled: true
 
-# Allow Rake tasks to not require the full Rails app to be loaded.
-Rails/RakeEnvironment:
-  Enabled: false
+# Prefer `[:foo, :bar]` to `%i[foo bar]`.
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
+
+# Prefer `["foo", "bar"]` to `%w[foo bar]`.
+Style/WordArray:
+  Enabled: true
+  EnforcedStyle: brackets
+
+# <% if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.1") %>
+Style/HashSyntax:
+  Enabled: true
+  EnforcedShorthandSyntax: always
+# <% end %>
+
+# Keep at the end of the file (after the individual cops configuration),
+# otherwise, those cops are not configured properly.
+inherit_from:
+# <% Dir["#{File.expand_path(__dir__)}/rubocop_extensions/*.yml"].each do |filename| %>
+#   <% gem_name = filename.delete_suffix(".yml").delete_prefix("#{File.expand_path(__dir__)}/rubocop_extensions/") %>
+#   <% if Gem.loaded_specs.key?(gem_name) %>
+  - rubocop_extensions/<%= gem_name %>.yml
+#   <% end # if Gem.loaded_specs.key? %>
+# <% end # Dir.foreach %>
