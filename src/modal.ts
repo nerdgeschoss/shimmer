@@ -18,6 +18,13 @@ export class ModalPresenter {
     const id = (options.id = options.id ?? guid());
     (this.modals[id] = new Modal({ presenter: this, id })).open(options);
     this.updateBlindStatus();
+
+    const modalBlind = document.querySelector("modal-blind");
+    if (modalBlind) {
+      modalBlind.addEventListener("click", () => {
+        this.close({ id });
+      });
+    }
   }
 
   async close({ id }: { id?: string } = {}): Promise<void> {
@@ -69,6 +76,13 @@ export class Modal {
     root.classList.toggle("modal--small", size === "small");
     frame.innerHTML = await getHTML(url);
     root.classList.remove("modal--loading");
+
+    const modalBlind = document.querySelector("modal-blind");
+    if (modalBlind) {
+      modalBlind.removeEventListener("click", () => {
+        this.presenter.close({ id: this.id });
+      });
+    }
   }
 
   async close(): Promise<void> {
@@ -80,5 +94,13 @@ export class Modal {
     await wait(1);
     root.remove();
     this.root = undefined;
+
+    // Re-add event listener when modal is closed
+    const modalBlind = document.querySelector("modal-blind");
+    if (modalBlind) {
+      modalBlind.addEventListener("click", () => {
+        this.presenter.close({ id: this.id });
+      });
+    }
   }
 }
