@@ -6,7 +6,7 @@ module Shimmer
       path = "sitemaps/#{params.require(:path)}.gz"
       filename = "sitemap_#{params[:path]}.xml.gz"
 
-      send_data ActiveStorage::Blob.service.download(path), filename:, type: "application/gzip", disposition: "attachment"
+      send_data ActiveStorage::Blob.service.download(path), filename: filename, type: "application/gzip", disposition: "attachment"
     end
   end
 end
