@@ -10,6 +10,8 @@ import "./touch";
 export { registerServiceWorker } from "./serviceworker";
 export { currentLocale } from "./locale";
 
+export * from "./components";
+
 declare global {
   interface Window {
     ui?: {
