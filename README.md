@@ -1,8 +1,26 @@
-# Shimmer - Because Ruby could be more shiny!
+Shimmer - Because Ruby could be more shiny!
+===========================================
 
 Shimmer is a collection of Rails extensions that bring advanced UI features into your app and make your life easier as a developer.
 
-## Features
+Features
+--------
+
+### SCSS Components
+
+Shimmer includes a suite of SCSS components aimed at standardizing your project's style and making your SCSS more maintainable. Two key components of this suite are the Stack Component and the Variable component.
+
+#### Stack Component
+
+The Stack Component, a flexible and reusable component based on the CSS Grid, allows you to easily manage the layout of your app. It is an invaluable tool for creating responsive grid layouts and managing the spacing between items in a container.
+
+For detailed usage instructions and examples, refer to the [Component Styles README](./components/styles/README.md) in the `components/styles/stack` folder.
+
+#### Variables Component
+
+The Variables Component provides predefined variables that will be used in all other components. It includes variables for colors, typography, spacing, and breakpoints.
+
+For more information, see the documentation in the `components/styles/variables` folder.
 
 ### Rubocop Base Configuration
 
