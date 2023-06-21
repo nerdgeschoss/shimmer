@@ -16,12 +16,7 @@
 
   &--line {
     @include line;
-    &.stack--justify-center {
-      justify-content: center;
-    }
-    &.stack--justify-end {
-      justify-content: flex-end;
-    }
+    align-items: flex-start;
   }
 
   // align
@@ -56,6 +51,9 @@
   }
   &--justify-stretch {
     justify-content: stretch;
+    > * {
+      min-width: min-content;
+    }
   }
   &--justify-equal-size {
     > * {

@@ -1,21 +1,19 @@
-:root {
-  --size-breakpoint-tablet: 640px;
-  --size-breakpoint-desktop: 890px;
-  --size-breakpoint-widescreen: 1280px;
-}
+$size-breakpoint-tablet: 640px;
+$size-breakpoint-desktop: 890px;
+$size-breakpoint-widescreen: 1280px;
 
 @mixin breakpoint-tablet {
-  @media (min-width: var(--size-breakpoint-tablet)) {
+  @media (min-width: $size-breakpoint-tablet) {
     @content;
   }
 }
 @mixin breakpoint-desktop {
-  @media (min-width: var(--size-breakpoint-desktop)) {
+  @media (min-width: $size-breakpoint-desktop) {
     @content;
   }
 }
 @mixin breakpoint-widescreen {
-  @media (min-width: var(--size-breakpoint-widescreen)) {
+  @media (min-width: $size-breakpoint-widescreen) {
     @content;
   }
 }
