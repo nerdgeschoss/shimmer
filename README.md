@@ -1,5 +1,4 @@
-Shimmer - Because Ruby could be more shiny!
-===========================================
+# Shimmer - Because Ruby could be more shiny!
 
 Shimmer is a collection of Rails extensions that bring advanced UI features into your app and make your life easier as a developer.
 
