@@ -2,8 +2,7 @@
 
 Shimmer is a collection of Rails extensions that bring advanced UI features into your app and make your life easier as a developer.
 
-Features
---------
+## Features
 
 ### SCSS Components
 
