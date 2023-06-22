@@ -1,7 +1,8 @@
 import esbuild from "rollup-plugin-esbuild";
 import cleaner from "rollup-plugin-cleaner";
 import pkg from "./package.json";
-import scss from "rollup-plugin-scss";
+import postcss from "rollup-plugin-postcss";
+import postcssPresetEnv from "postcss-preset-env";
 
 export default {
   input: ["./src/index.ts", "./components/index.ts"],
@@ -26,7 +27,15 @@ export default {
         regenerator: true,
       },
     ],
-    scss({ fileName: "styles.css" }),
+    /*
+    works for default values (no @custom-media tag on preserve: false)
+    preserve: true renders both @media (min-width: 640px) and @media (min-width: --custom-media)
+    */
+    postcss({
+      extract: "styles.css",
+      plugins: [postcssPresetEnv({ preserve: true })],
+      // minimize: true,
+    }),
   ],
   output: {
     dir: "dist",
