@@ -1,0 +1,32 @@
+.stack-item {
+  background-color: firebrick;
+  padding: 5px;
+  min-width: 100px;
+  color: white;
+}
+
+.stack-item--width-200 {
+  min-width: 200px;
+}
+
+.stack-item--height-80 {
+  min-height: 80px;
+}
+
+.stack--border {
+  border: 1px solid grey;
+  padding: 10px;
+  width: 100%;
+}
+
+.styleguide {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 4px;
+  }
+
+  padding: 20px;
+}

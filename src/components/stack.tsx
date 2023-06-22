@@ -10,7 +10,7 @@ type Justify =
   | "space-around"
   | "stretch"
   | "equal-size";
-type Align = "start" | "center" | "end" | "stretch";
+type Align = "start" | "center" | "end" | "stretch" | "baseline";
 
 export interface Props {
   children: React.ReactNode;

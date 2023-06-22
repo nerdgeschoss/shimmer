@@ -1,5 +1,87 @@
+.styleguide.stack
+  h1 Styleguide
+  hr
+  h2 Stack
+  h3 Default
+  // vertical with align prop
+  .stack.stack--line.stack--justify-start
+    .stack.stack--border
+      p no props
+      .stack.stack--align-start
+        .stack-item 1
+        .stack-item.stack-item--width-200 2
+        .stack-item 3
+    .stack.stack--border
+      p with align="start"
+      .stack.stack--align-start
+        .stack-item 1
+        .stack-item.stack-item--width-200 2
+        .stack-item 3
+    .stack.stack--border
+      p with align="center"
+      .stack.stack--align-center
+        .stack-item 1
+        .stack-item.stack-item--width-200 2
+        .stack-item 3
+    .stack.stack--border
+      p with align="end"
+      .stack.stack--align-end
+        .stack-item 1
+        .stack-item.stack-item--width-200 2
+        .stack-item 3
 
-.stack
-  p hello world
-  p hello world
-  p hello world
+  h3 Line
+  // horizontal with justify prop
+  .stack.stack--line.stack--12.stack--align-stretch
+    .stack.stack--border
+      p no props
+      .stack.stack--line
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
+    .stack.stack--border
+      p with justify="stretch"
+      .stack.stack--line.stack--justify-stretch
+        .stack-item 1
+        .stack-item.stack-item--height-80.stack-item--width-200 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        .stack-item 3
+    .stack.stack--border
+      p with justify="space-between"
+      .stack.stack--line.stack--justify-space-between
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
+
+  .stack.stack--line.stack--12
+    .stack.stack--border
+      p with justify="center"
+      .stack.stack--line.stack--justify-center
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
+    .stack.stack--border
+      p with justify="center" and align="center"
+      .stack.stack--line.stack--justify-center.stack--align-center
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
+    .stack.stack--border
+      p with justify="center" and align="baseline"
+      .stack.stack--line.stack--justify-center.stack--align-baseline
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
+
+  .stack.stack--line.stack--12
+    .stack.stack--border
+      p with justify="equal-size"
+      .stack.stack--line.stack--justify-equal-size
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
+    .stack.stack--border
+      p with justify="equal-size" and align="stretch"
+      .stack.stack--line.stack--justify-equal-size.stack--align-stretch
+        .stack-item 1
+        .stack-item.stack-item--height-80 2
+        .stack-item 3
