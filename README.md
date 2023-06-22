@@ -4,21 +4,42 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
 
 ## Features
 
-### SCSS Components
+### Components
 
-Shimmer includes a suite of SCSS components aimed at standardizing your project's style and making your SCSS more maintainable. Two key components of this suite are the Stack Component and the Variable component.
+Shimmer includes a suite of styled components that can be implemented in React and also in plain HTML or slim.
 
-#### Stack Component
+#### Stack
 
-The Stack Component, a flexible and reusable component based on the CSS Grid, allows you to easily manage the layout of your app. It is an invaluable tool for creating responsive grid layouts and managing the spacing between items in a container.
+Stack is a reusable typed component that allows you to easily manage the layout of your app. You can define whether it should be displayed horizontally, vertically, and how much spacing there should be in between the child components. This component implements a mobile-first design and allows you to customize the display and spacing even on defined breakpoints (tablet, desktop, widescreen) should you need to.
 
-For detailed usage instructions and examples, refer to the [Component Styles README](./components/styles/README.md) in the `components/styles/stack` folder.
+To use it in a React project, you can just import and use it as you would in a normal React component:
 
-#### Variables Component
+```js
+import { Stack } from '@nerdgeschoss/shimmer/components/stack';
 
-The Variables Component provides predefined variables that will be used in all other components. It includes variables for colors, typography, spacing, and breakpoints.
+<Stack gapTablet={4} gapDesktop={12} line>
+  <div></div>
+  <div></div>
+  <div></div>
+</Stack>
+```
 
-For more information, see the documentation in the `components/styles/variables` folder.
+To use it in an HTML file, you can just import the css file directly from `@nerdgeschoss/shimmer/components/stack.css` and just implement the classes as they are in the stylesheet:
+
+```html
+<div class="stack stack--line stack--tablet-4 stack--desktop-12">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+```
+
+Supported breakpoints:
+- **Tablet**: 640px
+- **Desktop**: 890px
+- **Widescreen**: 1280px
+
+![Stack possible layouts](stack.png)
 
 ### Rubocop Base Configuration
 
