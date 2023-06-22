@@ -1,12 +1,20 @@
 .stack-item {
   background-color: firebrick;
   padding: 5px;
-  min-width: 100px;
   color: white;
+  min-width: 30px;
+}
+.stack-item--width-200 {
+  min-width: 50px;
 }
 
-.stack-item--width-200 {
-  min-width: 200px;
+@media (min-width: 890px) {
+  .stack-item {
+    min-width: 80px;
+  }
+  .stack-item--width-200 {
+    min-width: 200px;
+  }
 }
 
 .stack-item--height-80 {
