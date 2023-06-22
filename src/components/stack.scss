@@ -1,4 +1,36 @@
-@import "./variables.scss";
+@mixin breakpoint-tablet {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+@mixin breakpoint-desktop {
+  @media (min-width: 890px) {
+    @content;
+  }
+}
+@mixin breakpoint-widescreen {
+  @media (min-width: 1280px) {
+    @content;
+  }
+}
+
+$sizes: (
+  0: 0px,
+  2: 2px,
+  4: 4px,
+  8: 8px,
+  12: 12px,
+  16: 16px,
+  20: 20px,
+  22: 22px,
+  24: 24px,
+  32: 32px,
+  40: 40px,
+  48: 48px,
+  56: 56px,
+  64: 64px,
+);
+
 
 @mixin line {
   flex-direction: row;
@@ -8,7 +40,7 @@
 .stack {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-8);
+  gap: 8px;
 
   > * {
     min-width: 0;

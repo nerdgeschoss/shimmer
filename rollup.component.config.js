@@ -1,14 +1,12 @@
 import esbuild from "rollup-plugin-esbuild";
-import cleaner from "rollup-plugin-cleaner";
 import pkg from "./package.json";
+import postcss from "rollup-plugin-postcss";
+import postcssPresetEnv from "postcss-preset-env";
 
 export default {
-  input: "./src/index.ts",
-  external: ["@rails/request.js", "@hotwired/stimulus", "@popperjs/core"],
+  input: "./src/components/stack.tsx",
+  external: ["react", "react-dom", "classnames"],
   plugins: [
-    cleaner({
-      targets: ["./dist/"],
-    }),
     esbuild({
       target: "es6",
     }),
@@ -18,9 +16,13 @@ export default {
         regenerator: true,
       },
     ],
+    postcss({
+      extract: true,
+      plugins: [postcssPresetEnv({ preserve: true })],
+    }),
   ],
   output: {
-    dir: "dist",
+    dir: "dist/components",
     plugins: [
       {
         file: pkg.main,

@@ -9,8 +9,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "yarn build:js && yarn build:types",
+    "build": "yarn build:js && yarn build:components && yarn build:types",
     "build:js": "NODE_ENV=production rollup -c",
+    "build:components": "NODE_ENV=production rollup --config rollup.component.config.js && echo 'import \"./stack.css\";' >> dist/components/stack.js",
     "build:types": "tsc --emitDeclarationOnly",
     "format": "prettier --write \"src/**/*.{ts,css,scss,json,yml}\"",
     "lint": "yarn lint:types && yarn lint:style",
