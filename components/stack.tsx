@@ -67,10 +67,12 @@ export function Stack({
         justifyTablet && `stack--justify-tablet-${justifyTablet}`,
         justifyDesktop && `stack--justify-desktop-${justifyDesktop}`,
         justifyWidescreen && `stack--justify-widescreen-${justifyWidescreen}`,
-        { "stack--line": line },
-        { "stack--line-tablet": lineTablet },
-        { "stack--line-desktop": lineDesktop },
-        { "stack--line-widescreen": lineWidescreen }
+        {
+          "stack--line": line,
+          "stack--line-tablet": lineTablet,
+          "stack--line-desktop": lineDesktop,
+          "stack--line-widescreen": lineWidescreen,
+        }
       )}
     >
       {children}
