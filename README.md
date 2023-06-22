@@ -4,6 +4,22 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
 
 ## Features
 
+### SCSS Components
+
+Shimmer includes a suite of SCSS components aimed at standardizing your project's style and making your SCSS more maintainable. Two key components of this suite are the Stack Component and the Variable component.
+
+#### Stack Component
+
+The Stack Component, a flexible and reusable component based on the CSS Grid, allows you to easily manage the layout of your app. It is an invaluable tool for creating responsive grid layouts and managing the spacing between items in a container.
+
+For detailed usage instructions and examples, refer to the [Component Styles README](./components/styles/README.md) in the `components/styles/stack` folder.
+
+#### Variables Component
+
+The Variables Component provides predefined variables that will be used in all other components. It includes variables for colors, typography, spacing, and breakpoints.
+
+For more information, see the documentation in the `components/styles/variables` folder.
+
 ### Rubocop Base Configuration
 
 *Shimmer* offers an opiniated *Rubocop* base configuration. This configuration inherits itself from *StandardRB* and aim at remaining as close to it as possible. Why not only use *StandardRB*, since it is so fast and prevent bikeshedding? Well, sadly, it does not solve all problems and using *Rubocop* still integrates a lot easier in most toolsets. However, the idea is to still prevent bikeshedding our *Rubocop* configuration by making sure that every exception to what's configured in *StandardRB* is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed, debated, and agreed upon before being merged.
