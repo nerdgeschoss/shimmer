@@ -37,7 +37,9 @@ jobs:
       - name: Build JS/TS
         run: yarn build
       - name: Lint Ruby
-        if: ${{ matrix.ruby-version != '2.7' }}
+        # Does not work on 2.7: Known
+        # Does not work on 3.1: Issue to fix in https://github.com/nerdgeschoss/shimmer/issues/59
+        if: ${{ matrix.ruby-version == '3.0' }}
         run: bundle exec rubocop -c .rubocop.yml
       - name: Ruby Tests
         run: (cd spec/rails_app && bin/rails assets:precompile) && bin/rspec --format documentation
