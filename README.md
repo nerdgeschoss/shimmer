@@ -2,12 +2,99 @@
 
 Shimmer is a collection of Rails extensions that bring advanced UI features into your app and make your life easier as a developer.
 
-## Features
+## Table of Contents
+- [Shimmer - Because Ruby could be more shiny!](#shimmer---because-ruby-could-be-more-shiny)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+- [application\_helper.rb](#application_helperrb)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Components](#components)
+    - [Stack](#stack)
+      - [Helper types:](#helper-types)
+    - [Available props:](#available-props)
+    - [Supported breakpoints:](#supported-breakpoints)
+    - [Rubocop Base Configuration](#rubocop-base-configuration)
+      - [Use Shared Configuration In Projects](#use-shared-configuration-in-projects)
+    - [Static File Serving](#static-file-serving)
+    - [Modals](#modals)
+    - [Popovers](#popovers)
+    - [Remote Navigation](#remote-navigation)
+    - [Sitemaps](#sitemaps)
+    - [Cloudflare Support](#cloudflare-support)
+    - [Heroku Database Helpers](#heroku-database-helpers)
+    - [Localizable Routes with Browser Locale Support](#localizable-routes-with-browser-locale-support)
+  - [Testing \& Demo](#testing--demo)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Code of Conduct](#code-of-conduct)
 
-### Components
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem "shimmer"
+```
+
+And then execute:
+
+```bash
+$ bundle install
+```
+
+Add some configuration to your project:
+
+```ruby
+# routes.rb
+
+resources :files, only: :show, controller: "shimmer/files"
+
+# application_controller.rb
+class ApplicationController < ActionController::Base
+  include Shimmer::Localizable
+  include Shimmer::RemoteNavigation
+end
+```
+
+# application_helper.rb
+```ruby
+module ApplicationHelper
+  include Shimmer::FileHelper
+end
+```
+
+```ts
+// application.ts
+
+import { start } from "@nerdgeschoss/shimmer";
+import { application } from "controllers/application";
+
+start({ application });
+```
+
+Introduction
+------------
+
+Shimmer is a collection of Rails extensions that brings advanced UI features to your application, making it more interactive and developer-friendly.
+
+Features
+--------
+
+*   [Components](#components): A suite of styled components that can be implemented in React or HTML.
+*   [Stack](#stack): A reusable typed component for managing layout with customizable spacing and breakpoints.
+*   [Modals](#modals): Easily create and control modals with asynchronous content loading.
+*   [Popovers](#popovers): Simplify the implementation of popovers for displaying additional content.
+*   [Remote Navigation](#remote-navigation): Enhanced navigation actions integrated with modals and popovers.
+*   [Sitemaps](#sitemaps): Generate and upload sitemaps using ActiveStorage.
+*   [Cloudflare Support](#cloudflare-support): Middleware to handle Cloudflare SSL issues.
+*   [Heroku Database Helpers](#heroku-database-helpers): Simplify pulling production or staging data to your development machine.
+*   [Localizable Routes with Browser Locale Support](#localizable-routes-with-browser-locale-support): Implement localized routes with support for browser locale detection.
+
+Components
+----------
 
 Shimmer includes a suite of styled components that can be implemented in React and also in plain HTML or slim.
-
 ### Stack
 
 Stack is a reusable typed component that allows you to easily manage the layout of your app. You can define whether it should be displayed horizontally, vertically, and how much spacing there should be in between the child components. This component implements a mobile-first design and allows you to customize the display and spacing even on defined breakpoints (tablet, desktop, widescreen) should you need to.
@@ -282,51 +369,6 @@ before_action :check_locale
 ```
 
 Trying to figure out which key a certain translation on the page has? Append `?debug` to the url and `I18n.debug?` will be set - which leads to keys being printed on the page.
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem "shimmer"
-```
-
-And then execute:
-
-```bash
-$ bundle install
-```
-
-Add some configuration to your project:
-
-```ruby
-# routes.rb
-
-resources :files, only: :show, controller: "shimmer/files"
-
-# application_controller.rb
-class ApplicationController < ActionController::Base
-  include Shimmer::Localizable
-  include Shimmer::RemoteNavigation
-end
-```
-
-# application_helper.rb
-```ruby
-module ApplicationHelper
-  include Shimmer::FileHelper
-end
-```
-
-```ts
-// application.ts
-
-import { start } from "@nerdgeschoss/shimmer";
-import { application } from "controllers/application";
-
-start({ application });
-```
-
 ## Testing & Demo
 
 This library is tested using _RSpec_.
