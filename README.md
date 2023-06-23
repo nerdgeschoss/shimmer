@@ -201,6 +201,7 @@ module ApplicationHelper
 end
 ```
 
+```ts
 // application.ts
 
 import { start } from "@nerdgeschoss/shimmer";
