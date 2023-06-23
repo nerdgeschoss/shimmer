@@ -12,24 +12,15 @@ export default {
     esbuild({
       target: "es6",
     }),
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        regenerator: true,
-      },
-    ],
   ],
-  output: {
-    dir: "dist",
-    plugins: [
-      {
-        file: pkg.main,
-        format: "cjs",
-      },
-      {
-        file: pkg.module,
-        format: "es",
-      },
-    ],
-  },
+  output: [
+    {
+      file: pkg.main,
+      format: "cjs",
+    },
+    {
+      file: pkg.module,
+      format: "es",
+    },
+  ],
 };
