@@ -1,23 +1,24 @@
 .stack-item {
   background-color: #2b2b2b;
   padding: 5px;
-  color: transparent;
-  min-width: 30px;
+  color: #a8a8a8;
+  font-size: 14px;
   overflow-wrap: break-word;
+
+  &--extend-height {
+    height: 50px;
+  }
 }
 
 .stack__prop {
   font-family: monospace;
 }
 
-.stack-item--height-80 {
-  min-height: 80px;
-}
-
 .stack--border {
   border: 1px solid grey;
   padding: 10px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .styleguide {
