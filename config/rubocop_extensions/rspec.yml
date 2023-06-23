@@ -4,11 +4,6 @@ require:
 RSpec:
   Enabled: false
 
-# Check that instances are not being stubbed globally.
-# Prefer instance doubles over stubbing any instance of a class.
-RSpec/AnyInstance:
-  Enabled: true
-
 # Checks that around blocks actually run the test.
 # Would be a shame if the test would be green simply because it is not called.
 RSpec/AroundBlock:
