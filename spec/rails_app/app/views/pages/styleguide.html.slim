@@ -1,87 +1,88 @@
 .styleguide.stack
-  h1 Styleguide
+  h1.styleguide__title Styleguide
   hr
   h2 Stack
-  h3 Default
   // vertical with align prop
   .stack.stack--line.stack--justify-start
     .stack.stack--border
-      p no props
-      .stack.stack--align-start
-        .stack-item 1
-        .stack-item.stack-item--width-200 2
-        .stack-item 3
+      p.stack__prop no props
+      .stack
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
     .stack.stack--border
-      p with align="start"
+      p.stack__prop
+        | align="start"
       .stack.stack--align-start
-        .stack-item 1
-        .stack-item.stack-item--width-200 2
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
     .stack.stack--border
-      p with align="center"
+      p.stack__prop
+        | align="center"
       .stack.stack--align-center
-        .stack-item 1
-        .stack-item.stack-item--width-200 2
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
     .stack.stack--border
-      p with align="end"
+      p.stack__prop
+        | align="end"
       .stack.stack--align-end
-        .stack-item 1
-        .stack-item.stack-item--width-200 2
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
 
-  h3 Line
   // horizontal with justify prop
   .stack.stack--line.stack--12.stack--align-stretch
     .stack.stack--border
-      p no props
+      p.stack__prop line no props
       .stack.stack--line
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum
+        .stack-item Lorem ipsum dolor sit amet
     .stack.stack--border
-      p with justify="stretch"
+      p.stack__prop line, justify="stretch"
       .stack.stack--line.stack--justify-stretch
-        .stack-item 1
-        .stack-item.stack-item--height-80.stack-item--width-200 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item.stack-item--height-80 Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
     .stack.stack--border
-      p with justify="space-between"
-      .stack.stack--line.stack--justify-space-between
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
-
-  .stack.stack--line.stack--12
-    .stack.stack--border
-      p with justify="center"
-      .stack.stack--line.stack--justify-center
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
-    .stack.stack--border
-      p with justify="center" and align="center"
-      .stack.stack--line.stack--justify-center.stack--align-center
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
-    .stack.stack--border
-      p with justify="center" and align="baseline"
-      .stack.stack--line.stack--justify-center.stack--align-baseline
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
-
-  .stack.stack--line.stack--12
-    .stack.stack--border
-      p with justify="equal-size"
+      p.stack__prop line, justify="equal-size"
       .stack.stack--line.stack--justify-equal-size
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        .stack-item Lorem ipsum dolor sit amet
     .stack.stack--border
-      p with justify="equal-size" and align="stretch"
+      p.stack__prop line, justify="center"
+      .stack.stack--line.stack--justify-center
+        .stack-item Lorem ipsum
+        .stack-item Lorem ipsum
+        .stack-item Lorem ipsum
+
+  .stack.stack--line.stack--12.stack--align-stretch
+    .stack.stack--border
+      p.stack__prop line, justify="center", align="center"
+      .stack.stack--line.stack--justify-center.stack--align-center
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="center", align="baseline"
+      .stack.stack--line.stack--justify-center.stack--align-baseline
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="space-between"
+      .stack.stack--line.stack--justify-space-between
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="equal-size", align="stretch"
       .stack.stack--line.stack--justify-equal-size.stack--align-stretch
-        .stack-item 1
-        .stack-item.stack-item--height-80 2
-        .stack-item 3
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        .stack-item Lorem ipsum dolor sit amet
+
+  .stack.stack--line.stack--12.stack--align-stretch

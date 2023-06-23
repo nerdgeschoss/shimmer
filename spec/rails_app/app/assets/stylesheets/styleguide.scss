@@ -1,20 +1,13 @@
 .stack-item {
-  background-color: firebrick;
+  background-color: #2b2b2b;
   padding: 5px;
-  color: white;
+  color: transparent;
   min-width: 30px;
-}
-.stack-item--width-200 {
-  min-width: 50px;
+  overflow-wrap: break-word;
 }
 
-@media (min-width: 890px) {
-  .stack-item {
-    min-width: 80px;
-  }
-  .stack-item--width-200 {
-    min-width: 200px;
-  }
+.stack__prop {
+  font-family: monospace;
 }
 
 .stack-item--height-80 {
@@ -28,7 +21,7 @@
 }
 
 .styleguide {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   h1,
   h2,
   h3,
@@ -36,5 +29,17 @@
     margin: 4px;
   }
 
+  &__title {
+    text-align: center;
+  }
+
   padding: 20px;
+
+  @media (min-width: 890px) {
+    padding: 20px 120px;
+  }
+
+  @media (min-width: 1280px) {
+    padding: 20px 200px;
+  }
 }
