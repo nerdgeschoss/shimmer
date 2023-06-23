@@ -51,6 +51,8 @@ type Justify =
 type Align = "start" | "center" | "end" | "stretch" | "baseline";
 ```
 
+![Stack possible layouts](stack.png)
+
 ### Available props:
 
 | Field             | Type      | Description                                                                                                                                 |
@@ -118,8 +120,6 @@ $sizes: (
 - **Tablet**: 640px
 - **Desktop**: 890px
 - **Widescreen**: 1280px
-
-![Stack possible layouts](stack.png)
 
 ### Rubocop Base Configuration
 
