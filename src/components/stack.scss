@@ -87,6 +87,7 @@ $sizes: (
     justify-content: stretch;
     > * {
       min-width: min-content;
+      flex-grow: 1;
     }
   }
   &--justify-equal-size {
