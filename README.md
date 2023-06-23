@@ -4,20 +4,137 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
 
 ## Features
 
+### Components
+
+Shimmer includes a suite of styled components that can be implemented in React and also in plain HTML or slim.
+
+### Stack
+
+Stack is a reusable typed component that allows you to easily manage the layout of your app. You can define whether it should be displayed horizontally, vertically, and how much spacing there should be in between the child components. This component implements a mobile-first design and allows you to customize the display and spacing even on defined breakpoints (tablet, desktop, widescreen) should you need to.
+
+To use it in a React project, you can just import and use it as you would in a normal React component:
+
+```js
+import { Stack } from "@nerdgeschoss/shimmer/components/stack";
+
+<Stack gapTablet={4} gapDesktop={12} line>
+  <div></div>
+  <div></div>
+  <div></div>
+</Stack>;
+```
+
+To use it in an HTML file, you can just import the css file directly from `@nerdgeschoss/shimmer/components/stack.css` and just implement the classes as they are in the stylesheet:
+
+```html
+<div class="stack stack--line stack--tablet-4 stack--desktop-12">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+```
+
+#### Helper types:
+
+```ts
+type Justify =
+  | "start"
+  | "center"
+  | "end"
+  | "space-between"
+  | "space-around"
+  | "stretch"
+  | "equal-size";
+```
+
+```ts
+type Align = "start" | "center" | "end" | "stretch" | "baseline";
+```
+
+![Stack possible layouts](stack.png)
+
+### Available props:
+
+| Field             | Type      | Description                                                                                                                                 |
+| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| gap               | `number`  | Space between elements                                                                                                                      |
+| gapTablet         | `number`  | Gap size for screen starting on Tablet breakpoint                                                                                           |
+| gapDesktop        | `number`  | Gap size for screen starting on Desktop breakpoint                                                                                          |
+| gapWidescreen     | `number`  | Gap size for screen starting on WideScreen breakpoint                                                                                       |
+| line              | `boolean` | Stacks elements horizontally                                                                                                                |
+| lineTablet        | `boolean` | Stacks elements horizontally starting on Tablet breakpoint                                                                                  |
+| lineDesktop       | `boolean` | Stacks elements horizontally starting on Desktop breakpoint                                                                                 |
+| lineWidescreen    | `boolean` | Stacks elements horizontally starting on WideScreen breakpoint                                                                              |
+| align             | `Align`   | Aligns element according to the [main axis](https://developer.mozilla.org/en-US/docs/Glossary/Main_Axis) of the flex container              |
+| alignTablet       | `Align`   | Align on Tablet breakpoint                                                                                                                  |
+| alignDesktop      | `Align`   | Align on Desktop breakpoint                                                                                                                 |
+| alignWidescreen   | `Align`   | Align on Widescreen breakpoint                                                                                                              |
+| justify           | `Justify` | Specifies how elements are distributed along [main axis](https://developer.mozilla.org/en-US/docs/Glossary/Main_Axis) of the flex container |
+| justifyTablet     | `Justify` | Justify on Tablet breakpoint                                                                                                                |
+| justifyDesktop    | `Justify` | Justify on Desktop breakpoint                                                                                                               |
+| justifyWidescreen | `Justify` | Justify on Widescreen breakpoint                                                                                                            |
+
+When using the CSS classes instead of react component we can generate the class names looking at the available props by using the prop names and BEM convention.
+
+For example:
+
+```js
+<Stack gapTablet={4} gapDesktop={12} line>
+  ...
+</Stack>
+```
+
+would translate to
+
+```html
+<div class="stack stack--tablet-4 stack--destop-12 stack--line">...</div>
+```
+
+Pleae, note that there is not word "gap" in the class names since we use it implicitly, i.e. `gapWidescreen={12}` is equivalent to `stack stack--widescreen-12`.
+
+Another thing to keep in mind when using CSS version of the component that the sizes are fixed - in contrary to the React one where we can add any number we want.
+
+Here is the list of available sizes for CSS version:
+
+```scss
+$sizes: (
+  0: 0px,
+  2: 2px,
+  4: 4px,
+  8: 8px,
+  12: 12px,
+  16: 16px,
+  20: 20px,
+  22: 22px,
+  24: 24px,
+  32: 32px,
+  40: 40px,
+  48: 48px,
+  56: 56px,
+  64: 64px,
+);
+```
+
+### Supported breakpoints:
+
+- **Tablet**: 640px
+- **Desktop**: 890px
+- **Widescreen**: 1280px
+
 ### Rubocop Base Configuration
 
-*Shimmer* offers an opiniated *Rubocop* base configuration. This configuration inherits itself from *StandardRB* and aim at remaining as close to it as possible. Why not only use *StandardRB*, since it is so fast and prevent bikeshedding? Well, sadly, it does not solve all problems and using *Rubocop* still integrates a lot easier in most toolsets. However, the idea is to still prevent bikeshedding our *Rubocop* configuration by making sure that every exception to what's configured in *StandardRB* is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed, debated, and agreed upon before being merged.
+_Shimmer_ offers an opiniated _Rubocop_ base configuration. This configuration inherits itself from _StandardRB_ and aim at remaining as close to it as possible. Why not only use _StandardRB_, since it is so fast and prevent bikeshedding? Well, sadly, it does not solve all problems and using _Rubocop_ still integrates a lot easier in most toolsets. However, the idea is to still prevent bikeshedding our _Rubocop_ configuration by making sure that every exception to what's configured in _StandardRB_ is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed, debated, and agreed upon before being merged.
 
 #### Use Shared Configuration In Projects
 
-Typically, a `.rubocop.yml` file in projects using *Shimmer* looks like this.
+Typically, a `.rubocop.yml` file in projects using _Shimmer_ looks like this.
 
 ```yml
 inherit_gem:
   shimmer: config/rubocop_base.yml
 ```
 
-Then, if there are specific cops you want to use in the specific project you are working on, you still can easily add them. But at least, the base configuration is shared between projects and is itself as close to *StandardRB* as possible.
+Then, if there are specific cops you want to use in the specific project you are working on, you still can easily add them. But at least, the base configuration is shared between projects and is itself as close to _StandardRB_ as possible.
 
 ### Static File Serving
 
