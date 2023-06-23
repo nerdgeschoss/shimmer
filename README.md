@@ -194,7 +194,13 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-```ts
+# application_helper.rb
+```ruby
+module ApplicationHelper
+  include Shimmer::FileHelper
+end
+```
+
 // application.ts
 
 import { start } from "@nerdgeschoss/shimmer";
