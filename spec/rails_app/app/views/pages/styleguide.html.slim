@@ -1,0 +1,90 @@
+.styleguide.stack
+  h1.styleguide__title Styleguide
+  hr
+  h2 Stack
+  // vertical with align prop
+  .stack.stack--line.stack--justify-start
+    .stack.stack--border
+      p.stack__prop no props
+      .stack
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop
+        | align="start"
+      .stack.stack--align-start
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop
+        | align="center"
+      .stack.stack--align-center
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop
+        | align="end"
+      .stack.stack--align-end
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+
+  // horizontal with justify prop
+  .stack.stack--line.stack--12.stack--align-stretch
+    .stack.stack--border
+      p.stack__prop line no props
+      .stack.stack--line
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="stretch"
+      .stack.stack--line.stack--justify-stretch
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+
+  .stack.stack--line.stack--12.stack--align-stretch
+    .stack.stack--border
+      p.stack__prop line, justify="equal-size"
+      .stack.stack--line.stack--justify-equal-size
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="equal-size", align="stretch"
+      .stack.stack--line.stack--justify-equal-size.stack--align-stretch
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+
+  .stack.stack--line.stack--12.stack--align-stretch
+    .stack.stack--border
+      p.stack__prop line, justify="space-between"
+      .stack.stack--line.stack--justify-space-between
+        .stack-item Lorem ipsum dolor
+        .stack-item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="center"
+      .stack.stack--line.stack--justify-center
+        .stack-item Lorem ipsum dolor
+        .stack-item.stack-item--extend-height Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+
+  .stack.stack--line.stack--12.stack--align-stretch
+    .stack.stack--border
+      p.stack__prop line, justify="center", align="center"
+      .stack.stack--line.stack--justify-center.stack--align-center
+        .stack-item Lorem ipsum dolor
+        .stack-item.stack-item--extend-height Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet
+    .stack.stack--border
+      p.stack__prop line, justify="center", align="baseline"
+      .stack.stack--line.stack--justify-center.stack--align-baseline
+        .stack-item Lorem ipsum dolor
+        .stack-item.stack-item--extend-height Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        .stack-item Lorem ipsum dolor sit amet

@@ -21,8 +21,9 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es6",
     "isolatedModules": true,
-    "declaration": true
+    "declaration": true,
+    "jsx": "react"
   },
   "exclude": ["node_modules", "dist"],
-  "files": ["src/index.ts"]
+  "files": ["src/index.ts", "src/components/stack.tsx"]
 }
