@@ -66,7 +66,11 @@ export class Modal {
     closeButton.style.display = close ?? true ? "block" : "none";
     root.classList.add("modal--open");
     root.classList.add("modal--loading");
-    root.classList.toggle("modal--small", size === "small");
+
+    if (size) {
+      root.classList.add(`modal--${size}`);
+    }
+
     frame.innerHTML = await getHTML(url);
     root.classList.remove("modal--loading");
   }

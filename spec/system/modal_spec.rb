@@ -14,6 +14,7 @@ RSpec.describe "Modal" do
 
     click_on "Write New Post"
     expect(page).to have_selector ".modal--open"
+    expect(page).to have_selector ".modal--custom-size"
     expect(page).to have_content "Compose Post"
     expect(page).to have_link "Cancel"
 
