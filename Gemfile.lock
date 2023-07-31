@@ -135,6 +135,9 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    image_processing (1.12.2)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
@@ -161,6 +164,7 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
+    mini_magick (4.12.0)
     mini_mime (1.1.2)
     minitest (5.17.0)
     msgpack (1.6.0)
@@ -294,6 +298,8 @@ GEM
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.13.0)
+    ruby-vips (2.1.4)
+      ffi (~> 1.12)
     shellany (0.0.1)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -356,8 +362,10 @@ DEPENDENCIES
   dotenv-rails
   guard
   guard-rspec
+  image_processing
   jbuilder
   jsbundling-rails
+  mini_magick
   propshaft
   pry
   pry-byebug
@@ -383,4 +391,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   2.3.26
+   2.4.9
