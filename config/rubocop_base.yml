@@ -42,9 +42,14 @@ Style/HashSyntax:
 # Keep at the end of the file (after the individual cops configuration),
 # otherwise, those cops are not configured properly.
 inherit_from:
+# <% debug_inherit_from = ENV["DEBUG_RUBOCOP_INHERIT_FROM"] == "1" %>
 # <% Dir["#{File.expand_path(__dir__)}/rubocop_extensions/*.yml"].each do |filename| %>
+#   <% puts "Found file `#{filename.delete_prefix("#{File.expand_path(__dir__)}/")}`" if debug_inherit_from %>
 #   <% gem_name = filename.delete_suffix(".yml").delete_prefix("#{File.expand_path(__dir__)}/rubocop_extensions/") %>
 #   <% if Gem.loaded_specs.key?(gem_name) %>
+#     <% puts "GEM `#{gem_name}` is loaded: inheriting from configuration file" if debug_inherit_from %>
   - rubocop_extensions/<%= gem_name %>.yml
+#   <% else %>
+#     <% puts "GEM `#{gem_name}` is not loaded: ignoring configuration file" if debug_inherit_from %>
 #   <% end # if Gem.loaded_specs.key? %>
 # <% end # Dir.foreach %>

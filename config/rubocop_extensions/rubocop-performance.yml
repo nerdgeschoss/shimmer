@@ -1,0 +1,12 @@
+# Documentation on the rules can be found here:
+# https://docs.rubocop.org/rubocop-performance/cops_performance.html
+#
+require:
+  - rubocop-performance
+
+Performance:
+  Enabled: false
+
+Performance/AncestorsInclude:
+  Enabled: true
+
