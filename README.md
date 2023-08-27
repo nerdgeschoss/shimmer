@@ -6,7 +6,6 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
 - [Shimmer - Because Ruby could be more shiny!](#shimmer---because-ruby-could-be-more-shiny)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
-- [application\_helper.rb](#application_helperrb)
   - [Introduction](#introduction)
   - [Features](#features)
   - [Components](#components)
@@ -54,12 +53,6 @@ resources :files, only: :show, controller: "shimmer/files"
 class ApplicationController < ActionController::Base
   include Shimmer::Localizable
   include Shimmer::RemoteNavigation
-end
-```
-
-# application_helper.rb
-```ruby
-module ApplicationHelper
   include Shimmer::FileHelper
 end
 ```

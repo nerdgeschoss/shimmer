@@ -5,8 +5,8 @@ module Shimmer
   end
 end
 
-require_relative "./form/builder"
-require_relative "./form/field"
+require_relative "form/builder"
+require_relative "form/field"
 
 Dir["#{File.expand_path("./form", __dir__)}/*"].sort.each do |e|
   require e
