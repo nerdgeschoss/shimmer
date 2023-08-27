@@ -10,3 +10,4 @@
 /node_modules
 /yarn-error.log
 /gemfiles/*.lock
+.DS_Store
