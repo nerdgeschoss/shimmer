@@ -95,7 +95,7 @@ Stack is a reusable typed component that allows you to easily manage the layout 
 To use it in a React project, you can just import and use it as you would in a normal React component:
 
 ```js
-import { Stack } from "@nerdgeschoss/shimmer/components/stack";
+import { Stack } from "@nerdgeschoss/shimmer/dist/components/stack";
 
 <Stack gapTablet={4} gapDesktop={12} line>
   <div></div>
@@ -104,7 +104,7 @@ import { Stack } from "@nerdgeschoss/shimmer/components/stack";
 </Stack>;
 ```
 
-To use it in an HTML file, you can just import the css file directly from `@nerdgeschoss/shimmer/components/stack.css` and just implement the classes as they are in the stylesheet:
+To use it in an HTML file, you can just import the css file directly from `@nerdgeschoss/shimmer/dist/components/stack.css` and just implement the classes as they are in the stylesheet:
 
 ```html
 <div class="stack stack--line stack--tablet-4 stack--desktop-12">
