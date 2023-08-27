@@ -11,4 +11,5 @@
 #  updated_at :datetime         not null
 #
 class Post < ApplicationRecord
+  has_one_attached :image
 end
