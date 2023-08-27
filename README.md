@@ -248,7 +248,7 @@ config.middleware.use Shimmer::CloudflareProxy
 Can't reproduce an issue with your local test data and just want the production or staging data on your development machine? Here you go:
 
 ```bash
-rails db:pull
+rails shimmer:db:pull
 ```
 
 This will drop your local database and pull in the database of your connected Heroku app (make sure you executed `heroku git:remote -a your_app` before to have the git remote). But what about assets you might ask? Easy - assets are pulled from S3 as well via the AWS CLI automatically (make sure your environment variables in Heroku are correctly named as `AWS_REGION`, `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`) and the database is updated to use your local filesystem instead.
@@ -256,8 +256,8 @@ This will drop your local database and pull in the database of your connected He
 If you don't want the asset support, you can also only pull the database or only the assets:
 
 ```bash
-rails db:pull_data
-rails db:pull_assets
+rails shimmer:db:pull_data
+rails shimmer:db:pull_assets
 ```
 
 ### Localizable Routes with Browser Locale Support
