@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 namespace :db do
-  desc "Downloads the app database from Heroku and imports it to the local database"
-  task pull_data: :environment do
+  desc "Set the ENV for database operations"
+  task set_db_env: :environment do
     config = if Rails.version.to_f >= 7
       ActiveRecord::Base.connection_db_config.configuration_hash.with_indifferent_access
     else
@@ -13,19 +13,23 @@ namespace :db do
     ENV["PGHOST"] = config["host"]
     ENV["PGPORT"] = config["port"].to_s
 
-    database = ENV["DATABASE"].presence || config["database"]
-    database = "#{database}_#{Time.now.utc.strftime("%Y%m%d%H%M%S")}" if Shimmer::Config.instance.suffixed?
+    ENV["DATABASE"] ||= config["database"]
+    ENV["DATABASE"] = "#{ENV["DATABASE"]}_#{Time.now.utc.strftime("%Y%m%d%H%M%S")}" if Shimmer::Config.instance.suffixed?
+    ENV["EXCLUDE_TABLE_DATA_PART"] = ENV["IGNORE_TABLES"].to_s.split(",").filter(&:presence).join(";").presence&.then { |t| "--exclude-table-data '#{t}'" }
+  end
 
-    heroku_app = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
-    exclude_table_part = ENV["IGNORE_TABLES"].to_s.split(",").filter(&:presence).join(";").presence&.then { |t| "--exclude-table-data '#{t}'" }
-
-    # TODO: Option to Auto-Dump locally
+  desc "Downloads the app database from Heroku and imports it to the local database"
+  task pull_data: :environment do
+    Rake::Task["db:set_db_env"].invoke
+    heroku_app_part = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
 
     # TODO: Try to automatically run post-pull task. eg: `Rake::Task[db:post_pull]&.invoke`
 
-    sh "dropdb --if-exists #{database}"
-    sh "heroku pg:pull DATABASE_URL #{heroku_app} #{exclude_table_part} #{database}"
+    sh "dropdb --if-exists #{ENV["DATABASE"]}"
+    sh "heroku pg:pull DATABASE_URL #{heroku_app_part} #{ENV["EXCLUDE_TABLE_DATA_PART"]} #{ENV["DATABASE"]}"
     sh "rails db:environment:set"
+
+    Rake::Task["db:tmp:dump"].invoke if Shimmer::Config.instance.auto_tmp_dump?
   end
 
   desc "Downloads the app assets from AWS to directory `storage`."
@@ -60,6 +64,25 @@ namespace :db do
       Rake::Task["db:migrate"].invoke
     else
       puts "No tables in database yet, skipping migration"
+    end
+  end
+
+  namespace :tmp do
+    desc "Dump the development database to the `tmp` folder of the project."
+    task :dump do
+      Rake::Task["db:set_db_env"].invoke
+      dump_filename = ENV["DUMP_NAME"].presence || ENV["DATABASE"]
+      sh "pg_dump --verbose --format=c #{ENV["DATABASE"]} #{ENV["EXCLUDE_TABLE_DATA_PART"]} --file=tmp/#{dump_filename}.dump"
+    end
+
+    desc "Restore the development database from the `tmp` folder of the project."
+    task :restore do
+      Rake::Task["db:set_db_env"].invoke
+      sh "dropdb --if-exists #{ENV["DATABASE"]}"
+      sh "createdb #{ENV["DATABASE"]}"
+      dump_filename = ENV["DUMP_NAME"].presence || ENV["DATABASE"]
+      sh "pg_restore --verbose --format=c --jobs=8 --disable-triggers --dbname=#{ENV["DATABASE"]} tmp/#{dump_filename}.dump"
+      sh "rake db:environment:set"
     end
   end
 end

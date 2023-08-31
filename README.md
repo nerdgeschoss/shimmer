@@ -283,7 +283,7 @@ rails db:pull_data
 rails db:pull_assets
 ```
 
-The following ENV values can be set to change their behavior.
+The following ENV values can be set to change their behavior. Some of them exist as ENV so projects can set defaults for them in their `.env` or individual coders in their `.env.local` files (eg: automatically dump pulled data with `AUTO_TMP_DUMP=1`).
 
 `HEROKU_APP=foo-staging` will pull data from the database of the `foo-staging` app on _Heroku_. By default, no app is given to the _Heroku_ CLI, which will result in it looking at the _GIT_ remotes for a _Heroku_ app there.
 
@@ -292,6 +292,8 @@ The following ENV values can be set to change their behavior.
 `SUFFIXED=1` will cause whatever database name is used to be suffixed with a timestamp. This is particularly useful when the database import lasts for a long time, but you want to still work with whatever development database you already have, while newer data is imported in `foo_development_20230831182221` in the background. When the import is over, you can drop the actual `foo_development` database and rename `foo_development_20230831182221` to `foo_development` and go on working with up-to-date data.
 
 `IGNORE_TABLES=foo,bar,asdf` will ignore tables `foo`, `bar`, and `asdf` while pulling data.
+
+`AUTO_TMP_DUMP=1` will automatically invoke `db:tmp:dump` _Rake_ task after the data is pulled.
 
 ### Localizable Routes with Browser Locale Support
 
