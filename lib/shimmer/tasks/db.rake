@@ -13,12 +13,23 @@ namespace :db do
     ENV["PGUSER"] = config["username"]
     ENV["PGHOST"] = config["host"]
     ENV["PGPORT"] = config["port"].to_s
-    sh "heroku pg:pull DATABASE_URL #{config["database"]}"
+
+    exclude_table_part = ENV["IGNORE_TABLES"].to_s.split(",").filter(&:presence).join(";").presence&.then { |t| "--exclude-table-data '#{t}'" }
+
+    # TODO: Optionally provider Heroku App name.
+
+    # TODO: Optionally provide destination database + `:new_db` option (somehow) + confirm_used_database
+
+    # TODO: Option to Auto-Dump locally
+
+    # TODO: Try to automatically run post-pull task. eg: `Rake::Task[db:post_pull]&.invoke`
+
+    sh "heroku pg:pull DATABASE_URL #{exclude_table_part} #{config["database"]}"
     sh "rails db:environment:set"
     sh "RAILS_ENV=test rails db:create"
   end
 
-  desc "Downloads the app assets from Heroku to directory `storage`."
+  desc "Downloads the app assets from AWS to directory `storage`."
   task pull_assets: :environment do
     config = JSON.parse(`heroku config --json`)
     ENV["AWS_DEFAULT_REGION"] = config.fetch("AWS_REGION")

@@ -2,6 +2,29 @@
 
 Shimmer is a collection of Rails extensions that bring advanced UI features into your app and make your life easier as a developer.
 
+- [Shimmer - Because Ruby could be more shiny!](#shimmer---because-ruby-could-be-more-shiny)
+  - [Features](#features)
+    - [Components](#components)
+    - [Stack](#stack)
+      - [Helper types:](#helper-types)
+    - [Available props:](#available-props)
+    - [Supported breakpoints:](#supported-breakpoints)
+    - [Rubocop Base Configuration](#rubocop-base-configuration)
+      - [Use Shared Configuration In Projects](#use-shared-configuration-in-projects)
+    - [Static File Serving](#static-file-serving)
+    - [Modals](#modals)
+    - [Popovers](#popovers)
+    - [Remote Navigation](#remote-navigation)
+    - [Sitemaps](#sitemaps)
+    - [Cloudflare Support](#cloudflare-support)
+    - [Heroku Database Helpers](#heroku-database-helpers)
+    - [Localizable Routes with Browser Locale Support](#localizable-routes-with-browser-locale-support)
+  - [Installation](#installation)
+  - [Testing \& Demo](#testing--demo)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Code of Conduct](#code-of-conduct)
+
 ## Features
 
 ### Components
@@ -259,6 +282,12 @@ If you don't want the asset support, you can also only pull the database or only
 rails db:pull_data
 rails db:pull_assets
 ```
+
+The following ENV values can be set to change their behavior.
+
+`IGNORE_TABLES=foo,bar,asdf` will ignore tables `foo`, `bar`, and `asdf` while pulling data.
+
+
 
 ### Localizable Routes with Browser Locale Support
 
