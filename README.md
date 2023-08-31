@@ -287,6 +287,10 @@ The following ENV values can be set to change their behavior.
 
 `HEROKU_APP=foo-staging` will pull data from the database of the `foo-staging` app on _Heroku_. By default, no app is given to the _Heroku_ CLI, which will result in it looking at the _GIT_ remotes for a _Heroku_ app there.
 
+`DATABASE=foo_development_feature_foobar` will cause the data to be pulled into a database called `foo_development_feature_foobar`. By default, the database set in _Rails_ for the current environment (default `development`) is used.
+
+`SUFFIXED=1` will cause whatever database name is used to be suffixed with a timestamp. This is particularly useful when the database import lasts for a long time, but you want to still work with whatever development database you already have, while newer data is imported in `foo_development_20230831182221` in the background. When the import is over, you can drop the actual `foo_development` database and rename `foo_development_20230831182221` to `foo_development` and go on working with up-to-date data.
+
 `IGNORE_TABLES=foo,bar,asdf` will ignore tables `foo`, `bar`, and `asdf` while pulling data.
 
 ### Localizable Routes with Browser Locale Support
