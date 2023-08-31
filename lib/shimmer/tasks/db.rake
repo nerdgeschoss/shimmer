@@ -14,9 +14,8 @@ namespace :db do
     ENV["PGHOST"] = config["host"]
     ENV["PGPORT"] = config["port"].to_s
 
+    heroku_app = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
     exclude_table_part = ENV["IGNORE_TABLES"].to_s.split(",").filter(&:presence).join(";").presence&.then { |t| "--exclude-table-data '#{t}'" }
-
-    # TODO: Optionally provider Heroku App name.
 
     # TODO: Optionally provide destination database + `:new_db` option (somehow) + confirm_used_database
 
@@ -24,7 +23,7 @@ namespace :db do
 
     # TODO: Try to automatically run post-pull task. eg: `Rake::Task[db:post_pull]&.invoke`
 
-    sh "heroku pg:pull DATABASE_URL #{exclude_table_part} #{config["database"]}"
+    sh "heroku pg:pull DATABASE_URL #{heroku_app} #{exclude_table_part} #{config["database"]}"
     sh "rails db:environment:set"
     sh "RAILS_ENV=test rails db:create"
   end
