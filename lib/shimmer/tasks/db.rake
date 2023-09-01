@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 namespace :db do
+  def env?(key)
+    Shimmer::Config.coerce(ENV[key], :bool)
+  end
+
   desc "Set the ENV for database operations"
-  task set_db_env: :environment do
+  task prepare_database_env: :environment do
     config = if Rails.version.to_f >= 7
       ActiveRecord::Base.connection_db_config.configuration_hash.with_indifferent_access
     else
@@ -14,22 +18,20 @@ namespace :db do
     ENV["PGPORT"] = config["port"].to_s
 
     ENV["DATABASE"] ||= config["database"]
-    ENV["DATABASE"] = "#{ENV["DATABASE"]}_#{Time.now.utc.strftime("%Y%m%d%H%M%S")}" if Shimmer::Config.instance.suffixed?
+    ENV["DATABASE"] = "#{ENV["DATABASE"]}_#{Time.now.utc.strftime("%Y%m%d%H%M%S")}" if env?("SUFFIXED")
     ENV["EXCLUDE_TABLE_DATA_PART"] = ENV["IGNORE_TABLES"].to_s.split(",").filter(&:presence).join(";").presence&.then { |t| "--exclude-table-data '#{t}'" }
   end
 
   desc "Downloads the app database from Heroku and imports it to the local database"
-  task pull_data: :environment do
-    Rake::Task["db:set_db_env"].invoke
+  task pull_data: :"db:prepare_database_env" do
     heroku_app_part = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
 
-    # TODO: Try to automatically run post-pull task. eg: `Rake::Task[db:post_pull]&.invoke`
-
     sh "dropdb --if-exists #{ENV["DATABASE"]}"
-    sh "heroku pg:pull DATABASE_URL #{heroku_app_part} #{ENV["EXCLUDE_TABLE_DATA_PART"]} #{ENV["DATABASE"]}"
+    sh "heroku pg:pull DATABASE_URL #{heroku_app_part} #{ENV["EXCLUDE_TABLE_DATA_PART"]} #{ENV["DATABASE"]}".squish
     sh "rails db:environment:set"
 
-    Rake::Task["db:tmp:dump"].invoke if Shimmer::Config.instance.auto_tmp_dump?
+    Rake::Task["db:post_pull_data"].invoke if Rake::Task.task_defined?("db:post_pull_data")
+    Rake::Task["db:tmp:dump"].invoke if env?("AUTO_TMP_DUMP")
   end
 
   desc "Downloads the app assets from AWS to directory `storage`."
@@ -69,19 +71,17 @@ namespace :db do
 
   namespace :tmp do
     desc "Dump the development database to the `tmp` folder of the project."
-    task :dump do
-      Rake::Task["db:set_db_env"].invoke
+    task dump: :"db:prepare_database_env" do
       dump_filename = ENV["DUMP_NAME"].presence || ENV["DATABASE"]
-      sh "pg_dump --verbose --format=c #{ENV["DATABASE"]} #{ENV["EXCLUDE_TABLE_DATA_PART"]} --file=tmp/#{dump_filename}.dump"
+      sh "pg_dump --verbose --format=c #{ENV["DATABASE"]} #{ENV["EXCLUDE_TABLE_DATA_PART"]} --file=tmp/#{dump_filename}.dump".squish
     end
 
     desc "Restore the development database from the `tmp` folder of the project."
-    task :restore do
-      Rake::Task["db:set_db_env"].invoke
+    task restore: :"db:prepare_database_env" do
       sh "dropdb --if-exists #{ENV["DATABASE"]}"
       sh "createdb #{ENV["DATABASE"]}"
       dump_filename = ENV["DUMP_NAME"].presence || ENV["DATABASE"]
-      sh "pg_restore --verbose --format=c --jobs=8 --disable-triggers --dbname=#{ENV["DATABASE"]} tmp/#{dump_filename}.dump"
+      sh "pg_restore --verbose --format=c --jobs=8 --disable-triggers --dbname=#{ENV["DATABASE"]} tmp/#{dump_filename}.dump".squish
       sh "rake db:environment:set"
     end
   end

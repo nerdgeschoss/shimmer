@@ -30,10 +30,14 @@ module Shimmer
 
     private
 
-    def coerce(value, type)
-      return !value.downcase.in?(["n", "0", "no", "false"]) if type == :bool && value.is_a?(String)
+    delegate :coerce, to: :class
 
-      value
+    class << self
+      def coerce(value, type)
+        return !value.downcase.in?(["n", "0", "no", "false"]) if type == :bool && value.is_a?(String)
+
+        value
+      end
     end
   end
 end

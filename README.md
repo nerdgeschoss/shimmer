@@ -295,6 +295,13 @@ The following ENV values can be set to change their behavior. Some of them exist
 
 `AUTO_TMP_DUMP=1` will automatically invoke `db:tmp:dump` _Rake_ task after the data is pulled.
 
+To quickly dump and restore the database in/from files in the project's `tmp` folder:
+
+```bash
+rails db:tmp:dump
+rails db:tmp:restore
+```
+
 ### Localizable Routes with Browser Locale Support
 
 To localize a page via urls, this will help you tremendously.
