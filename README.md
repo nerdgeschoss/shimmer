@@ -283,6 +283,8 @@ rails db:pull_data
 rails db:pull_assets
 ```
 
+The `db:pull_data` task will automatically call a `db:post_pull_data` task if it's defined in your project, for custom data modifications (eg: anonymizing sensitive data).
+
 The following ENV values can be set to change their behavior. Some of them exist as ENV so projects can set defaults for them in their `.env` or individual coders in their `.env.local` files (eg: automatically dump pulled data with `AUTO_TMP_DUMP=1`).
 
 `HEROKU_APP=foo-staging` will pull data from the database of the `foo-staging` app on _Heroku_. By default, no app is given to the _Heroku_ CLI, which will result in it looking at the _GIT_ remotes for a _Heroku_ app there.
