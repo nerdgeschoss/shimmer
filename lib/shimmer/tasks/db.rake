@@ -34,13 +34,19 @@ namespace :db do
     Rake::Task["db:tmp:dump"].invoke if env?("AUTO_TMP_DUMP")
   end
 
-  desc "Downloads the app assets from AWS to directory `storage`."
-  task pull_assets: :environment do
-    config = JSON.parse(`heroku config --json`)
-    ENV["AWS_DEFAULT_REGION"] = config.fetch("AWS_REGION")
-    bucket = config.fetch("AWS_BUCKET")
+  desc "Set the ENV for AWS operations"
+  task prepare_aws_env: :environment do
+    heroku_app_part = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
+    config = JSON.parse(`heroku config --json #{heroku_app_part}`)
+    ENV["AWS_REGION"] = config.fetch("AWS_REGION")
+    ENV["AWS_BUCKET"] = config.fetch("AWS_BUCKET")
     ENV["AWS_ACCESS_KEY_ID"] = config.fetch("AWS_ACCESS_KEY_ID")
     ENV["AWS_SECRET_ACCESS_KEY"] = config.fetch("AWS_SECRET_ACCESS_KEY")
+  end
+
+  desc "Downloads the app assets from AWS to directory `storage`."
+  task pull_assets: :"db:prepare_aws_env" do
+    bucket = ENV.fetch("AWS_BUCKET")
     storage_folder = Rails.root.join("storage")
     download_folder = storage_folder.join("downloads")
     FileUtils.mkdir_p download_folder
