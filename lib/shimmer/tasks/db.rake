@@ -59,8 +59,8 @@ namespace :db do
       FileUtils.cp(file, new_path)
     end
     # purge variants
-    ActiveStorage::VariantRecord.delete_all
-    ActiveStorage::Blob.update_all(service_name: :local)
+    ActiveStorage::VariantRecord.delete_all if defined?(ActiveStorage::VariantRecord)
+    ActiveStorage::Blob.update_all(service_name: :local) if ActiveStorage::Blob.column_names.include?("service_name")
   end
 
   desc "Download all app data, including assets"
