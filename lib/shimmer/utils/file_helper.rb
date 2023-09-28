@@ -29,7 +29,7 @@ module Shimmer
           if hash_value.present?
             options.merge!({
               "data-controller": "thumb-hash",
-              "data-thumb-hash-preview-hash-value": hash_value,
+              "data-thumb-hash-preview-hash-value": hash_value
             })
           end
           if primary_color.present?
@@ -50,57 +50,57 @@ module Shimmer
       super source, options
     end
 
-  private
+    private
 
-  def calculate_missing_dimensions!(attachment:, width:, height:)
-    return [width, height] if width && height
+    def calculate_missing_dimensions!(attachment:, width:, height:)
+      return [width, height] if width && height
 
-    original_width = attachment.blob.metadata["width"]&.to_f
-    original_height = attachment.blob.metadata["height"]&.to_f
+      original_width = attachment.blob.metadata["width"]&.to_f
+      original_height = attachment.blob.metadata["height"]&.to_f
 
-    return [width, height] unless original_width && original_height
+      return [width, height] unless original_width && original_height
 
-    aspect_ratio = original_width / original_height
+      aspect_ratio = original_width / original_height
 
-    if width.nil? && height.nil?
-      [original_width.round, original_height.round]
-    elsif width.nil?
-      [nil, (height.to_i * aspect_ratio).round]
-    elsif height.nil?
-      [width, (width.to_i / aspect_ratio).round]
-    else
-      [width, height]
+      if width.nil? && height.nil?
+        [original_width.round, original_height.round]
+      elsif width.nil?
+        [nil, (height.to_i * aspect_ratio).round]
+      elsif height.nil?
+        [width, (width.to_i / aspect_ratio).round]
+      else
+        [width, height]
+      end
     end
-  end
 
-  def preview_values(attachment, quality: nil)
-    return [attachment.blob.preview_hash, attachment.blob.primary_color] if attachment.blob.preview_hash && attachment.blob.primary_color
+    def preview_values(attachment, quality: nil)
+      return [attachment.blob.preview_hash, attachment.blob.primary_color] if attachment.blob.preview_hash && attachment.blob.primary_color
 
-    CreateImagePreviewJob.perform_later(attachment.id, quality: quality)
-    ["", ""]
-  end
+      CreateImagePreviewJob.perform_later(attachment.id, quality: quality)
+      ["", ""]
+    end
 
-  def image_file_path(source, width: nil, height: nil, quality: nil)
-    image_file_proxy(source, width: width, height: height, return_type: :path)
-  end
+    def image_file_path(source, width: nil, height: nil, quality: nil)
+      image_file_proxy(source, width: width, height: height, return_type: :path)
+    end
 
-  def image_file_url(source, width: nil, height: nil, quality: nil)
-    image_file_proxy(source, width: width, height: height, return_type: :url)
-  end
+    def image_file_url(source, width: nil, height: nil, quality: nil)
+      image_file_proxy(source, width: width, height: height, return_type: :url)
+    end
 
-  def image_file_proxy(source, width: nil, height: nil, return_type: nil, quality: nil)
-    return if source.blank?
-    return source if source.is_a?(String)
+    def image_file_proxy(source, width: nil, height: nil, return_type: nil, quality: nil)
+      return if source.blank?
+      return source if source.is_a?(String)
 
-    blob = source.try(:blob) || source
-    proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height, quality: quality)
-    case return_type
-    when nil
-      proxy
-    when :path
-      proxy.path
-    when :url
-      proxy.url
+      blob = source.try(:blob) || source
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height, quality: quality)
+      case return_type
+      when nil
+        proxy
+      when :path
+        proxy.path
+      when :url
+        proxy.url
       end
     end
   end
