@@ -2,25 +2,27 @@
 
 module Shimmer
   class FileProxy
-    attr_reader :blob_id, :resize
+    attr_reader :blob_id, :resize, :quality
 
     delegate :message_verifier, to: :class
     delegate :content_type, :filename, to: :blob
 
     class << self
       def restore(id)
-        blob_id, resize = message_verifier.verified(id)
-        new blob_id: blob_id, resize: resize
+        blob_id, resize, quality = message_verifier.verified(id)
+        new blob_id: blob_id, resize: resize, quality: quality
       end
     end
 
-    def initialize(blob_id:, resize: nil, width: nil, height: nil)
+    def initialize(blob_id:, resize: nil, width: nil, height: nil, quality: nil)
       @blob_id = blob_id
+      @quality = quality
+
       if !resize && width
         resize = if height
-          "#{width}x#{height}>"
+          [width, height]
         else
-          "#{width}x"
+          [width, nil]
         end
       end
       @resize = resize
@@ -49,7 +51,10 @@ module Shimmer
     end
 
     def variant
-      @variantvariant ||= resizeable ? blob.representation(resize: resize).processed : blob
+      transformation_options = {resize_to_limit: resize, format: :webp}
+      transformation_options[:quality] = quality if quality
+
+      @variant ||= resizeable ? blob.representation(transformation_options).processed : blob
     end
 
     def file
@@ -59,7 +64,7 @@ module Shimmer
     private
 
     def id
-      @id ||= message_verifier.generate([blob_id, resize])
+      @id ||= message_verifier.generate([blob_id, resize, quality])
     end
   end
 end
