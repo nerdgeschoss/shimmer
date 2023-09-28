@@ -27,7 +27,7 @@ module Shimmer
         if options[:loading] == :lazy
           hash_value, primary_color = preview_values(attachment)
           if hash_value.present?
-            optios.merge!({
+            options.merge!({
               "data-controller": "thumb-hash",
               "data-thumb-hash-preview-hash-value": hash_value,
             })
