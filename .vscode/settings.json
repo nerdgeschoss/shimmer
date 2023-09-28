@@ -1,7 +1,7 @@
 {
   "[ruby]": {
     "editor.formatOnSave": false,
-    "editor.defaultFormatter": "rebornix.ruby"
+    "editor.defaultFormatter": "misogi.ruby-rubocop"
   },
   "ruby.format": "rubocop",
   "ruby.lint": {
