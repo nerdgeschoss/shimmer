@@ -7,8 +7,8 @@ module Shimmer
       request.session_options[:skip] = true # prevents a session cookie from being set (would prevent caching on CDNs)
       proxy = FileProxy.restore(params.require(:id))
       send_data proxy.file,
-        filename: proxy.filename.to_s,
-        type: proxy.content_type,
+        filename: proxy.variant_filename,
+        type: proxy.variant_content_type,
         disposition: "inline"
     end
   end

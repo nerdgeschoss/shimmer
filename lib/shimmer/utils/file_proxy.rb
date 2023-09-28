@@ -57,6 +57,14 @@ module Shimmer
       @variant ||= resizeable ? blob.representation(transformation_options).processed : blob
     end
 
+    def variant_content_type
+      resizeable ? "image/webp" : content_type
+    end
+
+    def variant_filename
+      resizeable ? "#{filename.base}.webp" : filename.to_s
+    end
+
     def file
       @file ||= blob.service.download(variant.key)
     end
