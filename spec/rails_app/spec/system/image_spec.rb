@@ -36,7 +36,6 @@ RSpec.describe "Image" do
 
   it "checks for webp format in image variants" do
     perform_enqueued_jobs
-
     img_srcset = find("img[loading=lazy]")["srcset"]
     expect(img_srcset).to include(".webp")
   end
