@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'thumbhash'
+require "thumbhash"
 
 module Shimmer
   module FileHelper
