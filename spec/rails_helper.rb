@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "pry"
-require "pry-byebug"
 require "spec_helper"
 
 ENV["RAILS_ENV"] ||= "test"
