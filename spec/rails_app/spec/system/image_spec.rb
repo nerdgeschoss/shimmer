@@ -27,7 +27,8 @@ RSpec.describe "Image" do
     visit posts_path
     expect(page).to have_css("img[loading=lazy][data-controller='thumb-hash']")
     expect(page).to have_css("img[loading=lazy][style='background-color: #D6D6D6; background-size: cover;']")
-    expect(page).to have_css("img[loading=lazy][data-thumb-hash-preview-hash-value='f5070e02804376887966f699719bef4806']")
+
+    expect(page).to have_css("img[loading=lazy][data-thumb-hash-preview-hash-value='#{ActiveStorage::Blob.order(created_at: :desc).last.preview_hash}']")
 
     expect(page).to have_css("img[loading=eager]:not([data-controller])")
     expect(page).to have_css("img[loading=eager]:not([style])")
