@@ -23,6 +23,9 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
       - [Destination Local Database](#destination-local-database)
       - [Partial Data Import](#partial-data-import)
       - [Local Backup of Pulled Data](#local-backup-of-pulled-data)
+    - [Sidekiq \& Redis Helpers](#sidekiq--redis-helpers)
+      - [Performing Jobs Synchronously](#performing-jobs-synchronously)
+      - [Managing Queues](#managing-queues)
     - [Localizable Routes with Browser Locale Support](#localizable-routes-with-browser-locale-support)
   - [Installation](#installation)
   - [Testing \& Demo](#testing--demo)
@@ -317,6 +320,46 @@ To quickly dump and restore the database in/from files in the project's `tmp` fo
 ```bash
 rails db:tmp:dump
 rails db:tmp:restore
+```
+
+### Sidekiq & Redis Helpers
+
+#### Performing Jobs Synchronously
+
+While developping jobs, it can get overwhelming when they get into a complex hierarchy or simply when you want to try out one and get instant feedback if it fails. To help with that, you can invoke the `jobs:inline` _Rake_ task before invoking another one triggering your job.
+
+```bash
+bin/rake jobs:inline data:import_from_provider_api
+```
+
+This will switch the _ActiveJob_'s `queue_adapter` for one that simply executes any job instantly.
+
+**CAVEAT:** This will ignore jobs scheduled in the future (will simply not be executed).
+
+
+#### Managing Queues
+
+You can have a list of the jobs currently enqueued. This accepts optional filter parameters like `JOB_CLASS` that can be a comma separated list of the job classes to filter upon. It also accepts `SETS` and can be a comma separated list of either `enqueued`, `retries`, `scheduled`, or `dead`.
+
+```bash
+bin/rake jobs:list
+```
+
+It's possible to remove specific jobs from the _Sidekiq_ queues using the `Shimmer::SidekiqJobs` module. All the operations in that module have their corresponding _Rake_ tasks.
+
+```bash
+# Remove all `UpdateProductIndexJob` from any queue that Sidekiq has.
+bin/rake jobs:delete:all JOB_CLASS=UpdateProductIndexJob
+
+# Remove all `UpdateProductIndexJob` only from the main queue,
+# does not remove retries and scheduled-in-the-future jobs.
+bin/rake jobs:delete:enqueued JOB_CLASS=UpdateProductIndexJob
+
+# Remove only `UpdateProductIndexJob` that has been scheduled in the future.
+bin/rake jobs:delete:scheduled JOB_CLASS=UpdateProductIndexJob
+
+# Remove `UpdateProductIndexJob` that have been set to be retried.
+bin/rake jobs:delete:retry JOB_CLASS=UpdateProductIndexJob
 ```
 
 ### Localizable Routes with Browser Locale Support
