@@ -17,7 +17,12 @@ Shimmer is a collection of Rails extensions that bring advanced UI features into
     - [Remote Navigation](#remote-navigation)
     - [Sitemaps](#sitemaps)
     - [Cloudflare Support](#cloudflare-support)
-    - [Heroku Database Helpers](#heroku-database-helpers)
+    - [Local Database \& Assets Helpers](#local-database--assets-helpers)
+      - [Post Pull Data](#post-pull-data)
+      - [Heroku App Used for Import](#heroku-app-used-for-import)
+      - [Destination Local Database](#destination-local-database)
+      - [Partial Data Import](#partial-data-import)
+      - [Local Backup of Pulled Data](#local-backup-of-pulled-data)
     - [Localizable Routes with Browser Locale Support](#localizable-routes-with-browser-locale-support)
   - [Installation](#installation)
   - [Testing \& Demo](#testing--demo)
@@ -266,7 +271,7 @@ As you might have noticed, Cloudflare SSL will cause some issues with your Rails
 config.middleware.use Shimmer::CloudflareProxy
 ```
 
-### Heroku Database Helpers
+### Local Database & Assets Helpers
 
 Can't reproduce an issue with your local test data and just want the production or staging data on your development machine? Here you go:
 
@@ -283,17 +288,27 @@ rails db:pull_data
 rails db:pull_assets
 ```
 
+#### Post Pull Data
+
 The `db:pull_data` task will automatically call a `db:post_pull_data` task if it's defined in your project, for custom data modifications (eg: anonymizing sensitive data).
 
 The following ENV values can be set to change their behavior. Some of them exist as ENV so projects can set defaults for them in their `.env` or individual coders in their `.env.local` files (eg: automatically dump pulled data with `AUTO_TMP_DUMP=1`).
 
+#### Heroku App Used for Import
+
 `HEROKU_APP=foo-staging` will pull data from the database of the `foo-staging` app on _Heroku_. By default, no app is given to the _Heroku_ CLI, which will result in it looking at the _GIT_ remotes for a _Heroku_ app there.
+
+#### Destination Local Database
 
 `DATABASE=foo_development_feature_foobar` will cause the data to be pulled into a database called `foo_development_feature_foobar`. By default, the database set in _Rails_ for the current environment (default `development`) is used.
 
 `SUFFIXED=1` will cause whatever database name is used to be suffixed with a timestamp. This is particularly useful when the database import lasts for a long time, but you want to still work with whatever development database you already have, while newer data is imported in `foo_development_20230831182221` in the background. When the import is over, you can drop the actual `foo_development` database and rename `foo_development_20230831182221` to `foo_development` and go on working with up-to-date data.
 
+#### Partial Data Import
+
 `IGNORE_TABLES=foo,bar,asdf` will ignore tables `foo`, `bar`, and `asdf` while pulling data.
+
+#### Local Backup of Pulled Data
 
 `AUTO_TMP_DUMP=1` will automatically invoke `db:tmp:dump` _Rake_ task after the data is pulled.
 
