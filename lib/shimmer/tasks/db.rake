@@ -91,4 +91,40 @@ namespace :db do
       sh "rake db:environment:set"
     end
   end
+
+  namespace :reset do
+    desc "Perform a full reset of the database, loads seeds & fixtures, and re-annotate the models"
+    task full: [:environment] do
+      success = true
+      tasks = [
+        ["Drop Database", :rake, "db:drop"],
+        ["Delete schema cache (schema.rb & structure.sql)", :sh, "rm -v -f db/schema.rb db/structure.sql"],
+        ["Clean Temporary Files", :rake, "tmp:clear"],
+        ["Create Database", :rake, "db:create"],
+        ["Migrate Database", :rake, "db:migrate"]
+      ]
+      # Only perform in the presence of the `bin/annotate` binstubs.
+      tasks.push(["Annotate Models", :sh, "bin/annotate --models"]) if File.exist?(Rails.root.join("bin/annotate"))
+
+      # A few opt-in tasks (eg: could be configured insive of `.env.development`)
+      tasks.push(["Seed Database", :rake, "db:seed"]) if env?("FULL_DB_RESET_SEED_DATABASE")
+      tasks.push(["Load Fixtures into Database", :rake, "db:fixtures:load"]) if env?("FULL_DB_RESET_LOAD_FIXTURES")
+
+      tasks.each do |title, type, command|
+        puts "--> " + title + (success ? "" : "  Skipped because of previous error")
+        case type
+        when :rake
+          puts "bin/rake #{command}"
+          Rake::Task[command].invoke if success
+        when :sh
+          # `sh` outputs the command already
+          sh command if success
+        end
+      rescue => e
+        puts "ERROR"
+        puts e.message
+        success = false
+      end
+    end
+  end
 end
