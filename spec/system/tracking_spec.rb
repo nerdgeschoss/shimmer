@@ -8,13 +8,13 @@ RSpec.describe "Tracking" do
       visit root_path
     end
 
-    it "does not embeds the Google Tag Manager script in the head" do
+    it "does not embed the Google Tag Manager script in the head" do
       within(:css, "head", visible: :hidden) do
         expect(page).not_to have_selector("script[src^='https://www.googletagmanager.com/gtm.js?id=GOOGLE_TAG_MANAGER_ID']", visible: :hidden)
       end
     end
 
-    it "does not embeds the Google Tag Manager noscript tag at the beginning of the body" do
+    it "does not embed the Google Tag Manager noscript tag at the beginning of the body" do
       within(:css, "body") do
         expect(page).not_to have_selector("noscript iframe[src^='https://www.googletagmanager.com/ns.html?id=GOOGLE_TAG_MANAGER_ID']", visible: :hidden)
       end
