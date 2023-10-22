@@ -7,7 +7,7 @@ RSpec.describe "Google Tag Manager" do
     visit root_path
 
     page.execute_script <<~JS
-      ui.consent.permitted = ['statistic'];
+      ui.consent.consentFor('statistic');
     JS
 
     within(:css, "head", visible: :hidden) do
