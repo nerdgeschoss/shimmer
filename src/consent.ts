@@ -79,5 +79,18 @@ export class Consent {
         f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','${id}');`;
     document.head.appendChild(script);
+
+    const noscript = document.createElement("noscript");
+    const iframe = document.createElement("iframe");
+    const body = document.body;
+    iframe.setAttribute(
+      "src",
+      `https://www.googletagmanager.com/ns.html?id=${id}`
+    );
+    iframe.setAttribute("height", "0");
+    iframe.setAttribute("width", "0");
+    iframe.setAttribute("style", "display:none;visibility:hidden");
+    noscript.appendChild(iframe);
+    body.insertBefore(noscript, body.firstChild);
   }
 }
