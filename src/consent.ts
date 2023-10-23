@@ -69,20 +69,20 @@ export class Consent {
     role: ConsentCategory = "statistic"
   ): Promise<void> {
     await this.consentFor(role);
+
+    window.gtag("js", new Date());
+    window.gtag("config", id);
+
     const script = document.createElement("script");
-    script.textContent = `(function(w,d,s,l,i){
-        w[l]=w[l]||[];
-        w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-        var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-        j.async=true;
-        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-        f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','${id}');`;
-    document.head.appendChild(script);
+    script.async = true;
+    script.setAttribute(
+      "src",
+      `https://www.googletagmanager.com/gtm.js?id=${id}`
+    );
+    document.head.prepend(script);
 
     const noscript = document.createElement("noscript");
     const iframe = document.createElement("iframe");
-    const body = document.body;
     iframe.setAttribute(
       "src",
       `https://www.googletagmanager.com/ns.html?id=${id}`
@@ -91,6 +91,6 @@ export class Consent {
     iframe.setAttribute("width", "0");
     iframe.setAttribute("style", "display:none;visibility:hidden");
     noscript.appendChild(iframe);
-    body.insertBefore(noscript, body.firstChild);
+    document.body.prepend(noscript);
   }
 }
