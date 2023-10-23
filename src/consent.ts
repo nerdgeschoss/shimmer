@@ -69,10 +69,11 @@ export class Consent {
     role: ConsentCategory = "statistic"
   ): Promise<void> {
     await this.consentFor(role);
-
-    window.gtag("js", new Date());
-    window.gtag("config", id);
-
+    window.gtag({
+      "gtm.start": new Date(),
+      event: "gtm.js",
+    });
+    window.gtag("config", id, { send_page_view: false }); // page view is disabled because it's tracked via the analytics stimulus controller already
     const script = document.createElement("script");
     script.async = true;
     script.setAttribute(
@@ -83,6 +84,7 @@ export class Consent {
 
     const noscript = document.createElement("noscript");
     const iframe = document.createElement("iframe");
+
     iframe.setAttribute(
       "src",
       `https://www.googletagmanager.com/ns.html?id=${id}`
