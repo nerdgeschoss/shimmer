@@ -7,47 +7,65 @@ RSpec.describe "Tracking" do
     let!(:gtm_script_selector) { "script[src^='https://www.googletagmanager.com/gtm.js?id=GOOGLE_TAG_MANAGER_ID']" }
     let!(:gtm_iframe_selector) { "noscript iframe[src^='https://www.googletagmanager.com/ns.html?id=GOOGLE_TAG_MANAGER_ID']" }
 
-    it "embeds the script in the head when the user permits statistic tracking" do
-      visit root_path
+    context "when the user permits statistic tracking" do
+      before do
+        visit root_path
 
-      page.execute_script <<~JS
-        ui.consent.permitAll();
-      JS
-
-      within(:css, "head", visible: :hidden) do
-        expect(page).to have_selector(gtm_script_selector, visible: :hidden)
+        page.execute_script <<~JS
+          ui.consent.permitted = ["statistic"];
+        JS
       end
 
-      within(:css, "body") do
-        expect(page).to have_selector(gtm_iframe_selector, visible: :hidden)
-      end
-    end
-
-    it "does not embed the script in the head when the user denies all cookies" do
-      visit root_path
-
-      page.execute_script <<~JS
-        ui.consent.denyAll();
-      JS
-
-      within(:css, "head", visible: :hidden) do
-        expect(page).not_to have_selector(gtm_script_selector, visible: :hidden)
+      it "appends the script in the head" do
+        within(:css, "head", visible: :hidden) do
+          expect(page).to have_selector(gtm_script_selector, visible: :hidden)
+        end
       end
 
-      within(:css, "body") do
-        expect(page).not_to have_selector(gtm_iframe_selector, visible: :hidden)
+      it "prepends the script in the body" do
+        within(:css, "body") do
+          expect(page).to have_selector(gtm_iframe_selector, visible: :hidden)
+        end
       end
     end
 
-    it "does not embed the script in the head when the user has not yet made a decision" do
-      visit root_path
+    context "when the denies statistic tracking" do
+      before do
+        visit root_path
 
-      within(:css, "head", visible: :hidden) do
-        expect(page).not_to have_selector(gtm_script_selector, visible: :hidden)
+        page.execute_script <<~JS
+          ui.consent.permitted = ["essential", "targeting"];
+        JS
       end
 
-      within(:css, "body") do
-        expect(page).not_to have_selector(gtm_iframe_selector, visible: :hidden)
+      it "does not append the script in the head" do
+        within(:css, "head", visible: :hidden) do
+          expect(page).not_to have_selector(gtm_script_selector, visible: :hidden)
+        end
+      end
+
+      it "does not prepend the script in the body" do
+        within(:css, "body") do
+          expect(page).not_to have_selector(gtm_iframe_selector, visible: :hidden)
+        end
+      end
+    end
+
+    context "when the user has not given any consent" do
+      before do
+        visit root_path
+      end
+
+      it "does not append the script in the head" do
+        within(:css, "head", visible: :hidden) do
+          expect(page).not_to have_selector(gtm_script_selector, visible: :hidden)
+        end
+      end
+
+      it "does not prepend the script in the body" do
+        within(:css, "body") do
+          expect(page).not_to have_selector(gtm_iframe_selector, visible: :hidden)
+        end
       end
     end
   end
