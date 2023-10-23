@@ -84,7 +84,6 @@ export class Consent {
 
     const noscript = document.createElement("noscript");
     const iframe = document.createElement("iframe");
-
     iframe.setAttribute(
       "src",
       `https://www.googletagmanager.com/ns.html?id=${id}`
