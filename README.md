@@ -295,7 +295,7 @@ include Shimmer::Consent
 
 **Add Google Tag Manager and Google Analytics**:
 
-*   If you wish to include Google Tag Manager or Google Analytics, insert the following lines to your `application.js`:
+*   If you wish to include Google Tag Manager or Google Analytics, insert either of the following lines to your `application.js`:
 
 ```ruby
 ui.consent.enableGoogleTagManager(GOOGLE_TAG_MANAGER_ID);
