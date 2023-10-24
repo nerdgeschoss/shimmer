@@ -287,29 +287,24 @@ Trying to figure out which key a certain translation on the page has? Append `?d
 
 Integrate cookie consent and add tracking capabilities such as Google Tag Manager and Google Analytics to your application with the following steps:
 
-1.  **Include Shimmer's Consent Module**: Add the following line to your `application_controller.rb`:
+**Include Shimmer's Consent Module**: Add the following line to your `application_controller.rb`:
 
-    ruby
+```ruby
+include Shimmer::Consent
+```
 
-    ```ruby
-    include Shimmer::Consent
-    ```
+**Add Google Tag Manager and Google Analytics**:
 
-2.  **Add Google Tag Manager and Google Analytics**:
+*   If you wish to include Google Tag Manager and Google Analytics, insert the following lines to your `application.js`:
 
-    *   If you wish to include Google Tag Manager and Google Analytics, insert the following lines to your `application.js`:
+```ruby
+ui.consent.enableGoogleTagManager("#{GOOGLE_TAG_MANAGER_ID}");
+ui.consent.enableGoogleAnalytics("#{GOOGLE_ANALYTICS_ID}");
+```
 
-        javascript
+Replace `#{GOOGLE_TAG_MANAGER_ID}` with your Google Tag Manager ID and `#{GOOGLE_ANALYTICS_ID}` with your Google Analytics ID.
 
-        ```javascript
-        ui.consent.enableGoogleTagManager("#{GOOGLE_TAG_MANAGER_ID}");
-        ui.consent.enableGoogleAnalytics("#{GOOGLE_ANALYTICS_ID}");
-        ```
-
-
-    Replace `#{GOOGLE_TAG_MANAGER_ID}` with your Google Tag Manager ID and `#{GOOGLE_ANALYTICS_ID}` with your Google Analytics ID.
-
-3.  **User Consent**: On a user's first visit, they will be prompted with a cookie banner. If they accept the 'statistic' option, the necessary tracking scripts will be added to the head of the page.
+**User Consent**: On a user's first visit, they will be prompted with a cookie banner. If they accept the 'statistic' option, the necessary tracking scripts will be added to the head of the page.
 
 ## Installation
 
