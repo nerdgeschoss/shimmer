@@ -82,6 +82,9 @@ export class Consent {
     );
     document.head.prepend(script);
 
+    // The following 'noscript' tag inclusion is primarily for compliance
+    // with Google's recommended installation procedure, its
+    // not technically necessary for functionality.
     const noscript = document.createElement("noscript");
     const iframe = document.createElement("iframe");
     iframe.setAttribute(
