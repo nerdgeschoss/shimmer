@@ -290,18 +290,20 @@ Integrate cookie consent and add tracking capabilities such as Google Tag Manage
 **Include Shimmer's Consent Module**: Add the following line to your `application_controller.rb`:
 
 ```ruby
-include Shimmer::Consent
+class ApplicationController < ActionController::Base
+  include Shimmer::Consent
+end
 ```
 
 **Add Google Tag Manager and Google Analytics**:
 
 *   If you wish to include Google Tag Manager or Google Analytics, insert either of the following lines to your `application.js`:
 
-```ruby
+```typescript
 ui.consent.enableGoogleTagManager(GOOGLE_TAG_MANAGER_ID);
 ```
 
-```ruby
+```typescript
 ui.consent.enableGoogleAnalytics(GOOGLE_ANALYTICS_ID);
 ```
 
