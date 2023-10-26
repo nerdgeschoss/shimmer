@@ -385,6 +385,34 @@ before_action :check_locale
 
 Trying to figure out which key a certain translation on the page has? Append `?debug` to the url and `I18n.debug?` will be set - which leads to keys being printed on the page.
 
+### 🍪 Cookies
+
+Integrate cookie consent and add tracking capabilities such as Google Tag Manager and Google Analytics to your application with the following steps:
+
+**Include Shimmer's Consent Module**: Add the following line to your `application_controller.rb`:
+
+```ruby
+class ApplicationController < ActionController::Base
+  include Shimmer::Consent
+end
+```
+
+**Add Google Tag Manager and Google Analytics**:
+
+*   If you wish to include Google Tag Manager or Google Analytics, insert either of the following lines to your `application.js`:
+
+```typescript
+ui.consent.enableGoogleTagManager(GOOGLE_TAG_MANAGER_ID);
+```
+
+```typescript
+ui.consent.enableGoogleAnalytics(GOOGLE_ANALYTICS_ID);
+```
+
+Replace `GOOGLE_TAG_MANAGER_ID` with your Google Tag Manager ID or `GOOGLE_ANALYTICS_ID` with your Google Analytics ID.
+
+**User Consent**: `Shimmer::Consent` provides a [stimulus controller](src/controllers/consent.ts) for creating a cookie banner. When the 'statistic' option is submitted to the controller, the necessary tracking scripts are added to the page's head.
+
 ## Installation
 
 Add this line to your application's Gemfile:
