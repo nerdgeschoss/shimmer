@@ -25,11 +25,11 @@ namespace :db do
 
   desc "Downloads the app assets from Heroku to directory `storage`."
   task pull_assets: :environment do
-    unless system('which aws > /dev/null 2>&1')
-      if system('which brew > /dev/null 2>&1')
-        puts 'AWS CLI is not installed. You can install it using Homebrew with the command: brew install awscli'
+    unless system("which aws > /dev/null 2>&1")
+      if system("which brew > /dev/null 2>&1")
+        puts "AWS CLI is not installed. You can install it using Homebrew with the command: brew install awscli"
       else
-        puts 'AWS CLI is not installed. Please install it to continue.'
+        puts "AWS CLI is not installed. Please install it to continue."
       end
       exit(1)
     end
