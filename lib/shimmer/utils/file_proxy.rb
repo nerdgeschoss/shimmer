@@ -49,7 +49,7 @@ module Shimmer
     end
 
     def variant
-      @variantvariant ||= resizeable ? blob.representation(resize: resize).processed : blob
+      @variant ||= resizeable ? blob.representation(resize: resize).processed : blob
     end
 
     def file
