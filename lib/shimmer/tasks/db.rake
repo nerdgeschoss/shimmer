@@ -3,6 +3,11 @@
 namespace :db do
   desc "Downloads the app database from Heroku and imports it to the local database"
   task pull_data: :environment do
+    unless system("heroku apps:info")
+      puts "Heroku remote is not set. Please add a Heroku remote with `heroku git:remote -a your-app-name`."
+      next
+    end
+
     config = if Rails.version.to_f >= 7
       ActiveRecord::Base.connection_db_config.configuration_hash.with_indifferent_access
     else
@@ -20,6 +25,15 @@ namespace :db do
 
   desc "Downloads the app assets from Heroku to directory `storage`."
   task pull_assets: :environment do
+    unless system('which aws > /dev/null 2>&1')
+      if system('which brew > /dev/null 2>&1')
+        puts 'AWS CLI is not installed. You can install it using Homebrew with the command: brew install awscli'
+      else
+        puts 'AWS CLI is not installed. Please install it to continue.'
+      end
+      exit(1)
+    end
+
     config = JSON.parse(`heroku config --json`)
     ENV["AWS_DEFAULT_REGION"] = config.fetch("AWS_REGION")
     bucket = config.fetch("AWS_BUCKET")
