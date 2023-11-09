@@ -3,9 +3,18 @@
 namespace :db do
   desc "Downloads the app database from Heroku and imports it to the local database"
   task pull_data: :environment do
+    unless system("which heroku > /dev/null 2>&1")
+      if system("which brew > /dev/null 2>&1")
+        puts "Heroku CLI is not installed. Please install it with the command: brew tap heroku/brew && brew install heroku"
+      else
+        puts "AWS CLI is not installed. Please install it to continue."
+      end
+      exit(1)
+    end
+
     unless system("heroku apps:info")
       puts "Heroku remote is not set. Please add a Heroku remote with `heroku git:remote -a your-app-name`."
-      next
+      exit(1)
     end
 
     config = if Rails.version.to_f >= 7
