@@ -7,7 +7,7 @@ namespace :db do
       if system("which brew > /dev/null 2>&1")
         puts "Heroku CLI is not installed. Please install it with the command: brew tap heroku/brew && brew install heroku"
       else
-        puts "AWS CLI is not installed. Please install it to continue."
+        puts "Heroku CLI is not installed. Please install it to continue."
       end
       exit(1)
     end
