@@ -24,7 +24,7 @@ module Shimmer
       coerce value, type
     end
 
-    def respond_to_missing?(method_name)
+    def respond_to_missing?(method_name, include_all)
       true
     end
 
