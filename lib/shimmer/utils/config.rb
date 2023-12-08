@@ -28,8 +28,6 @@ module Shimmer
       true
     end
 
-    private
-
     def coerce(value, type)
       return !value.downcase.in?(["n", "0", "no", "false"]) if type == :bool && value.is_a?(String)
 
