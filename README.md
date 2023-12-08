@@ -328,7 +328,7 @@ Config.secret_key!
 ```
 
 **Boolean Configuration Values**
-Append a question mark (?) for boolean type coercion. This is useful for feature flags or boolean settings.
+Append a question mark (`?`) for boolean type coercion. This is useful for feature flags or boolean settings.
 ```ruby
 Config.sparkle
 # => "no" (or "n", "0", "false")
