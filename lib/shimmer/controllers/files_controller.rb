@@ -10,6 +10,8 @@ module Shimmer
         filename: proxy.filename.to_s,
         type: proxy.content_type,
         disposition: "inline"
+    rescue ActiveRecord::RecordNotFound, ActiveStorage::FileNotFoundError
+      head :not_found
     end
   end
 end
