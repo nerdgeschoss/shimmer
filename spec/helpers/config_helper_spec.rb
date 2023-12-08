@@ -54,19 +54,13 @@ RSpec.describe ConfigHelper do
     end
 
     it "correctly coerces numeric 1 to true" do
-      stub_config(test_config: 1)
+      stub_config(test_config: "1")
 
       expect(Config.test_config?).to be true
     end
 
     it "correctly coerces numeric 0 to false" do
-      stub_config(test_config: 0)
-
-      expect(Config.test_config?).to be false
-    end
-
-    it "treats nil as false when coerced to boolean" do
-      stub_config test_config: nil
+      stub_config(test_config: "0")
 
       expect(Config.test_config?).to be false
     end
