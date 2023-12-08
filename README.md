@@ -311,6 +311,45 @@ Replace `GOOGLE_TAG_MANAGER_ID` with your Google Tag Manager ID or `GOOGLE_ANALY
 
 **User Consent**: `Shimmer::Consent` provides a [stimulus controller](src/controllers/consent.ts) for creating a cookie banner. When the 'statistic' option is submitted to the controller, the necessary tracking scripts are added to the page's head.
 
+### Configuration
+
+Shimmer provides a Config object which can be used to access encrypted credentials and environment variables. (YAML nesting of keys is not supported)
+
+**Basic Usage**
+Retrieve a configuration value directly using the name of the key. For example, to access the SECRET_KEY configuration:
+```ruby
+Config.secret_key
+```
+
+**Required Configuration Values**
+Append an exclamation mark (!) to enforce the presence of a configuration key. If the key is missing, a `Shimmer::Config::MissingConfigError` is raised.
+```ruby
+Config.secret_key!
+```
+
+**Boolean Configuration Values**
+Append a question mark (?) for boolean type coercion. This is useful for feature flags or boolean settings.
+```ruby
+Config.secret_key?
+```
+
+**Default Values**
+Specify a default value using the :default option. This value is returned when the specified key is not found in the environment or credentials.
+```ruby
+Config.secret_key(default: true)
+```
+
+**Stubbing Configuration in Tests**
+Shimmer includes a helper module for conveniently stubbing configuration values in tests, particularly useful in RSpec.
+
+**Example Usage:**
+Stub one or multiple configuration keys using the `stub_config` method:
+```ruby
+stub_config secret_key: "secret_key", secret_key_2: "secret_key_2"
+```
+This approach allows you to simulate various configurations without altering/needing the actual environment variables or encrypted credentials.
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -347,6 +386,8 @@ import { application } from "controllers/application";
 
 start({ application });
 ```
+
+
 
 ## Testing & Demo
 
