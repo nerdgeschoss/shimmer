@@ -71,7 +71,7 @@ module Shimmer
     private
 
     def id
-      @id ||= blob.signed_id
+      @id ||= message_verifier.generate([blob_id, resize, quality])
     end
 
 
