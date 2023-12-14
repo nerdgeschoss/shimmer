@@ -14,16 +14,17 @@ module Shimmer
       end
     end
 
-    def initialize(blob_id:, resize: nil, width: nil, height: nil)
+    def initialize(blob_id:, resize: nil, width: nil, height: nil, quality: nil)
       @blob_id = blob_id
       if !resize && width
         resize = if height
-          "#{width}x#{height}>"
+          [width, height]
         else
-          "#{width}x"
+          [width, nil]
         end
       end
       @resize = resize
+      @quality = quality
     end
 
     class << self
@@ -33,11 +34,11 @@ module Shimmer
     end
 
     def path
-      Rails.application.routes.url_helpers.file_path(id, locale: nil)
+      Rails.application.routes.url_helpers.file_path("#{id}.#{file_extension}", locale: nil)
     end
 
     def url(protocol: Rails.env.production? ? :https : :http)
-      Rails.application.routes.url_helpers.file_url(id, locale: nil, protocol: protocol)
+      Rails.application.routes.url_helpers.file_url("#{id}.#{file_extension}", locale: nil, protocol:)
     end
 
     def blob
@@ -49,7 +50,18 @@ module Shimmer
     end
 
     def variant
-      @variant ||= resizeable ? blob.representation(resize: resize).processed : blob
+      transformation_options = {resize_to_limit: resize, format: :webp}
+      transformation_options[:quality] = quality if quality
+
+      @variant ||= resizeable ? blob.representation(transformation_options).processed : blob
+    end
+
+    def variant_content_type
+      resizeable ? "image/webp" : content_type
+    end
+
+    def variant_filename
+      resizeable ? "#{filename.base}.webp" : filename.to_s
     end
 
     def file
@@ -59,7 +71,11 @@ module Shimmer
     private
 
     def id
-      @id ||= message_verifier.generate([blob_id, resize])
+      @id ||= message_verifier.generate([blob_id, resize, quality])
+    end
+
+    def file_extension
+      File.extname(variant_filename).from(1)
     end
   end
 end
