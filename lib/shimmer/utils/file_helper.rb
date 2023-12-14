@@ -39,7 +39,7 @@ module Shimmer
           end
         end
 
-        source = image_file_path(source, width: weight, height: height, quality: quality)
+        source = image_file_path(source, width: width, height: height, quality: quality)
 
         if options[:width].present?
           width = width.to_i * 2
