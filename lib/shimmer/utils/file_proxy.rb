@@ -15,7 +15,6 @@ module Shimmer
     end
 
     def initialize(blob_id:, resize: nil, width: nil, height: nil, quality: nil)
-      binding.irb
       @blob_id = blob_id
       if !resize && width
         resize = if height
