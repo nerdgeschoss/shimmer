@@ -8,9 +8,9 @@ module Shimmer
     delegate :content_type, :filename, to: :blob
 
     class << self
-      def restore(id)
-        blob_id, resize = message_verifier.verified(id)
-        new blob_id: blob_id, resize: resize
+      def restore(signed_id)
+        blob = ActiveStorage::Blob.find_signed(signed_id)
+        new(blob_id: blob.id, resize: nil)
       end
     end
 
