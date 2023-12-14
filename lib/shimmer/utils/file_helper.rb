@@ -22,7 +22,7 @@ module Shimmer
         quality = options[:quality]
 
         options[:loading] ||= :lazy
-        options[:width], options[:height] = calculate_missing_dimensions!(attachment:, width:, height:)
+        options[:width], options[:height] = calculate_missing_dimensions!(attachment: attachment, width: width, height: height)
 
         if options[:loading] == :lazy
           hash_value, primary_color = preview_values(attachment)
@@ -39,12 +39,12 @@ module Shimmer
           end
         end
 
-        source = image_file_path(source, width:, height:, quality:)
+        source = image_file_path(source, width: weight, height: height, quality: quality)
 
         if options[:width].present?
           width = width.to_i * 2
           height = height ? options[:height].to_i * 2 : nil
-          options[:srcset] = "#{source} 1x, #{image_file_path(attachment, width:, height:, quality:)} 2x"
+          options[:srcset] = "#{source} 1x, #{image_file_path(attachment, width: width, height: height, quality: quality)} 2x"
         end
       end
       super source, **options
@@ -78,16 +78,16 @@ module Shimmer
         return [attachment.blob.metadata["preview_hash"], attachment.blob.metadata["primary_color"]]
       end
 
-      CreateImagePreviewJob.perform_later(attachment.id, quality:)
+      CreateImagePreviewJob.perform_later(attachment.id, quality: quality)
       ["", ""]
     end
 
     def image_file_path(source, width: nil, height: nil, quality: nil)
-      image_file_proxy(source, width:, height:, return_type: :path)
+      image_file_proxy(source, width: width, height: height, return_type: :path)
     end
 
     def image_file_url(source, width: nil, height: nil, quality: nil)
-      image_file_proxy(source, width:, height:, return_type: :url)
+      image_file_proxy(source, width: width, height: height, return_type: :url)
     end
 
     def image_file_proxy(source, width: nil, height: nil, return_type: nil, quality: nil)
@@ -95,7 +95,7 @@ module Shimmer
       return source if source.is_a?(String)
 
       blob = source.try(:blob) || source
-      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width:, height:, quality:)
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height, quality: quality)
       case return_type
       when nil
         proxy

@@ -38,7 +38,7 @@ module Shimmer
     end
 
     def url(protocol: Rails.env.production? ? :https : :http)
-      Rails.application.routes.url_helpers.file_url("#{id}.#{file_extension}", locale: nil, protocol:)
+      Rails.application.routes.url_helpers.file_url("#{id}.#{file_extension}", locale: nil, protocol: protocol)
     end
 
     def blob
@@ -73,7 +73,6 @@ module Shimmer
     def id
       @id ||= message_verifier.generate([blob_id, resize, quality])
     end
-
 
     def file_extension
       File.extname(variant_filename).from(1)
