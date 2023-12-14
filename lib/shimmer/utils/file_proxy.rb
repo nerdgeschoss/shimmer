@@ -71,8 +71,9 @@ module Shimmer
     private
 
     def id
-      @id ||= message_verifier.generate([blob_id, resize, quality])
+      @id ||= blob.signed_id
     end
+
 
     def file_extension
       File.extname(variant_filename).from(1)
