@@ -2,7 +2,7 @@
 
 module Shimmer
   class FileProxy
-    attr_reader :blob_id, :resize
+    attr_reader :blob_id, :resize, :quality
 
     delegate :message_verifier, to: :class
     delegate :content_type, :filename, to: :blob
