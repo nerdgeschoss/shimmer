@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Shimmer
   class FileProxy
     attr_reader :blob_id, :resize

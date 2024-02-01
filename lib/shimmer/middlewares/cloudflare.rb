@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # https://github.com/rails/rails/issues/22965
 module Shimmer
   class CloudflareProxy

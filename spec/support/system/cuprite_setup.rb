@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "capybara/cuprite"
 
 # Then, we need to register our driver to be able to use it later

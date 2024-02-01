@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :db do
   desc "Downloads the app database from Heroku and imports it to the local database"
   task pull_data: :environment do

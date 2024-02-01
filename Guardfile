@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 clearing :on
 
 guard :rspec, cmd: "bin/rspec" do

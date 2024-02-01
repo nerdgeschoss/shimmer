@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class TestMail
   attr_reader :to, :from, :subject, :body
 

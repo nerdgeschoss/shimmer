@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Shimmer
   class SitemapAdapter
     def write(location, raw_data)

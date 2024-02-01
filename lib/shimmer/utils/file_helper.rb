@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Shimmer
   module FileHelper
     extend ActiveSupport::Concern

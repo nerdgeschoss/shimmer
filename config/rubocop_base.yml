@@ -10,10 +10,6 @@ require:
 inherit_gem:
   standard: config/base.yml
 
-# String literals should never be mutable.
-Style/FrozenStringLiteralComment:
-  Enabled: true
-
 # Constants should never be mutable.
 Style/MutableConstant:
   Enabled: true
@@ -42,9 +38,9 @@ Style/HashSyntax:
 # Keep at the end of the file (after the individual cops configuration),
 # otherwise, those cops are not configured properly.
 inherit_from:
-# <% Dir["#{File.expand_path(__dir__)}/rubocop_extensions/*.yml"].each do |filename| %>
-#   <% gem_name = filename.delete_suffix(".yml").delete_prefix("#{File.expand_path(__dir__)}/rubocop_extensions/") %>
-#   <% if Gem.loaded_specs.key?(gem_name) %>
+  # <% Dir["#{File.expand_path(__dir__)}/rubocop_extensions/*.yml"].each do |filename| %>
+  #   <% gem_name = filename.delete_suffix(".yml").delete_prefix("#{File.expand_path(__dir__)}/rubocop_extensions/") %>
+  #   <% if Gem.loaded_specs.key?(gem_name) %>
   - rubocop_extensions/<%= gem_name %>.yml
 #   <% end # if Gem.loaded_specs.key? %>
 # <% end # Dir.foreach %>
