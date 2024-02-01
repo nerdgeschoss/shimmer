@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :auth do
   desc "Generates a Sign in with Apple Token"
   task :apple_token do

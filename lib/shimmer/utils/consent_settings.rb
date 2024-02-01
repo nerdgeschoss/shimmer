@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Shimmer
   class ConsentSettings
     SETTINGS = [:essential, :targeting, :statistic].freeze

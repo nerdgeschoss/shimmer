@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :s3 do
   desc "Creates a new S3 bucket and outputs or uploads the credentials."
   task :create_bucket do

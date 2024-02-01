@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "system_helper"
 
 RSpec.describe "Files" do

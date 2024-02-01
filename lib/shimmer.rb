@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative "shimmer/version"
 require_relative "shimmer/railtie" if defined?(Rails::Railtie)
 Dir["#{File.expand_path("../lib/shimmer/middlewares", __dir__)}/*"].sort.each { |e| require e }

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Shimmer
   module Form
     class RadioField < Field
@@ -14,7 +12,7 @@ module Shimmer
       end
 
       def wrapper_options
-        {label_method: "#{method}_#{@value.to_s.underscore}".to_sym}
+        {label_method: "#{method}_#{@value.to_s.underscore}"}
       end
     end
   end
