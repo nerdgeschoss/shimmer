@@ -21,7 +21,7 @@ module Shimmer
         options[:loading] ||= :lazy
         options[:srcset] = "#{source} 1x, #{image_file_path(attachment, width: width.to_i * 2, height: height ? height.to_i * 2 : nil)} 2x" if options[:width].present?
       end
-      super source, options
+      super(source, options)
     end
 
     def image_file_path(source, width: nil, height: nil)
