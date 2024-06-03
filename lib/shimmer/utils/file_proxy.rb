@@ -20,7 +20,7 @@ module Shimmer
         resize = if height
           "#{width}x#{height}>"
         else
-          "#{width}x"
+          "#{width}x>"
         end
       end
       @resize = resize
