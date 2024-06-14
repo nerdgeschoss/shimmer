@@ -2,7 +2,7 @@
 
 desc "Executes all linters and tests"
 task :lint do
-  sh "bundle exec standardrb --fix"
+  sh "bin/rubocop"
   sh "yarn lint"
   sh "i18n-tasks health"
   sh "bin/rspec"

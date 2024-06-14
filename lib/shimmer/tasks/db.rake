@@ -1,30 +1,52 @@
 # frozen_string_literal: true
 
 namespace :db do
-  desc "Downloads the app database from Heroku and imports it to the local database"
-  task pull_data: :environment do
+  def env?(key)
+    Shimmer::Config.coerce(ENV[key], :bool)
+  end
+
+  desc "Set the ENV for database operations"
+  task prepare_database_env: :environment do
     config = if Rails.version.to_f >= 7
       ActiveRecord::Base.connection_db_config.configuration_hash.with_indifferent_access
     else
       ActiveRecord::Base.connection_db_config.config
     end
     ENV["DISABLE_DATABASE_ENVIRONMENT_CHECK"] = "1"
-    Rake::Task["db:drop"].invoke
     ENV["PGUSER"] = config["username"]
     ENV["PGHOST"] = config["host"]
     ENV["PGPORT"] = config["port"].to_s
-    sh "heroku pg:pull DATABASE_URL #{config["database"]}"
-    sh "rails db:environment:set"
-    sh "RAILS_ENV=test rails db:create"
+
+    ENV["DATABASE"] ||= config["database"]
+    ENV["DATABASE"] = "#{ENV["DATABASE"]}_#{Time.now.utc.strftime("%Y%m%d%H%M%S")}" if env?("SUFFIXED")
+    ENV["EXCLUDE_TABLE_DATA_PART"] = ENV["IGNORE_TABLES"].to_s.split(",").filter(&:presence).join(";").presence&.then { |t| "--exclude-table-data '#{t}'" }
   end
 
-  desc "Downloads the app assets from Heroku to directory `storage`."
-  task pull_assets: :environment do
-    config = JSON.parse(`heroku config --json`)
-    ENV["AWS_DEFAULT_REGION"] = config.fetch("AWS_REGION")
-    bucket = config.fetch("AWS_BUCKET")
+  desc "Downloads the app database from Heroku and imports it to the local database"
+  task pull_data: :"db:prepare_database_env" do
+    heroku_app_part = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
+
+    sh "dropdb --if-exists #{ENV["DATABASE"]}"
+    sh "heroku pg:pull DATABASE_URL #{heroku_app_part} #{ENV["EXCLUDE_TABLE_DATA_PART"]} #{ENV["DATABASE"]}".squish
+    sh "rails db:environment:set"
+
+    Rake::Task["db:post_pull_data"].invoke if Rake::Task.task_defined?("db:post_pull_data")
+    Rake::Task["db:tmp:dump"].invoke if env?("AUTO_TMP_DUMP")
+  end
+
+  desc "Set the ENV for AWS operations"
+  task prepare_aws_env: :environment do
+    heroku_app_part = ENV["HEROKU_APP"].presence&.then { |app| "--app #{app}" }
+    config = JSON.parse(`heroku config --json #{heroku_app_part}`)
+    ENV["AWS_REGION"] = config.fetch("AWS_REGION")
+    ENV["AWS_BUCKET"] = config.fetch("AWS_BUCKET")
     ENV["AWS_ACCESS_KEY_ID"] = config.fetch("AWS_ACCESS_KEY_ID")
     ENV["AWS_SECRET_ACCESS_KEY"] = config.fetch("AWS_SECRET_ACCESS_KEY")
+  end
+
+  desc "Downloads the app assets from AWS to directory `storage`."
+  task pull_assets: :"db:prepare_aws_env" do
+    bucket = ENV.fetch("AWS_BUCKET")
     storage_folder = Rails.root.join("storage")
     download_folder = storage_folder.join("downloads")
     FileUtils.mkdir_p download_folder
@@ -37,8 +59,8 @@ namespace :db do
       FileUtils.cp(file, new_path)
     end
     # purge variants
-    ActiveStorage::VariantRecord.delete_all
-    ActiveStorage::Blob.update_all(service_name: :local)
+    ActiveStorage::VariantRecord.delete_all if defined?(ActiveStorage::VariantRecord)
+    ActiveStorage::Blob.update_all(service_name: :local) if ActiveStorage::Blob.column_names.include?("service_name")
   end
 
   desc "Download all app data, including assets"
@@ -50,6 +72,59 @@ namespace :db do
       Rake::Task["db:migrate"].invoke
     else
       puts "No tables in database yet, skipping migration"
+    end
+  end
+
+  namespace :tmp do
+    desc "Dump the development database to the `tmp` folder of the project."
+    task dump: :"db:prepare_database_env" do
+      dump_filename = ENV["DUMP_NAME"].presence || ENV["DATABASE"]
+      sh "pg_dump --verbose --format=c #{ENV["DATABASE"]} #{ENV["EXCLUDE_TABLE_DATA_PART"]} --file=tmp/#{dump_filename}.dump".squish
+    end
+
+    desc "Restore the development database from the `tmp` folder of the project."
+    task restore: :"db:prepare_database_env" do
+      sh "dropdb --if-exists #{ENV["DATABASE"]}"
+      sh "createdb #{ENV["DATABASE"]}"
+      dump_filename = ENV["DUMP_NAME"].presence || ENV["DATABASE"]
+      sh "pg_restore --verbose --format=c --jobs=8 --disable-triggers --dbname=#{ENV["DATABASE"]} tmp/#{dump_filename}.dump".squish
+      sh "rake db:environment:set"
+    end
+  end
+
+  namespace :reset do
+    desc "Perform a full reset of the database, loads seeds & fixtures, and re-annotate the models"
+    task full: [:environment] do
+      success = true
+      tasks = [
+        ["Drop Database", :rake, "db:drop"],
+        ["Delete schema cache (schema.rb & structure.sql)", :sh, "rm -v -f db/schema.rb db/structure.sql"],
+        ["Clean Temporary Files", :rake, "tmp:clear"],
+        ["Create Database", :rake, "db:create"],
+        ["Migrate Database", :rake, "db:migrate"]
+      ]
+      # Only perform in the presence of the `bin/annotate` binstubs.
+      tasks.push(["Annotate Models", :sh, "bin/annotate --models"]) if File.exist?(Rails.root.join("bin/annotate"))
+
+      # A few opt-in tasks (eg: could be configured insive of `.env.development`)
+      tasks.push(["Seed Database", :rake, "db:seed"]) if env?("FULL_DB_RESET_SEED_DATABASE")
+      tasks.push(["Load Fixtures into Database", :rake, "db:fixtures:load"]) if env?("FULL_DB_RESET_LOAD_FIXTURES")
+
+      tasks.each do |title, type, command|
+        puts "--> " + title + (success ? "" : "  Skipped because of previous error")
+        case type
+        when :rake
+          puts "bin/rake #{command}"
+          Rake::Task[command].invoke if success
+        when :sh
+          # `sh` outputs the command already
+          sh command if success
+        end
+      rescue => e
+        puts "ERROR"
+        puts e.message
+        success = false
+      end
     end
   end
 end

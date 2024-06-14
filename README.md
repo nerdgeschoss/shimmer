@@ -2,6 +2,37 @@
 
 Shimmer is a collection of Rails extensions that bring advanced UI features into your app and make your life easier as a developer.
 
+- [Shimmer - Because Ruby could be more shiny!](#shimmer---because-ruby-could-be-more-shiny)
+  - [Features](#features)
+    - [Components](#components)
+    - [Stack](#stack)
+      - [Helper types:](#helper-types)
+    - [Available props:](#available-props)
+    - [Supported breakpoints:](#supported-breakpoints)
+    - [Rubocop Base Configuration](#rubocop-base-configuration)
+      - [Use Shared Configuration In Projects](#use-shared-configuration-in-projects)
+    - [Static File Serving](#static-file-serving)
+    - [Modals](#modals)
+    - [Popovers](#popovers)
+    - [Remote Navigation](#remote-navigation)
+    - [Sitemaps](#sitemaps)
+    - [Cloudflare Support](#cloudflare-support)
+    - [Local Database \& Assets Helpers](#local-database--assets-helpers)
+      - [Post Pull Data](#post-pull-data)
+      - [Heroku App Used for Import](#heroku-app-used-for-import)
+      - [Destination Local Database](#destination-local-database)
+      - [Partial Data Import](#partial-data-import)
+      - [Local Backup of Pulled Data](#local-backup-of-pulled-data)
+    - [Sidekiq \& Redis Helpers](#sidekiq--redis-helpers)
+      - [Performing Jobs Synchronously](#performing-jobs-synchronously)
+      - [Managing Queues](#managing-queues)
+    - [Localizable Routes with Browser Locale Support](#localizable-routes-with-browser-locale-support)
+  - [Installation](#installation)
+  - [Testing \& Demo](#testing--demo)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Code of Conduct](#code-of-conduct)
+
 ## Features
 
 ### Components
@@ -243,7 +274,7 @@ As you might have noticed, Cloudflare SSL will cause some issues with your Rails
 config.middleware.use Shimmer::CloudflareProxy
 ```
 
-### Heroku Database Helpers
+### Local Database & Assets Helpers
 
 Can't reproduce an issue with your local test data and just want the production or staging data on your development machine? Here you go:
 
@@ -258,6 +289,77 @@ If you don't want the asset support, you can also only pull the database or only
 ```bash
 rails db:pull_data
 rails db:pull_assets
+```
+
+#### Post Pull Data
+
+The `db:pull_data` task will automatically call a `db:post_pull_data` task if it's defined in your project, for custom data modifications (eg: anonymizing sensitive data).
+
+The following ENV values can be set to change their behavior. Some of them exist as ENV so projects can set defaults for them in their `.env` or individual coders in their `.env.local` files (eg: automatically dump pulled data with `AUTO_TMP_DUMP=1`).
+
+#### Heroku App Used for Import
+
+`HEROKU_APP=foo-staging` will pull data from the database of the `foo-staging` app on _Heroku_. By default, no app is given to the _Heroku_ CLI, which will result in it looking at the _GIT_ remotes for a _Heroku_ app there.
+
+#### Destination Local Database
+
+`DATABASE=foo_development_feature_foobar` will cause the data to be pulled into a database called `foo_development_feature_foobar`. By default, the database set in _Rails_ for the current environment (default `development`) is used.
+
+`SUFFIXED=1` will cause whatever database name is used to be suffixed with a timestamp. This is particularly useful when the database import lasts for a long time, but you want to still work with whatever development database you already have, while newer data is imported in `foo_development_20230831182221` in the background. When the import is over, you can drop the actual `foo_development` database and rename `foo_development_20230831182221` to `foo_development` and go on working with up-to-date data.
+
+#### Partial Data Import
+
+`IGNORE_TABLES=foo,bar,asdf` will ignore tables `foo`, `bar`, and `asdf` while pulling data.
+
+#### Local Backup of Pulled Data
+
+`AUTO_TMP_DUMP=1` will automatically invoke `db:tmp:dump` _Rake_ task after the data is pulled.
+
+To quickly dump and restore the database in/from files in the project's `tmp` folder:
+
+```bash
+rails db:tmp:dump
+rails db:tmp:restore
+```
+
+### Sidekiq & Redis Helpers
+
+#### Performing Jobs Synchronously
+
+While developping jobs, it can get overwhelming when they get into a complex hierarchy or simply when you want to try out one and get instant feedback if it fails. To help with that, you can invoke the `jobs:inline` _Rake_ task before invoking another one triggering your job.
+
+```bash
+bin/rake jobs:inline data:import_from_provider_api
+```
+
+This will switch the _ActiveJob_'s `queue_adapter` for one that simply executes any job instantly.
+
+**CAVEAT:** This will ignore jobs scheduled in the future (will simply not be executed).
+
+
+#### Managing Queues
+
+You can have a list of the jobs currently enqueued. This accepts optional filter parameters like `JOB_CLASS` that can be a comma separated list of the job classes to filter upon. It also accepts `SETS` and can be a comma separated list of either `enqueued`, `retries`, `scheduled`, or `dead`.
+
+```bash
+bin/rake jobs:list
+```
+
+It's possible to remove specific jobs from the _Sidekiq_ queues using the `Shimmer::SidekiqJobs` module. All the operations in that module have their corresponding _Rake_ tasks.
+
+```bash
+# Remove all `UpdateProductIndexJob` from any queue that Sidekiq has.
+bin/rake jobs:delete:all JOB_CLASS=UpdateProductIndexJob
+
+# Remove all `UpdateProductIndexJob` only from the main queue,
+# does not remove retries and scheduled-in-the-future jobs.
+bin/rake jobs:delete:enqueued JOB_CLASS=UpdateProductIndexJob
+
+# Remove only `UpdateProductIndexJob` that has been scheduled in the future.
+bin/rake jobs:delete:scheduled JOB_CLASS=UpdateProductIndexJob
+
+# Remove `UpdateProductIndexJob` that have been set to be retried.
+bin/rake jobs:delete:retry JOB_CLASS=UpdateProductIndexJob
 ```
 
 ### Localizable Routes with Browser Locale Support
