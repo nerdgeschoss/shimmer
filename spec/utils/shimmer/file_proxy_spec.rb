@@ -20,6 +20,13 @@ RSpec.describe Shimmer::FileProxy do
       expect(dimensions(variant.processed.image.blob)).to eq({width: 58, height: 20})
     end
 
+    it "understands legacy resize string" do
+      id = Shimmer::FileProxy.message_verifier.generate([blob.id, "100x20>"])
+      variant = Shimmer::FileProxy.restore(id).variant
+
+      expect(dimensions(variant.processed.image.blob)).to eq({width: 58, height: 20})
+    end
+
     it "works if only passing width" do
       proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: 100)
       id = proxy.send(:id)
@@ -34,6 +41,14 @@ RSpec.describe Shimmer::FileProxy do
       variant = Shimmer::FileProxy.restore(id).variant
 
       expect(dimensions(variant.processed.image.blob)).to eq({width: 290, height: 100})
+    end
+
+    it "works if not resizing" do
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id)
+      id = proxy.send(:id)
+      original_blob = Shimmer::FileProxy.restore(id).variant
+
+      expect(dimensions(original_blob)).to eq({width: 559, height: 193})
     end
   end
 

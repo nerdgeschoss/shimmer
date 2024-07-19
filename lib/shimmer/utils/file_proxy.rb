@@ -10,15 +10,18 @@ module Shimmer
     class << self
       def restore(id)
         blob_id, resize = message_verifier.verified(id)
-        width, height = resize_string_to_tuple(resize)
-        new blob_id: blob_id, width: width, height: height
+
+        if resize.is_a?(String)
+          width, height = legacy_resize_string_to_tuple(resize)
+        elsif resize.is_a?(Array)
+          width, height = resize
+        end
+
+        new(blob_id: blob_id, width: width, height: height)
       end
 
-      def resize_tuple_to_string(resize)
-        "#{resize[0]}x#{resize[1]}"
-      end
-
-      def resize_string_to_tuple(resize)
+      # In the past, we generated the IDs with ImageMagick style "200x200>" strings. We don't do that anymore, but to prevent all old URLs breaking and caches invalidating at once, we grandfather these URLs in.
+      def legacy_resize_string_to_tuple(resize)
         return if resize.blank?
 
         matches = resize.match(/(?<width>\d*)x(?<height>\d*)/)
@@ -28,17 +31,15 @@ module Shimmer
           matches[:height].presence&.to_i
         ]
       end
+
+      def message_verifier
+        @message_verifier ||= ApplicationRecord.signed_id_verifier
+      end
     end
 
     def initialize(blob_id:, width: nil, height: nil)
       @blob_id = blob_id
       @resize = [width, height] if width || height
-    end
-
-    class << self
-      def message_verifier
-        @message_verifier ||= ApplicationRecord.signed_id_verifier
-      end
     end
 
     def path
@@ -68,7 +69,7 @@ module Shimmer
     private
 
     def id
-      @id ||= message_verifier.generate([blob_id, self.class.resize_tuple_to_string(@resize)])
+      @id ||= message_verifier.generate([blob_id, @resize])
     end
   end
 end
