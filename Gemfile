@@ -7,7 +7,7 @@ gemspec
 
 gem "rails"
 gem "propshaft"
-gem "sqlite3"
+gem "sqlite3", "~> 1.6"
 gem "puma"
 gem "jsbundling-rails"
 gem "turbo-rails"
