@@ -1,6 +1,7 @@
 inherit_from: config/rubocop_base.yml
 
 AllCops:
+  TargetRubyVersion: 3.1
   Exclude:
     - "bin/**/*"
     - "spec/rails_app/bin/**/*"
@@ -13,4 +14,7 @@ Rails/ApplicationController:
 
 # Allow jobs created in this library to inherit directly from ActiveJob::Base.
 Rails/ApplicationJob:
+  Enabled: false
+
+Style/HashSyntax:
   Enabled: false

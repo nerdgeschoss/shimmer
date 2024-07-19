@@ -7,28 +7,28 @@ jobs:
     strategy:
       matrix:
         ruby-version:
-          - "2.7" # FV --> This version is nearing its end of life. Consider upgrading those projects and stop supporting it in Shimmer.
-          - "3.0" # APP, TF, EZ
-          - "3.1" # KS, CC, RS, ANY, pixelpress, screamshot, accounting
-          # NOT COVERERED:
-          # - "2.4" # office, GT
-          # - "2.6" # Flink --> This version not longer installs with rbenv as of macOS 13 (Ventura).
+          - "3.1"
+          - "3.2"
+          - "3.3"
         gemfile:
           - "rails-7-0"
-          # Rails < 7.0 cannot be tested, since the demo app is using Propshaft (needs Rails >= 7.0.0).
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/Gemfile-${{ matrix.gemfile }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Install dependencies from apt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips42
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "18.x"
           cache: "yarn"
       - name: Install JS/TS Dependencies
         run: yarn install
@@ -37,9 +37,6 @@ jobs:
       - name: Build JS/TS
         run: yarn build
       - name: Lint Ruby
-        # Does not work on 2.7: Known
-        # Does not work on 3.1: Issue to fix in https://github.com/nerdgeschoss/shimmer/issues/59
-        if: ${{ matrix.ruby-version == '3.0' }}
         run: bundle exec rubocop -c .rubocop.yml
       - name: Ruby Tests
         run: (cd spec/rails_app && bin/rails assets:precompile) && bin/rspec --format documentation

@@ -7,7 +7,7 @@ gemspec
 
 gem "rails"
 gem "propshaft"
-gem "sqlite3"
+gem "sqlite3", "~> 1.6"
 gem "puma"
 gem "jsbundling-rails"
 gem "turbo-rails"
@@ -20,7 +20,6 @@ gem "slim-rails"
 gem "awesome_print"
 gem "dotenv-rails"
 gem "image_processing"
-gem "mini_magick"
 
 group :development, :test do
   gem "debug", platforms: [:mri, :mingw, :x64_mingw]

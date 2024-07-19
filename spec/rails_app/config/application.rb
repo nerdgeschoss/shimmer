@@ -37,7 +37,7 @@ module ShimmerRailsApp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    config.active_storage.variant_processor = :mini_magick
+    config.active_storage.variant_processor = :vips
 
     ActiveRecord::Tasks::DatabaseTasks.fixtures_path = Rails.root.join("../fixtures")
   end

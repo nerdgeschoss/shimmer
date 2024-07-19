@@ -138,14 +138,29 @@ Then, if there are specific cops you want to use in the specific project you are
 
 ### Static File Serving
 
-`ActiveStorage` is great, but serving of files, especially behind a CDN, can be complicated to get right. This can be fixed easily:
+`ActiveStorage` is great, but serving of files, especially behind a CDN, can be complicated to get right. Shimmer has your back.
+
+It overrides `image_tag` and automatically resizes your image and creates a static, cacheable URL.
 
 ```ruby
 # use an image tag
-image_tag user.avatar, width: 300
+image_tag(user.avatar, width: 300, height: 400)
+image_tag(user.avatar, width: 300) # This will keep the aspect ratio and infer height
 ```
 
-This extension overrides `image_tag` and also supplies a matching `image_file_url` that automatically resizes your image and creates a static, cacheable url.
+If you need more control, you can also use `image_file_path` and `image_file_url` directly. They have a similar interface, but only return the path/URL.
+
+```ruby
+image_file_path(user.avatar, width: 300, height: 400)
+image_file_url(user.avatar, width: 300, height: 400)
+```
+
+Shimmer will only ever scale your images down, not up.
+
+The URL of the image will point to the Rails app, where it will be generated on the fly. You should cache these routes with a CDN like Cloudflare.
+
+This is in contrast to ActiveStorage variants, where the transformation happens when the URL for the image is built. This can slow down rendering or even prevent HTML to be generated if just one image can't be resized. With Shimmer, only the broken image will be broken.
+
 
 ### Modals
 
@@ -356,9 +371,7 @@ This library is tested using _RSpec_.
 bin/rspec
 ```
 
-A **system test** suite is included and is performed against a demo _Rails_ application in `spec/rails_app`. This
-application can be started in development mode for "playing around" with _Shimmer_ during its development and add
-more system tests. The `bin/dev` script starts that demo application.
+A system test suite is included and is performed against a demo Rails application located in in `spec/rails_app`. This application can be started in development mode for "playing around" with Shimmer during its development and add more system tests. The `bin/dev` script starts that demo application.
 
 The first time, you want to initialize the database and seed it some data.
 

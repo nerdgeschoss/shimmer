@@ -5,7 +5,9 @@ p data-controller="hello"
 a href=modal_path(new_post_path, size: "custom-size") Write New Post
 
 - @posts.each do |post|
-  = image_tag post.image, width: 200, loading: :lazy if post.image.attached?
-  = image_tag post.image, width: 200, loading: :eager if post.image.attached?
+  - if post.image.attached?
+    div.stack.stack--line
+      div = image_tag post.image, width: 200, loading: :lazy
+      div = image_tag post.image, width: 200, loading: :eager
   h2 = post.title
   p = post.content
