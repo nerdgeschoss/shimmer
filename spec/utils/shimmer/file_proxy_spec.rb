@@ -11,6 +11,32 @@ RSpec.describe Shimmer::FileProxy do
     )
   }
 
+  describe "#restore" do
+    it "encodes size in generated ID and can restore it from there" do
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: 100, height: 20)
+      id = proxy.send(:id)
+      variant = Shimmer::FileProxy.restore(id).variant
+
+      expect(dimensions(variant.processed.image.blob)).to eq({width: 58, height: 20})
+    end
+
+    it "works if only passing width" do
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: 100)
+      id = proxy.send(:id)
+      variant = Shimmer::FileProxy.restore(id).variant
+
+      expect(dimensions(variant.processed.image.blob)).to eq({width: 100, height: 35})
+    end
+
+    it "works if only passing height" do
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, height: 100)
+      id = proxy.send(:id)
+      variant = Shimmer::FileProxy.restore(id).variant
+
+      expect(dimensions(variant.processed.image.blob)).to eq({width: 290, height: 100})
+    end
+  end
+
   describe "#variant" do
     it "returns the blob if no resize requested" do
       variant = Shimmer::FileProxy.new(blob_id: blob.id).variant

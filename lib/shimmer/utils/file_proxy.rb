@@ -2,7 +2,7 @@
 
 module Shimmer
   class FileProxy
-    attr_reader :blob_id, :resize
+    attr_reader :blob_id
 
     delegate :message_verifier, to: :class
     delegate :content_type, :filename, to: :blob
@@ -10,20 +10,29 @@ module Shimmer
     class << self
       def restore(id)
         blob_id, resize = message_verifier.verified(id)
-        new blob_id: blob_id, resize: resize
+        width, height = resize_string_to_tuple(resize)
+        new blob_id: blob_id, width: width, height: height
+      end
+
+      def resize_tuple_to_string(resize)
+        "#{resize[0]}x#{resize[1]}"
+      end
+
+      def resize_string_to_tuple(resize)
+        return if resize.blank?
+
+        matches = resize.match(/(?<width>\d*)x(?<height>\d*)/)
+
+        [
+          matches[:width].presence&.to_i,
+          matches[:height].presence&.to_i
+        ]
       end
     end
 
-    def initialize(blob_id:, resize: nil, width: nil, height: nil)
+    def initialize(blob_id:, width: nil, height: nil)
       @blob_id = blob_id
-      if !resize && width
-        resize = if height
-          "#{width}x#{height}>"
-        else
-          "#{width}x>"
-        end
-      end
-      @resize = resize
+      @resize = [width, height] if width || height
     end
 
     class << self
@@ -44,12 +53,12 @@ module Shimmer
       @blob ||= ActiveStorage::Blob.find(blob_id)
     end
 
-    def resizeable
-      resize.present? && blob.content_type.exclude?("svg")
+    def resizeable?
+      @resize.present? && blob.content_type.exclude?("svg")
     end
 
     def variant
-      @variant ||= resizeable ? blob.representation(resize: resize).processed : blob
+      @variant ||= resizeable? ? blob.representation(resize_to_limit: @resize).processed : blob
     end
 
     def file
@@ -59,7 +68,7 @@ module Shimmer
     private
 
     def id
-      @id ||= message_verifier.generate([blob_id, resize])
+      @id ||= message_verifier.generate([blob_id, self.class.resize_tuple_to_string(@resize)])
     end
   end
 end
