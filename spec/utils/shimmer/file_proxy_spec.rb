@@ -37,6 +37,6 @@ RSpec.describe Shimmer::FileProxy do
   end
 
   def dimensions(blob)
-    ActiveStorage::Analyzer::ImageAnalyzer::ImageMagick.new(blob).metadata
+    ActiveStorage::Analyzer::ImageAnalyzer::Vips.new(blob).metadata
   end
 end

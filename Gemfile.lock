@@ -380,7 +380,6 @@ DEPENDENCIES
   image_processing
   jbuilder
   jsbundling-rails
-  mini_magick
   propshaft
   pry
   pry-byebug

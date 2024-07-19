@@ -20,7 +20,6 @@ gem "slim-rails"
 gem "awesome_print"
 gem "dotenv-rails"
 gem "image_processing"
-gem "mini_magick"
 
 group :development, :test do
   gem "debug", platforms: [:mri, :mingw, :x64_mingw]
