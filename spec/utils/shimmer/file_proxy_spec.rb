@@ -43,6 +43,14 @@ RSpec.describe Shimmer::FileProxy do
       expect(dimensions(variant.processed.image.blob)).to eq({width: 290, height: 100})
     end
 
+    it "works if passing width or height as string" do
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: "290", height: "100")
+      id = proxy.send(:id)
+      variant = Shimmer::FileProxy.restore(id).variant
+
+      expect(dimensions(variant.processed.image.blob)).to eq({width: 290, height: 100})
+    end
+
     it "works if not resizing" do
       proxy = Shimmer::FileProxy.new(blob_id: blob.id)
       id = proxy.send(:id)

@@ -39,7 +39,7 @@ module Shimmer
 
     def initialize(blob_id:, width: nil, height: nil)
       @blob_id = blob_id
-      @resize = [width, height] if width || height
+      @resize = [width&.to_i, height&.to_i] if width || height
     end
 
     def path
