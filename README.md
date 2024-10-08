@@ -187,6 +187,12 @@ a href=popover_path(new_post_path, placement: :left)
 
 This will request `new_post_path` and display it left of the anchor thanks to PopperJS.
 
+> [!TIP]
+> If you want to make sure that your modal content is only available if requested through Shimmer, you can use the built in `enfore_modal` method as a `before_action`. It will return a _422 Unprocessable Content_ status if users (or bots) access the page directly.
+> ```rb
+> before_action :enforce_modal, only: [:popover]
+> ```
+
 ### Remote Navigation
 
 Remote navigation takes Hotwire to the next level with built-in navigation actions, integrated with modals and popovers.
