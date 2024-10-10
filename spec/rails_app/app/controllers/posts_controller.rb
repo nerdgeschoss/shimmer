@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
+  before_action :enforce_modal, only: [:modal]
+
   def index
     @posts = Post.all
   end
@@ -16,6 +18,9 @@ class PostsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def modal
   end
 
   private

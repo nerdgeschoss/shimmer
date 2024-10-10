@@ -4,6 +4,8 @@ module Shimmer
   module RemoteNavigation
     extend ActiveSupport::Concern
 
+    class RemoteNavigationError < StandardError; end
+
     included do
       def ui
         @ui ||= RemoteNavigator.new(self)
@@ -45,7 +47,17 @@ module Shimmer
       end
 
       def enforce_modal
-        raise "trying to render a modal from a regular request" unless shimmer_request?
+        return if shimmer_request?
+
+        raise RemoteNavigationError.new("You may only render a modal from a Shimmer request.")
+      end
+
+      rescue_from RemoteNavigationError do |exception|
+        if Rails.env.development?
+          render plain: exception.message, status: :unprocessable_entity
+        else
+          head :unprocessable_entity
+        end
       end
     end
   end
