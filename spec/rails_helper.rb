@@ -24,7 +24,7 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActiveJob::TestHelper
 
-  config.fixture_path = File.expand_path("./spec/fixtures", __dir__)
+  config.fixture_paths = [File.expand_path("./spec/fixtures", __dir__)]
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
