@@ -75,7 +75,7 @@ RSpec/ExpectOutput:
   Enabled: true
 
 # Enforces spec file naming convention.
-RSpec/FilePath:
+Rails/FilePath:
   Enabled: true
 
 # Don't forget focussed tests (expecially useful for the CI to fail).

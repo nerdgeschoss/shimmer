@@ -10,7 +10,7 @@
 
 Post.find_each do |post|
   post.image.attach(
-    io: File.open("#{Rails.root}/spec/fixtures/files/nerdgeschoss.jpg"),
+    io: File.open(Rails.root.join("spec/fixtures/files/nerdgeschoss.jpg").to_s),
     filename: "nerdgeschoss.jpg",
     content_type: "image/jpeg"
   )

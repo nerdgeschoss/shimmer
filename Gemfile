@@ -7,7 +7,7 @@ gemspec
 
 gem "rails"
 gem "propshaft"
-gem "sqlite3", "~> 1.6"
+gem "sqlite3"
 gem "puma"
 gem "jsbundling-rails"
 gem "turbo-rails"
@@ -34,7 +34,7 @@ group :development, :test do
   gem "guard-rspec"
   gem "capybara"
   gem "rack_session_access"
-  gem "cuprite"
+  gem "capybara-playwright-driver"
   gem "standard"
   gem "rubocop"
   gem "rubocop-rails"

@@ -1,7 +1,8 @@
 inherit_from: config/rubocop_base.yml
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.3
+  SuggestExtensions: false
   Exclude:
     - "bin/**/*"
     - "spec/rails_app/bin/**/*"
