@@ -54,6 +54,22 @@ RSpec.describe Shimmer::Config do
       ENV["TEST"] = "Foo bar"
       expect(config.test).to eq "Foo bar"
     end
+
+    it "reads a string from rails credentials" do
+      Rails.application.credentials[:my_secret_key] = "some-testing-secret"
+      expect(config.my_secret_key).to eq "some-testing-secret"
+    ensure
+      Rails.application.credentials[:my_secret_key] = nil
+    end
+  end
+
+  describe "supporting environments" do
+    it "reads a value prefixed with the current environment" do
+      Rails.application.credentials[:test] = {test_key: "test-value"}
+      expect(config.test_key).to eq "test-value"
+    ensure
+      Rails.application.credentials[:test] = nil
+    end
   end
 
   describe "support default values" do

@@ -1,0 +1,41 @@
+{
+  "name": "shimmer",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "postCreateCommand": "bin/setup",
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "GitHub.copilot",
+        "esbenp.prettier-vscode",
+        "sianglim.slim",
+        "Shopify.ruby-lsp",
+        "EditorConfig.EditorConfig",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "rubyLsp.rubyVersionManager": {
+          "identifier": "rvm"
+        },
+        "[ruby]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "Shopify.ruby-lsp"
+        }
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/desktop-lite:1": {}
+  },
+  "forwardPorts": [
+    6080
+  ],
+  "portsAttributes": {
+    "6080": {
+      "label": "playwright"
+    }
+  }
+}

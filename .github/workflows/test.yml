@@ -7,14 +7,9 @@ jobs:
     strategy:
       matrix:
         ruby-version:
-          - "3.1"
           - "3.2"
           - "3.3"
-        gemfile:
-          - "rails-7-0"
     runs-on: ubuntu-latest
-    env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/Gemfile-${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies from apt
@@ -28,7 +23,7 @@ jobs:
           bundler-cache: true
       - uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: "22.x"
           cache: "yarn"
       - name: Install JS/TS Dependencies
         run: yarn install
@@ -38,8 +33,9 @@ jobs:
         run: yarn build
       - name: Lint Ruby
         run: bundle exec rubocop -c .rubocop.yml
+      - name: Install Playwright
+        run: npx -y playwright install --with-deps chromium
       - name: Ruby Tests
         run: (cd spec/rails_app && bin/rails assets:precompile) && bin/rspec --format documentation
         env:
           RAILS_ENV: test
-          RSPEC_RETRY_RETRY_COUNT: 3

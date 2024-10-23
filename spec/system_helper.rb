@@ -11,13 +11,14 @@ RSpec.configure do |config|
     driven_by Capybara.javascript_driver
   end
 
+  Capybara.app_host = "http://localhost"
+
   # rspec-retry
   config.verbose_retry = true
+  config.default_retry_count = ENV["CI"] ? 3 : 0
   config.display_try_failure_messages = true
   config.default_sleep_interval = ENV.fetch("RSPEC_RETRY_SLEEP_INTERVAL", 0).to_i
   config.retry_callback = proc do
     Capybara.reset!
   end
-
-  Capybara.disable_animation = true
 end

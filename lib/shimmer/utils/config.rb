@@ -11,13 +11,15 @@ module Shimmer
       default_value = options.delete(:default) if default_provided
       raise ArgumentError, "unknown option#{"s" if options.length > 1}: #{options.keys.join(", ")}." if options.any?
 
+      credentials = Rails.application.credentials
       method_name = method_name.to_s
       type = :string
-      key = method_name.delete_suffix("!").delete_suffix("?")
+      key = method_name.delete_suffix("!").delete_suffix("?").to_sym
       required = method_name.end_with?("!")
       type = :bool if method_name.end_with?("?")
-      value = ENV[key.upcase].presence
-      value ||= Rails.application.credentials.public_send(key)
+      value = ENV[key.to_s.upcase].presence
+      value ||= credentials.dig(Rails.env.to_sym, key)
+      value ||= credentials[key]
       value = default_value if value.nil?
       raise MissingConfigError, "#{key.upcase} environment value is missing" if required && value.blank?
 

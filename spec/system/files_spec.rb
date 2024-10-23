@@ -6,9 +6,9 @@ RSpec.describe "Files" do
   fixtures :all
 
   it "doesn't blow up when invalid id is passed" do
-    visit file_path("invalid")
+    get file_path("invalid")
 
-    expect(page).to have_http_status(:not_found)
+    expect(response).to have_http_status(:not_found)
   end
 
   it "doesn't blow up when file was deleted on S3" do
@@ -18,8 +18,8 @@ RSpec.describe "Files" do
     deleted_file = instance_double(ActiveStorage::Blob, service: service_double, key: "key")
     allow(ActiveStorage::Blob).to receive(:find).with("123").and_return(deleted_file)
 
-    visit file_path(id)
+    get file_path(id)
 
-    expect(page).to have_http_status(:not_found)
+    expect(response).to have_http_status(:not_found)
   end
 end

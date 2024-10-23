@@ -19,11 +19,7 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Installing JavaScript dependencies =="
   system! "yarn install"
-
-  # puts "\n== Copying sample files =="
-  # unless File.exist?("config/database.yml")
-  #   FileUtils.cp "config/database.yml.sample", "config/database.yml"
-  # end
+  system! "yarn playwright install chromium"
 
   puts "\n== Preparing database =="
   system! "bin/rails db:drop db:prepare"
@@ -33,7 +29,4 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Seeding the database with fixtures =="
   system! "bin/rails db:fixtures:load db:seed"
-
-  puts "\n== Restarting application server =="
-  system! "bin/rails restart"
 end
