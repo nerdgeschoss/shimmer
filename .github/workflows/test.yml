@@ -34,7 +34,7 @@ jobs:
       - name: Lint Ruby
         run: bundle exec rubocop -c .rubocop.yml
       - name: Install Playwright
-        run: cd spec/rails_app && yarn playwright install --with-deps chromium
+        run: npx -y playwright install --with-deps chromium
       - name: Ruby Tests
         run: (cd spec/rails_app && bin/rails assets:precompile) && bin/rspec --format documentation
         env:
