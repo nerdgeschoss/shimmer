@@ -22,25 +22,20 @@ gem "dotenv-rails"
 gem "image_processing"
 
 group :development, :test do
-  gem "debug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "debug", require: false
   gem "rake"
   gem "rspec-rails"
   gem "rspec-retry"
-  gem "pry"
-  gem "pry-rails"
-  gem "pry-byebug"
-  gem "pry-doc"
-  gem "guard"
-  gem "guard-rspec"
   gem "capybara"
   gem "rack_session_access"
   gem "capybara-playwright-driver"
-  gem "standard"
-  gem "rubocop"
-  gem "rubocop-rails"
-  gem "rubocop-performance"
-  gem "rubocop-rspec"
-  gem "rubocop-rake"
+  gem "standard", require: false
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubocop-rake", require: false
+  gem "ruby-lsp-rspec", require: false
 end
 
 group :development do

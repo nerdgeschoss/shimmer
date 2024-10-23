@@ -8,3 +8,4 @@ end
 
 Capybara.default_driver = Capybara.javascript_driver = :custom_playwright
 Capybara.enable_aria_label = true
+Capybara.disable_animation = true

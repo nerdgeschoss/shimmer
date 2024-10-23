@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "pry"
-require "pry-byebug"
 require "spec_helper"
 
 ENV["RAILS_ENV"] ||= "test"
@@ -10,7 +8,6 @@ ENV["RAILS_ROOT"] ||= "#{File.dirname(__FILE__)}/rails_app"
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require "rspec/rails"
-# require "slim-rails"
 Dir[File.expand_path("spec/support/**/*.rb")].sort.each { |f| require f }
 
 begin
