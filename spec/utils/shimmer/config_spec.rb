@@ -70,6 +70,15 @@ RSpec.describe Shimmer::Config do
     ensure
       Rails.application.credentials[:test] = nil
     end
+
+    it "allows overriding the environment for configs" do
+      ENV["CONFIG_ENV"] = "custom_env"
+      Rails.application.credentials[:custom_env] = {test_key: "test-value"}
+      expect(config.test_key).to eq "test-value"
+    ensure
+      ENV["CONFIG_ENV"] = nil
+      Rails.application.credentials[:custom_env] = nil
+    end
   end
 
   describe "support default values" do
@@ -87,6 +96,16 @@ RSpec.describe Shimmer::Config do
 
     it "for strings" do
       expect(config.something_that_does_not_exist(default: "asd")).to eq "asd"
+    end
+  end
+
+  describe "stubbing values" do
+    it "allows overriding values" do
+      expect(config.some_value).to be_nil
+      config.stub(some_value: "stubbed-value") do
+        expect(config.some_value).to eq "stubbed-value"
+      end
+      expect(config.some_value).to be_nil
     end
   end
 end
