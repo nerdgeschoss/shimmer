@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     collection do
       get :modal
     end
+
+    get :other, on: :collection
   end
 
   get "styleguide", to: "pages#styleguide"
