@@ -12,6 +12,7 @@ export class ModalPresenter {
 
   constructor() {
     document.addEventListener("turbo:load", this.prepareBlind);
+    document.addEventListener("turbo:before-cache", this.leave.bind(this));
   }
 
   async open(options: ModalOptions): Promise<void> {
@@ -38,8 +39,16 @@ export class ModalPresenter {
     document.body.classList.toggle("modal-open", open);
   }
 
+  private leave(): void {
+    Object.values(this.modals).map((e) => e.destroy());
+    this.modals = {};
+    this.updateBlindStatus();
+  }
+
   private prepareBlind: () => void = () => {
-    createElement(document.body, "modal-blind");
+    if (!document.querySelector("body > .modal-blind")) {
+      createElement(document.body, "modal-blind");
+    }
   };
 }
 
@@ -82,7 +91,11 @@ export class Modal {
     }
     root.classList.remove("modal--open");
     await wait(1);
-    root.remove();
+    this.destroy();
+  }
+
+  destroy(): void {
+    this.root?.remove();
     this.root = undefined;
   }
 }
