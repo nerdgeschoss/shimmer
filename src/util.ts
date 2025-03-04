@@ -61,5 +61,5 @@ export function getCookie(key: string): string | null {
 export function setCookie(key: string, value: string): void {
   const date = new Date();
   date.setTime(date.getTime() + 365 * 24 * 60 * 60 * 1000);
-  document.cookie = `${key}=${value}; expires=${date.toUTCString()}`;
+  document.cookie = `${key}=${value}; path=/; expires=${date.toUTCString()}`;
 }
