@@ -9,5 +9,15 @@ a href=modal_path(new_post_path, size: "custom-size") Write New Post
     div.stack.stack--line
       div = image_tag post.image, width: 200, loading: :lazy
       div = image_tag post.image, width: 200, loading: :eager
+      div = image_tag post.image, width: 200, format: :webp
+    div
+      |> image_file_path:
+      = image_file_path(post.image, width: 200)
+    div
+      |> image_file_path with <code>format: "webp"</code>:
+      = image_file_path(post.image, width: 200, format: "webp")
+    div
+      |> image_file_url:
+      = image_file_url(post.image, width: 200, format: "webp")
   h2 = post.title
   p = post.content

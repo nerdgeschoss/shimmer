@@ -159,6 +159,8 @@ Shimmer will only ever scale your images down, not up.
 
 The URL of the image will point to the Rails app, where it will be generated on the fly. You should cache these routes with a CDN like Cloudflare.
 
+Shimmer will also return your images as WebP if the browser sends `image/webp` in the `HTTP_ACCEPT` header, and set the `Vary: Accept` header in the response. Make sure to enable support for this in your CDN.
+
 This is in contrast to ActiveStorage variants, where the transformation happens when the URL for the image is built. This can slow down rendering or even prevent HTML to be generated if just one image can't be resized. With Shimmer, only the broken image will be broken.
 
 

@@ -5,25 +5,21 @@ module Shimmer
     attr_reader :blob_id
 
     delegate :message_verifier, to: :class
-    delegate :content_type, :filename, to: :blob
+    delegate :content_type, :filename, to: :variant
 
     class << self
-      def restore(id)
+      def restore(id, format: nil)
         blob_id, resize = message_verifier.verified(id)
+        width, height = parse_resize(resize)
 
-        if resize.is_a?(String)
-          width, height = legacy_resize_string_to_tuple(resize)
-        elsif resize.is_a?(Array)
-          width, height = resize
-        end
-
-        new(blob_id: blob_id, width: width, height: height)
+        new(blob_id: blob_id, width: width, height: height, format:)
       end
 
-      # In the past, we generated the IDs with ImageMagick style "200x200>" strings. We don't do that anymore, but to prevent all old URLs breaking and caches invalidating at once, we grandfather these URLs in.
-      def legacy_resize_string_to_tuple(resize)
+      def parse_resize(resize)
         return if resize.blank?
+        return resize if resize.is_a?(Array)
 
+        # In the past, we generated the IDs with ImageMagick style "200x200>" strings. We don't do that anymore, but to prevent all old URLs breaking and caches invalidating at once, we grandfather these URLs in.
         matches = resize.match(/(?<width>\d*)x(?<height>\d*)/)
 
         [
@@ -37,29 +33,37 @@ module Shimmer
       end
     end
 
-    def initialize(blob_id:, width: nil, height: nil)
+    def initialize(blob_id:, width: nil, height: nil, format: nil)
       @blob_id = blob_id
       @resize = [width&.to_i, height&.to_i] if width || height
+      @format = format
     end
 
-    def path
-      Rails.application.routes.url_helpers.file_path(id, locale: nil)
+    def path(format: @format)
+      Rails.application.routes.url_helpers.file_path(id, locale: nil, format: format)
     end
 
-    def url(protocol: Rails.env.production? ? :https : :http)
-      Rails.application.routes.url_helpers.file_url(id, locale: nil, protocol: protocol)
+    def url(protocol: Rails.env.production? ? :https : :http, format: @format)
+      Rails.application.routes.url_helpers.file_url(id, locale: nil, protocol: protocol, format: format)
     end
 
     def blob
       @blob ||= ActiveStorage::Blob.find(blob_id)
     end
 
-    def resizeable?
-      @resize.present? && blob.content_type.exclude?("svg")
+    def resize?
+      return false unless blob.representable?
+
+      @resize.present? || @format.present?
     end
 
     def variant
-      @variant ||= resizeable? ? blob.representation(resize_to_limit: @resize).processed : blob
+      @variant ||= if resize?
+        options = {resize_to_limit: @resize, format: @format}
+        blob.representation(options.compact).processed
+      else
+        blob
+      end
     end
 
     def file
