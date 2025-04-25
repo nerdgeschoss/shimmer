@@ -51,7 +51,7 @@ RSpec.describe Shimmer::FileProxy do
       expect(dimensions(variant.processed.image.blob)).to eq({width: 290, height: 100})
     end
 
-    it "accepts an image format to convert the image to" do
+    it "converts the image to webp when passing webp as format" do
       proxy = Shimmer::FileProxy.new(blob_id: blob.id)
       id = proxy.send(:id)
       variant = Shimmer::FileProxy.restore(id, format: "webp").variant

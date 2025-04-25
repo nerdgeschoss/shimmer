@@ -15,7 +15,7 @@ RSpec.describe "Files" do
     id = Shimmer::FileProxy.message_verifier.generate(["123", nil])
     service_double = double
     allow(service_double).to receive(:download).with("key").and_raise(ActiveStorage::FileNotFoundError)
-    deleted_file = instance_double(ActiveStorage::Blob, service: service_double, key: "key")
+    deleted_file = instance_double(ActiveStorage::Blob, service: service_double, key: "key", representable?: true)
     allow(ActiveStorage::Blob).to receive(:find).with("123").and_return(deleted_file)
 
     get file_path(id)
