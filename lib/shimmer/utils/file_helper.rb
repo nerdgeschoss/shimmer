@@ -15,7 +15,10 @@ module Shimmer
     def image_tag(source, **options)
       return nil if source.blank?
 
-      if source.is_a?(ActiveStorage::Variant) || source.is_a?(ActiveStorage::Attached) || source.is_a?(ActiveStorage::Attachment) || source.is_a?(ActionText::Attachment)
+      if source.is_a?(ActiveStorage::Variant) ||
+          source.is_a?(ActiveStorage::Attached) ||
+          source.is_a?(ActiveStorage::Attachment) ||
+          (Object.const_defined?("ActionText::Attachment") && source.is_a?(ActionText::Attachment))
         attachment = source
         width = options[:width]
         height = options[:height]
@@ -27,6 +30,7 @@ module Shimmer
           options[:srcset] = "#{source} 1x, #{source_2x} 2x"
         end
       end
+
       super(source, options)
     end
 
