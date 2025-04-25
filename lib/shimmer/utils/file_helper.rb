@@ -16,6 +16,7 @@ module Shimmer
       return nil if source.blank?
 
       if source.is_a?(ActiveStorage::Variant) ||
+          source.is_a?(ActiveStorage::VariantWithRecord) ||
           source.is_a?(ActiveStorage::Attached) ||
           source.is_a?(ActiveStorage::Attachment) ||
           (Object.const_defined?("ActionText::Attachment") && source.is_a?(ActionText::Attachment))
