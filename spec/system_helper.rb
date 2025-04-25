@@ -4,7 +4,6 @@ require "rails_helper"
 require "rack_session_access/capybara"
 require "rspec/retry"
 
-
 RSpec.configure do |config|
   config.before(:each, type: :system) do
     driven_by Capybara.javascript_driver
