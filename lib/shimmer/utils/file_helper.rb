@@ -15,23 +15,31 @@ module Shimmer
     def image_tag(source, **options)
       return nil if source.blank?
 
-      if source.is_a?(ActiveStorage::Variant) || source.is_a?(ActiveStorage::Attached) || source.is_a?(ActiveStorage::Attachment) || source.is_a?(ActionText::Attachment)
+      if source.is_a?(ActiveStorage::Variant) ||
+          source.is_a?(ActiveStorage::VariantWithRecord) ||
+          source.is_a?(ActiveStorage::Attached) ||
+          source.is_a?(ActiveStorage::Attachment) ||
+          (Object.const_defined?("ActionText::Attachment") && source.is_a?(ActionText::Attachment))
         attachment = source
         width = options[:width]
         height = options[:height]
         source = image_file_path(source, width: width, height: height)
         options[:loading] ||= :lazy
-        options[:srcset] = "#{source} 1x, #{image_file_path(attachment, width: width.to_i * 2, height: height ? height.to_i * 2 : nil)} 2x" if options[:width].present?
+        if options[:width].present?
+          source_2x = image_file_path(attachment, width: width.to_i * 2, height: height ? height.to_i * 2 : nil)
+          options[:srcset] = "#{source} 1x, #{source_2x} 2x"
+        end
       end
+
       super(source, options)
     end
 
-    def image_file_path(source, width: nil, height: nil)
-      image_file_proxy(source, width: width, height: height, return_type: :path)
+    def image_file_path(source, **)
+      image_file_proxy(source, **, return_type: :path)
     end
 
-    def image_file_url(source, width: nil, height: nil)
-      image_file_proxy(source, width: width, height: height, return_type: :url)
+    def image_file_url(source, **)
+      image_file_proxy(source, **, return_type: :url)
     end
 
     def image_file_proxy(source, width: nil, height: nil, return_type: nil)

@@ -5,25 +5,21 @@ module Shimmer
     attr_reader :blob_id
 
     delegate :message_verifier, to: :class
-    delegate :content_type, :filename, to: :blob
+    delegate :content_type, :filename, to: :variant
 
     class << self
       def restore(id)
         blob_id, resize = message_verifier.verified(id)
-
-        if resize.is_a?(String)
-          width, height = legacy_resize_string_to_tuple(resize)
-        elsif resize.is_a?(Array)
-          width, height = resize
-        end
+        width, height = parse_resize(resize)
 
         new(blob_id: blob_id, width: width, height: height)
       end
 
-      # In the past, we generated the IDs with ImageMagick style "200x200>" strings. We don't do that anymore, but to prevent all old URLs breaking and caches invalidating at once, we grandfather these URLs in.
-      def legacy_resize_string_to_tuple(resize)
+      def parse_resize(resize)
         return if resize.blank?
+        return resize if resize.is_a?(Array)
 
+        # In the past, we generated the IDs with ImageMagick style "200x200>" strings. We don't do that anymore, but to prevent all old URLs breaking and caches invalidating at once, we grandfather these URLs in.
         matches = resize.match(/(?<width>\d*)x(?<height>\d*)/)
 
         [
@@ -54,12 +50,13 @@ module Shimmer
       @blob ||= ActiveStorage::Blob.find(blob_id)
     end
 
-    def resizeable?
-      @resize.present? && blob.content_type.exclude?("svg")
-    end
-
     def variant
-      @variant ||= resizeable? ? blob.representation(resize_to_limit: @resize).processed : blob
+      @variant ||= if blob.representable?
+        options = {resize_to_limit: @resize, format: "webp"}
+        blob.representation(options.compact).processed
+      else
+        blob
+      end
     end
 
     def file

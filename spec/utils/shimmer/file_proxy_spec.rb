@@ -54,17 +54,17 @@ RSpec.describe Shimmer::FileProxy do
     it "works if not resizing" do
       proxy = Shimmer::FileProxy.new(blob_id: blob.id)
       id = proxy.send(:id)
-      original_blob = Shimmer::FileProxy.restore(id).variant
+      variant = Shimmer::FileProxy.restore(id).variant
 
-      expect(dimensions(original_blob)).to eq({width: 559, height: 193})
+      expect(dimensions(variant.processed.image.blob)).to eq({width: 559, height: 193})
     end
   end
 
   describe "#variant" do
-    it "returns the blob if no resize requested" do
+    it "transforms to webp even if no resize requested" do
       variant = Shimmer::FileProxy.new(blob_id: blob.id).variant
 
-      expect(variant).to eq(blob)
+      expect(variant.content_type).to eq("image/webp")
     end
 
     context "when requesting different size" do

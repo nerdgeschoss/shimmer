@@ -140,7 +140,7 @@ Then, if there are specific cops you want to use in the specific project you are
 
 `ActiveStorage` is great, but serving of files, especially behind a CDN, can be complicated to get right. Shimmer has your back.
 
-It overrides `image_tag` and automatically resizes your image and creates a static, cacheable URL.
+It overrides `image_tag` and automatically resizes your image, converts it to WebP, and creates a static, cacheable URL.
 
 ```ruby
 # use an image tag
