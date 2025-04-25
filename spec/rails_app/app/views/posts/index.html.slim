@@ -13,9 +13,6 @@ a href=modal_path(new_post_path, size: "custom-size") Write New Post
       |> image_file_path:
       = image_file_path(post.image, width: 200)
     div
-      |> image_file_path:
-      = image_file_path(post.image, width: 200)
-    div
       |> image_file_url:
       = image_file_url(post.image, width: 200)
   h2 = post.title
