@@ -23,11 +23,10 @@ module Shimmer
         attachment = source
         width = options[:width]
         height = options[:height]
-        format = options[:format]
-        source = image_file_path(source, width: width, height: height, format: format)
+        source = image_file_path(source, width: width, height: height)
         options[:loading] ||= :lazy
         if options[:width].present?
-          source_2x = image_file_path(attachment, width: width.to_i * 2, height: height ? height.to_i * 2 : nil, format: format)
+          source_2x = image_file_path(attachment, width: width.to_i * 2, height: height ? height.to_i * 2 : nil)
           options[:srcset] = "#{source} 1x, #{source_2x} 2x"
         end
       end
@@ -43,12 +42,12 @@ module Shimmer
       image_file_proxy(source, **, return_type: :url)
     end
 
-    def image_file_proxy(source, width: nil, height: nil, format: nil, return_type: nil)
+    def image_file_proxy(source, width: nil, height: nil, return_type: nil)
       return if source.blank?
       return source if source.is_a?(String)
 
       blob = source.try(:blob) || source
-      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height, format: format)
+      proxy = Shimmer::FileProxy.new(blob_id: blob.id, width: width, height: height)
       case return_type
       when nil
         proxy

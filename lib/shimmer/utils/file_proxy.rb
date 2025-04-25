@@ -8,11 +8,11 @@ module Shimmer
     delegate :content_type, :filename, to: :variant
 
     class << self
-      def restore(id, format: nil)
+      def restore(id)
         blob_id, resize = message_verifier.verified(id)
         width, height = parse_resize(resize)
 
-        new(blob_id: blob_id, width: width, height: height, format:)
+        new(blob_id: blob_id, width: width, height: height)
       end
 
       def parse_resize(resize)
@@ -33,33 +33,26 @@ module Shimmer
       end
     end
 
-    def initialize(blob_id:, width: nil, height: nil, format: nil)
+    def initialize(blob_id:, width: nil, height: nil)
       @blob_id = blob_id
       @resize = [width&.to_i, height&.to_i] if width || height
-      @format = format
     end
 
-    def path(format: @format)
-      Rails.application.routes.url_helpers.file_path(id, locale: nil, format: format)
+    def path
+      Rails.application.routes.url_helpers.file_path(id, locale: nil)
     end
 
-    def url(protocol: Rails.env.production? ? :https : :http, format: @format)
-      Rails.application.routes.url_helpers.file_url(id, locale: nil, protocol: protocol, format: format)
+    def url(protocol: Rails.env.production? ? :https : :http)
+      Rails.application.routes.url_helpers.file_url(id, locale: nil, protocol: protocol)
     end
 
     def blob
       @blob ||= ActiveStorage::Blob.find(blob_id)
     end
 
-    def resize?
-      return false unless blob.representable?
-
-      @resize.present? || @format.present?
-    end
-
     def variant
-      @variant ||= if resize?
-        options = {resize_to_limit: @resize, format: @format}
+      @variant ||= if blob.representable?
+        options = {resize_to_limit: @resize, format: "webp"}
         blob.representation(options.compact).processed
       else
         blob

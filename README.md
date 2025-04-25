@@ -140,7 +140,7 @@ Then, if there are specific cops you want to use in the specific project you are
 
 `ActiveStorage` is great, but serving of files, especially behind a CDN, can be complicated to get right. Shimmer has your back.
 
-It overrides `image_tag` and automatically resizes your image and creates a static, cacheable URL.
+It overrides `image_tag` and automatically resizes your image, converts it to WebP, and creates a static, cacheable URL.
 
 ```ruby
 # use an image tag
@@ -158,8 +158,6 @@ image_file_url(user.avatar, width: 300, height: 400)
 Shimmer will only ever scale your images down, not up.
 
 The URL of the image will point to the Rails app, where it will be generated on the fly. You should cache these routes with a CDN like Cloudflare.
-
-Shimmer will also return your images as WebP if the browser sends `image/webp` in the `HTTP_ACCEPT` header, and set the `Vary: Accept` header in the response. Make sure to enable support for this in your CDN.
 
 This is in contrast to ActiveStorage variants, where the transformation happens when the URL for the image is built. This can slow down rendering or even prevent HTML to be generated if just one image can't be resized. With Shimmer, only the broken image will be broken.
 
