@@ -4,7 +4,6 @@ module Shimmer
   class FilesController < ActionController::Base
     def show
       expires_in 1.year, public: true
-      response.headers["Vary"] = "Accept"
       request.session_options[:skip] = true # prevents a session cookie from being set (would prevent caching on CDNs)
 
       proxy = FileProxy.restore(params.require(:id))
