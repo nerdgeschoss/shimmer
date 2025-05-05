@@ -1,0 +1,108 @@
+# Documentation on the rules can be found here:
+# https://docs.rubocop.org/rubocop-performance/cops_performance.html
+#
+require:
+  - rubocop-performance
+
+Performance:
+  Enabled: false
+
+# Use `B <= A` instead of `B.ancestors.include?(A)`.
+Performance/AncestorsInclude:
+  Enabled: true
+
+# Use `array.take(3)` instead of `array[..2]` or `array.slice(..2)`.
+# Use `array.drop(2)` instead of `array[2..]`.
+Performance/ArraySemiInfiniteRangeSlice:
+  Enabled: false # Gives false positives on strings, which do not have `drop` or `take`.
+
+# Initialize BigDecimal with a string vs with a number.
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+
+# Use `.bind_call(obj, foo bar)` instead of `.bind(obj).call(foo, bar)`.
+Performance/BindCall:
+  Enabled: true
+
+# Identifies unnecessary use of a block_given? where explicit check of block argument would suffice.
+Performance/BlockGivenWithExplicitBlock:
+  Enabled: true
+
+# Match on splat argument at the end of the `case` statement.
+Performance/CaseWhenSplat:
+  Enabled: true
+
+# `str.casecmp('ABC').zero?` instead of `str.downcase == 'abc'` or `str.upcase.eql? 'ABC'`.
+Performance/Casecmp:
+  Enabled: true
+
+Performance/ChainArrayAllocation:
+  Enabled: false # See this comment: https://github.com/nerdgeschoss/shimmer/pull/61#issuecomment-1662375587
+
+# Don't redefined arrays or hashes in loops.
+Performance/CollectionLiteralInLoop:
+  Enabled: true
+
+# Use `sort_by(&:foo)` instead of `sort { |a, b| a.foo <⇒ b.foo }`.
+Performance/CompareWithBlock:
+  Enabled: true
+
+# Use `Process.clock_gettime(Process::CLOCK_MONOTONIC)` instead of `Concurrent.monotonic_time`.
+Performance/ConcurrentMonotonicTime:
+  Enabled: true
+
+# Finds regular expressions with dynamic components that are all constants.
+Performance/ConstantRegexp:
+  Enabled: true
+
+# Pass predicate directly to `.count` instead of doing `.sleect/.filter` or `.reject` beforehand.
+Performance/Count:
+  Enabled: true
+
+# Suggests use of `.delete_prefix` over something like `str.gsub(/\Aprefix/, '')`.
+Performance/DeletePrefix:
+  Enabled: true
+
+# Suggests use of `.delete_suffix` over something like `str.gsub(/suffix\z/, '')`.
+Performance/DeleteSuffix:
+  Enabled: true
+
+# Use `.detect { predicate }` instead of something like `[].select { |item| predicate }.first`.
+Performance/Detect:
+  Enabled: true
+
+# Use one call to `.start_with?` with multiple arguments instead of many calls with one argument each.
+Performance/DoubleStartEndWith:
+  Enabled: true
+
+# Use one call to `.end_with?` with multiple arguments instead of many calls with one argument each.
+Performance/EndWith:
+  Enabled: true
+
+# Do not compute the size of statically sized objects.
+Performance/FixedSize:
+  Enabled: true
+
+# Replace `map { …​ }.flatten` with `flat_map { …​ }`.
+Performance/FlatMap:
+  Enabled: true
+
+# Checks for inefficient searching of keys and values within hashes.
+Performance/InefficientHashSearch:
+  Enabled: true
+
+# Identifies places where inefficient readlines method can be replaced by each_line to avoid fully loading file content into memory.
+Performance/IoReadlines:
+  Enabled: true
+
+# `map { …​ }.compact` can be replaced by `filter_map`.
+Performance/MapCompact:
+  Enabled: true
+
+# Identifies places where methods are converted to blocks.
+Performance/MethodObjectAsBlock:
+  Enabled: true
+
+# Avoid `OpenStruct` and use `Struct` instead.
+Performance/OpenStruct:
+  Enabled: true
