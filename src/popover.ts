@@ -6,6 +6,7 @@ export interface PopoverOptions {
   url: string;
   selector?: HTMLElement | string;
   placement?: Placement;
+  classname?: string;
 }
 
 export class PopoverPresenter {
@@ -43,7 +44,12 @@ export class Popover {
   private popper?: Popper;
   private popoverDiv?: HTMLDivElement;
 
-  async open({ url, selector, placement }: PopoverOptions): Promise<void> {
+  async open({
+    url,
+    selector,
+    placement,
+    classname,
+  }: PopoverOptions): Promise<void> {
     const root =
       typeof selector === "string"
         ? document.querySelector(selector)
@@ -51,7 +57,10 @@ export class Popover {
     if (!root) {
       return;
     }
-    const popoverDiv = createElement(document.body, "popover");
+    const popoverClassname = ["popover", classname]
+      .filter((obj) => obj)
+      .join(" ");
+    const popoverDiv = createElement(document.body, popoverClassname);
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
     this.popper = createPopper(root, popoverDiv, {
