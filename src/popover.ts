@@ -54,8 +54,6 @@ export class Popover {
     const popoverDiv = createElement(document.body, "popover");
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
-    const content = createElement(popoverDiv, "popover__content");
-    content.innerHTML = await getHTML(url);
     this.popper = createPopper(root, popoverDiv, {
       placement: placement ?? "auto",
       modifiers: [
@@ -68,6 +66,8 @@ export class Popover {
       ],
     });
     this.popoverDiv = popoverDiv;
+    const content = createElement(popoverDiv, "popover__content");
+    content.innerHTML = await getHTML(url);
     document.addEventListener("click", this.clickOutside);
   }
 
