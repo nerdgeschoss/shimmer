@@ -57,10 +57,11 @@ export class Popover {
     if (!root) {
       return;
     }
-    const popoverClassname = ["popover", classname]
-      .filter((obj) => obj)
-      .join(" ");
-    const popoverDiv = createElement(document.body, popoverClassname);
+    const popoverClassname = ["popover"];
+    if (classname) {
+      popoverClassname.push(classname);
+    }
+    const popoverDiv = createElement(document.body, popoverClassname.join(" "));
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
     this.popper = createPopper(root, popoverDiv, {
