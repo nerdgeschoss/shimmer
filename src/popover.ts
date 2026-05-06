@@ -77,6 +77,7 @@ export class Popover {
     });
     this.popoverDiv = popoverDiv;
     const content = createElement(popoverDiv, "popover__content");
+    createElement(content, "popover__placeholder");
     content.innerHTML = await getHTML(url);
     document.addEventListener("click", this.clickOutside);
   }
