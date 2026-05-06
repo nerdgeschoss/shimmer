@@ -57,11 +57,13 @@ export class Popover {
     if (!root) {
       return;
     }
+
     const popoverClassname = ["popover"];
     if (classname) {
       popoverClassname.push(classname);
     }
-    const popoverDiv = createElement(document.body, popoverClassname.join(" "));
+    const popoverDiv = document.createElement("div");
+    popoverDiv.className = popoverClassname.join(" ");
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
     this.popper = createPopper(root, popoverDiv, {
@@ -77,8 +79,17 @@ export class Popover {
     });
     this.popoverDiv = popoverDiv;
     const content = createElement(popoverDiv, "popover__content");
-    createElement(content, "popover__placeholder");
-    content.innerHTML = await getHTML(url);
+
+    const placeholderTimeout = setTimeout(() => {
+      createElement(content, "popover__placeholder");
+      document.body.append(popoverDiv);
+    }, 200);
+    getHTML(url).then((response) => {
+      clearTimeout(placeholderTimeout);
+      content.innerHTML = response;
+      document.body.append(popoverDiv);
+    });
+
     document.addEventListener("click", this.clickOutside);
   }
 
