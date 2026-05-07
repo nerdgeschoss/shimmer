@@ -7,7 +7,6 @@ export interface PopoverOptions {
   selector?: HTMLElement | string;
   placement?: Placement;
   className?: string;
-  placeholderDelay?: number;
 }
 
 export class PopoverPresenter {
@@ -50,7 +49,6 @@ export class Popover {
     selector,
     placement,
     className,
-    placeholderDelay,
   }: PopoverOptions): Promise<void> {
     const root =
       typeof selector === "string"
@@ -64,10 +62,11 @@ export class Popover {
     if (className) {
       popoverClassName.push(className);
     }
-    const popoverDiv = document.createElement("div");
-    popoverDiv.className = popoverClassName.join(" ");
+    const popoverDiv = createElement(document.body, popoverClassName.join(" "));
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
+    const content = createElement(popoverDiv, "popover__content");
+    createElement(content, "popover__placeholder");
     this.popper = createPopper(root, popoverDiv, {
       placement: placement ?? "auto",
       modifiers: [
@@ -80,19 +79,10 @@ export class Popover {
       ],
     });
     this.popoverDiv = popoverDiv;
-    const content = createElement(popoverDiv, "popover__content");
 
-    const placeholderTimeout = setTimeout(() => {
-      createElement(content, "popover__placeholder");
-      this.popper?.update();
-      document.body.append(popoverDiv);
-    }, placeholderDelay ?? 300);
-    getHTML(url).then((response) => {
-      clearTimeout(placeholderTimeout);
-      content.innerHTML = response;
-      this.popper?.update();
-      document.body.append(popoverDiv);
-    });
+    const response = await getHTML(url);
+    content.innerHTML = response;
+    this.popper?.update();
 
     document.addEventListener("click", this.clickOutside);
   }
