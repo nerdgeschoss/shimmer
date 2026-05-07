@@ -6,7 +6,8 @@ export interface PopoverOptions {
   url: string;
   selector?: HTMLElement | string;
   placement?: Placement;
-  classname?: string;
+  className?: string;
+  placeholderDelay?: number;
 }
 
 export class PopoverPresenter {
@@ -48,7 +49,8 @@ export class Popover {
     url,
     selector,
     placement,
-    classname,
+    className,
+    placeholderDelay,
   }: PopoverOptions): Promise<void> {
     const root =
       typeof selector === "string"
@@ -58,12 +60,12 @@ export class Popover {
       return;
     }
 
-    const popoverClassname = ["popover"];
-    if (classname) {
-      popoverClassname.push(classname);
+    const popoverClassName = ["popover"];
+    if (className) {
+      popoverClassName.push(className);
     }
     const popoverDiv = document.createElement("div");
-    popoverDiv.className = popoverClassname.join(" ");
+    popoverDiv.className = popoverClassName.join(" ");
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
     this.popper = createPopper(root, popoverDiv, {
@@ -83,7 +85,7 @@ export class Popover {
     const placeholderTimeout = setTimeout(() => {
       createElement(content, "popover__placeholder");
       document.body.append(popoverDiv);
-    }, 300);
+    }, placeholderDelay ?? 300);
     getHTML(url).then((response) => {
       clearTimeout(placeholderTimeout);
       content.innerHTML = response;
