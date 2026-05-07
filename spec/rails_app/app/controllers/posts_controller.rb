@@ -27,6 +27,10 @@ class PostsController < ApplicationController
   def modal
   end
 
+  def popover
+    sleep 1
+  end
+
   private
 
   def post_params

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :posts do
     collection do
       get :modal
+      get :popover
     end
 
     get :other, on: :collection

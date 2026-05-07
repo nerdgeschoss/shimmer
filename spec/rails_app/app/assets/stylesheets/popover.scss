@@ -1,0 +1,13 @@
+.popover {
+  border: 1px solid black;
+  background-color: white;
+  padding: 20px;
+}
+
+.popover__placeholder {
+  background-color: violet;
+
+  &::before {
+    content: "Loading...";
+  }
+}
