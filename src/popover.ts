@@ -82,19 +82,17 @@ export class Popover {
     this.popoverDiv = popoverDiv;
     const content = createElement(popoverDiv, "popover__content");
 
-    const showPlaceholder = setTimeout(() => {
+    const placeholderTimeout = setTimeout(() => {
       createElement(content, "popover__placeholder");
       this.popper?.update();
       document.body.append(popoverDiv);
     }, placeholderDelay ?? 300);
-
-    const showContent = getHTML(url).then((response) => {
+    getHTML(url).then((response) => {
+      clearTimeout(placeholderTimeout);
       content.innerHTML = response;
       this.popper?.update();
       document.body.append(popoverDiv);
     });
-
-    await Promise.race([showPlaceholder, showContent]);
 
     document.addEventListener("click", this.clickOutside);
   }
