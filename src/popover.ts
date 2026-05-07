@@ -84,11 +84,13 @@ export class Popover {
 
     const placeholderTimeout = setTimeout(() => {
       createElement(content, "popover__placeholder");
+      this.popper?.update();
       document.body.append(popoverDiv);
     }, placeholderDelay ?? 300);
     getHTML(url).then((response) => {
       clearTimeout(placeholderTimeout);
       content.innerHTML = response;
+      this.popper?.update();
       document.body.append(popoverDiv);
     });
 
