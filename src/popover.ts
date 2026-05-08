@@ -58,7 +58,7 @@ export class Popover {
       return;
     }
 
-    const popoverClassName = ["popover"];
+    const popoverClassName = ["popover", "popover--loading"];
     if (className) {
       popoverClassName.push(className);
     }
@@ -66,7 +66,6 @@ export class Popover {
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
     const content = createElement(popoverDiv, "popover__content");
-    createElement(content, "popover__placeholder");
     this.popper = createPopper(root, popoverDiv, {
       placement: placement ?? "auto",
       modifiers: [
@@ -80,11 +79,12 @@ export class Popover {
     });
     this.popoverDiv = popoverDiv;
 
+    document.addEventListener("click", this.clickOutside);
+
     const response = await getHTML(url);
     content.innerHTML = response;
+    popoverDiv.classList.remove("popover--loading");
     this.popper?.update();
-
-    document.addEventListener("click", this.clickOutside);
   }
 
   async close(): Promise<void> {
