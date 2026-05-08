@@ -6,6 +6,7 @@ export interface PopoverOptions {
   url: string;
   selector?: HTMLElement | string;
   placement?: Placement;
+  className?: string;
 }
 
 export class PopoverPresenter {
@@ -43,7 +44,12 @@ export class Popover {
   private popper?: Popper;
   private popoverDiv?: HTMLDivElement;
 
-  async open({ url, selector, placement }: PopoverOptions): Promise<void> {
+  async open({
+    url,
+    selector,
+    placement,
+    className,
+  }: PopoverOptions): Promise<void> {
     const root =
       typeof selector === "string"
         ? document.querySelector(selector)
@@ -51,11 +57,15 @@ export class Popover {
     if (!root) {
       return;
     }
-    const popoverDiv = createElement(document.body, "popover");
+
+    const popoverClassName = ["popover", "popover--loading"];
+    if (className) {
+      popoverClassName.push(className);
+    }
+    const popoverDiv = createElement(document.body, popoverClassName.join(" "));
     const arrow = createElement(popoverDiv, "popover__arrow");
     arrow.setAttribute("data-popper-arrow", "true");
     const content = createElement(popoverDiv, "popover__content");
-    content.innerHTML = await getHTML(url);
     this.popper = createPopper(root, popoverDiv, {
       placement: placement ?? "auto",
       modifiers: [
@@ -68,7 +78,13 @@ export class Popover {
       ],
     });
     this.popoverDiv = popoverDiv;
+
     document.addEventListener("click", this.clickOutside);
+
+    const response = await getHTML(url);
+    content.innerHTML = response;
+    popoverDiv.classList.remove("popover--loading");
+    this.popper?.update();
   }
 
   async close(): Promise<void> {

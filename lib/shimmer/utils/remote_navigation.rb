@@ -33,8 +33,8 @@ module Shimmer
       end
 
       helper_method :popover_path
-      def popover_path(url, id: nil, selector: nil, placement: nil)
-        "javascript:ui.popover.open(#{{url: url, id: id, selector: selector, placement: placement}.compact.to_json})"
+      def popover_path(url, id: nil, selector: nil, placement: nil, class_name: nil)
+        "javascript:ui.popover.open(#{{url: url, id: id, selector: selector, placement: placement, className: class_name}.compact.to_json})"
       end
 
       def shimmer_request?
