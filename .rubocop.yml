@@ -5,6 +5,8 @@ AllCops:
   SuggestExtensions: false
   Exclude:
     - "bin/**/*"
+    - "dist/**/*"
+    - "node_modules/**/*"
     - "spec/rails_app/bin/**/*"
     - "spec/rails_app/db/schema.rb"
     - "vendor/**/*"
