@@ -10,6 +10,10 @@ require:
 inherit_gem:
   standard: config/base.yml
 
+# Name the memoization instance variable the same as the enclosing method.
+Naming/MemoizedInstanceVariableName:
+  Enabled: true
+
 # String literals should never be mutable.
 Style/FrozenStringLiteralComment:
   Enabled: true

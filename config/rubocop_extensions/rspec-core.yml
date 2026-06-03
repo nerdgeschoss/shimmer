@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rspec
 
 RSpec:
@@ -69,6 +69,11 @@ RSpec/ExampleWording:
 # Trim descriptions.
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
+
+# Force block style for change expectatinos.
+RSpec/ExpectChange:
+  Enabled: true
+  EnforcedStyle: block
 
 # Do stdout expectations right.
 RSpec/ExpectOutput:
