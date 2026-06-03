@@ -121,9 +121,9 @@ $sizes: (
 - **Desktop**: 890px
 - **Widescreen**: 1280px
 
-### Rubocop Base Configuration
+### RuboCop Base Configuration
 
-_Shimmer_ offers an opiniated _Rubocop_ base configuration. This configuration inherits itself from _StandardRB_ and aim at remaining as close to it as possible. Why not only use _StandardRB_, since it is so fast and prevent bikeshedding? Well, sadly, it does not solve all problems and using _Rubocop_ still integrates a lot easier in most toolsets. However, the idea is to still prevent bikeshedding our _Rubocop_ configuration by making sure that every exception to what's configured in _StandardRB_ is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed, debated, and agreed upon before being merged.
+_Shimmer_ offers an opiniated _RuboCop_ base configuration. This configuration inherits itself from _StandardRB_ and aims at remaining as close to it as possible. Why not only use _StandardRB_, since it is so fast and prevents bikeshedding? Well, sadly it does not solve all problems and using _RuboCop_ still integrates a lot easier in most toolsets. However, the idea is to still prevent bikeshedding our _RuboCop_ configuration by making sure that every exception to what's configured in _StandardRB_ is justified (with a comment over its configuration block in `./config/rubocop_base.yml`), reviewed, debated, and agreed upon before being merged.
 
 #### Use Shared Configuration In Projects
 
@@ -135,6 +135,8 @@ inherit_gem:
 ```
 
 Then, if there are specific cops you want to use in the specific project you are working on, you still can easily add them. But at least, the base configuration is shared between projects and is itself as close to _StandardRB_ as possible.
+
+Since _Shimmer_ uses the newer plugin syntax to load extensions (refer to [the documentation](https://docs.rubocop.org/rubocop/latest/plugins.html)), gems that use _Shimmer_ must depend on _RuboCop_ 1.72 or later.
 
 ### Static File Serving
 
