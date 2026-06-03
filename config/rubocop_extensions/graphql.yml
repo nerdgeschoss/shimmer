@@ -1,7 +1,7 @@
 # Documentation on the rules can be found here:
 # https://github.com/DmitryTsepelev/rubocop-graphql/tree/master/lib/rubocop/cop/graphql
 #
-require:
+plugins:
   - rubocop-graphql
 
 GraphQL:

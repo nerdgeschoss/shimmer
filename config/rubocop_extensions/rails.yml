@@ -3,7 +3,7 @@ AllCops:
     - '**/vendor/bundle/**/*'
     - '**/db/schema.rb'
 
-require:
+plugins:
   - rubocop-rails
 
 Rails:
