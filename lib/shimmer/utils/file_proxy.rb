@@ -51,7 +51,7 @@ module Shimmer
     end
 
     def variant
-      @variant ||= if blob.representable?
+      @variant ||= if blob.representable? && blob.image?
         options = {resize_to_limit: @resize, format: "webp"}
         blob.representation(options.compact).processed
       else
