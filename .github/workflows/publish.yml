@@ -5,20 +5,20 @@ on:
 jobs:
   npm_module:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for npm trusted publishing
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
+          node-version: "24.x"
           registry-url: https://registry.npmjs.org/
           cache: yarn
       - run: yarn
-      - run: yarn config set version-git-tag false
-      - run: yarn version --new-version $(echo $GITHUB_REF_NAME | cut -c 2-)
+      - run: npm version --no-git-tag-version $(echo $GITHUB_REF_NAME | cut -c 2-)
       - run: yarn build
-      - run: yarn publish --non-interactive
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish
   gem:
     runs-on: ubuntu-latest
     steps:
