@@ -64,6 +64,10 @@
     "form",
     "modal"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerdgeschoss/shimmer.git"
+  },
   "bugs": {
     "url": "https://github.com/nerdgeschoss/shimmer/issues"
   },
